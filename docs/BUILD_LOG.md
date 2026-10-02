@@ -79,3 +79,17 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Built:** 9 schema types with Fact / Interpretation / Review groups and async validation; custom Studio structure; seed of 1,950 documents imported; schema deployed; **verified** that private-id documents (`paperText.*`) are invisible to public queries (count 0); 40 core PDFs (219 MB) → `paper-lineage-kb.zip` with a manifest (so entries cite "BLIP-2 (2023)") and a concept glossary.
 
 **Bugs hit:** 2 duplicate link IDs because some bibliographies list the same work twice (fixed by merging citations per pair: `scripts/lib/edges.mjs`); LaTeX alt-text leaking into quotes ("BERTbase{}_{\text{base}}"), now stripped in the seed; one transient `fetch failed` on import (a retry worked).
+
+## 2026-10-02 · Session 4: design spec v1 → v1.1 (implementation-readiness review)
+
+**Prompts:** "Prepare the projects design spec"; "go with your recommended answers" (D1–D4); "Review the design spec. Is it complete… Can it be used for moving ahead with implementation"; "go ahead with v1.1".
+
+**What the review caught (honestly):** the v1 spec read well but would have blocked implementation:
+- **Ask had no way to pick cards.** Context MCP tools are generic (`groq_query`, `knowledge_base_read`), so "map tool results to cards" couldn't work. Fix: **server-validated display tools** (`showChain`, `showQuote`, `showComparison`, `showPapers`, `suggestFollowUps`, `reportOutcome`, `draftStoryline`). The server resolves every card from Sanity, only shows relations for accepted links, and **re-reads the Knowledge Base entry so a quote must match verbatim**. The model can't put a made-up quote on screen.
+- **The Explorer mockup showed 17 papers; the real default view has 88** (BLIP-2, 2 generations, datasets hidden). Fix: a 30-paper budget ranked by `3 × methodMentions + mentions`, per-year "+n more" stacks, and a table view as the escape hatch.
+- **A contradiction:** shareable `/ask/[id]` vs "the server keeps only anonymised questions". Fix: no sharing at launch.
+- **Rate limiting had no store** (serverless has no shared memory). Fix: Upstash Redis free tier, plus a global daily cap.
+- **Data checks:** all 197 papers have an empty `summary` (abstract fallback added); 0 links verified (meter zero state); 0 storylines ("Stories" hidden until one exists).
+- Contrast checks found that the mockups' unreviewed grey failed 3:1 (fixed to `#7E848E`), and that one ratio I'd written down was wrong (warning 4.9, not 5.9).
+
+**Also added:** Desk Inbox / Composer / Pipeline specs, Suggest-a-paper creates a **gap** (not a paper), the concept evolution rule with a new curated `concept.buildsOn` field, SEO / errors / loading / performance budgets / caching / privacy, and decisions D5–D10. The canvas was updated to match (grey, nav, stacks, Desk tabs, a mock-state note, Upstash on the architecture board).

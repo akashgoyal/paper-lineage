@@ -43,7 +43,7 @@ flowchart LR
     ASK["Ask page<br/>chat UI + cards"]
     PAGES["Explore · Paper · Concept<br/>Story · Pipeline pages"]
     AGENT["/api/ask route<br/>agent loop (Vercel AI SDK)<br/>+ card queries + rate limit"]
-    SUGGEST["Suggest-a-paper<br/>server action"]
+    SUGGEST["Suggest-a-paper<br/>server action → gap"]
   end
 
   subgraph PREP["Data prep (laptop, run once)"]
@@ -55,6 +55,7 @@ flowchart LR
 
   %% ---------- third party ----------
   CLAUDE["Anthropic Claude API<br/>(chat model)"]
+  REDIS["Upstash Redis<br/>(rate limits)"]
   ARXIV["arXiv API · ar5iv HTML · PDFs<br/>OpenAlex title lookup"]
 
   %% ---------- Sanity ----------
@@ -88,11 +89,13 @@ flowchart LR
   V --> SUGGEST
   ASK --> AGENT
   AGENT <--> CLAUDE
+  AGENT --> REDIS
+  SUGGEST --> REDIS
   AGENT -->|tools| CTXG & CTXK
   AGENT -->|card queries| LIVE
   AGENT -->|save question| PRIV
   PAGES --> LIVE
-  SUGGEST -->|create paper| PROD
+  SUGGEST -->|create / bump gap| PROD
   CTXG --> PROD
   CTXK --> KB
   LIVE --> PROD
@@ -129,7 +132,7 @@ flowchart LR
   class PROD,PRIV,WFDS,LIVE,CTXG,CTXK,KB,AA,FNRT,WFE,DASH,STUDIO_RT sanity;
   class SCHEMA,STUDIOX,DESK,FNS,WFDEF,CTXCFG ours_on_sanity;
   class ASK,PAGES,AGENT,SUGGEST,HARVEST,CURATE,SEED ours;
-  class CLAUDE,ARXIV third;
+  class CLAUDE,ARXIV,REDIS third;
   class V,C person;
 ```
 
@@ -152,9 +155,11 @@ flowchart LR
 | Lineage Desk | 🟧 ours on Sanity | Fast work across many documents (§3) | App SDK, Sanity UI, Workflows SDK |
 | Function handlers | 🟧 ours on Sanity | Intake, effect draining, question → gap, stats | `@sanity/functions` |
 | Next.js site | 🟦 ours | Ask + browse pages for visitors | Next.js, React Flow, TypeGen |
-| `/api/ask` agent route | 🟦 ours | Agent loop, card queries, question logging, rate limit | Vercel AI SDK + `@ai-sdk/mcp` |
+| `/api/ask` agent route | 🟦 ours | Agent loop over Context A + B, **server-validated display tools** (DESIGN_SPEC §5.6), question logging, rate limit | Vercel AI SDK + `@ai-sdk/mcp` |
+| Suggest-a-paper action | 🟦 ours | Validates an arXiv ID and creates or bumps a `missing-paper` gap (never a paper) | Next.js server action |
 | Data prep scripts | 🟦 ours | Harvest → curate → seed → KB zip | Node, ar5iv HTML, `pdftotext` |
 | Claude | ⬜ third party | The chat model | Anthropic API |
+| Upstash Redis | ⬜ third party | Per-visitor and global daily rate limits (free tier) | `@upstash/ratelimit` |
 | arXiv / ar5iv / OpenAlex | ⬜ third party | Metadata, full text, title → ID lookups | Public APIs |
 
 ---
@@ -171,7 +176,8 @@ flowchart LR
 | Credential | Lives in | Permission |
 |---|---|---|
 | Organization token (Context Viewer) | `web/.env.local` on the server | Read through Context MCP only |
-| Project write token (narrow) | `web/.env.local` on the server | Create `question` and suggested `paper` documents |
+| Project write token (narrow) | `web/.env.local` on the server | Create `question` documents, `gap` upserts, storyline drafts |
+| Upstash REST URL + token | `web/.env.local` on the server | Rate-limit counters only |
 | Robot token | Functions Blueprint | Workflow + content writes for handlers |
 | Anthropic API key | `web/.env.local` on the server | Chat model |
 
@@ -201,8 +207,9 @@ sequenceDiagram
   G-->>M: docs with _ids (link: cited 5×, unreviewed)
   M->>K: knowledge_base_read: blip2/q-former, flamingo/resampler
   K-->>M: entries with citations to paper sections
-  M-->>R: answer text + cited _ids + KB entry refs
-  R->>L: card queries by _id (paper cards, chain, status chips)
+  M->>R: display tools: showChain / showQuote / suggestFollowUps / reportOutcome
+  R->>L: resolve cards by _id (relation only if accepted)
+  R->>K: re-read KB entry; quote must match verbatim
   R->>L: save questions.<uuid> (outcome, cited ids)
   R-->>S: stream answer + cards
   S-->>V: chain card 🟥data · quote blocks from papers · follow-up chips

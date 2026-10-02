@@ -59,7 +59,9 @@ Acceptance: the four known-answer checks in [CONTEXT_SETUP.md](CONTEXT_SETUP.md#
 ### F4. Find a connection (visitor)
 `/connect?from=gan&to=clip`: pick two papers and see the shortest lineage path between them, with each hop's explanation. The tagline is *"Six degrees of Attention"*.
 
-### F5. Add a paper (curator or visitor)
+### F5. Add a paper (curator) / suggest a paper (visitor)
+> v1.1: a visitor suggestion creates or bumps a `missing-paper` **gap** (DESIGN_SPEC §6.7). Only curators create papers, from the Desk Inbox.
+
 - **Curator**: in Studio or the Desk, create a paper and paste any arXiv URL or ID. The input normalises it (`https://arxiv.org/abs/2103.00020v2` → `2103.00020`).
 - **Visitor**: the **Suggest a paper** form on the site (arXiv ID only, capped at 10/day, `cs.*` categories only).
 - Either way, a Function starts the `paper-intake` workflow.
@@ -239,10 +241,10 @@ The 9-paper hand list was replaced by the harvested BLIP-2 lineage (see BUILD_LO
 | # | Milestone | Status / done when | Est. |
 |---|---|---|---|
 | M0 | Scaffold | ✅ Studio + Next.js scaffolded, 2 datasets, CORS | done |
-| M1 | Content model + seed | ✅ schemas deployed, structure, 1,950 docs seeded, privacy verified · ⏳ custom inputs (arXiv, evidence picker, relation picker) | 2 h left |
+| M1 | Content model + seed | ✅ schemas deployed, structure, 1,950 docs seeded, privacy verified · ⏳ custom inputs (arXiv, evidence picker, relation picker, buildsOn) + `concept.buildsOn` field and seed for key chains (DESIGN_SPEC D10) | 2.5 h left |
 | M1b | Context | ⏳ curator creates KB + 2 MCP endpoints ([CONTEXT_SETUP](CONTEXT_SETUP.md)); smoke test passes | 0.5 h |
-| M2 | Ask + site core | `/` Ask with /api/ask (Context A + B), cards, side panel; `/paper`, `/concept`, Explorer; Live Content API | 6 h |
-| M3 | Lineage Desk | Review (batched accept/publish, triage) + Question Inbox; deployed to Dashboard | 4 h |
+| M2 | Ask + site core | `/` Ask with /api/ask (Context A + B) and the **display tools** (DESIGN_SPEC §5.6), Upstash rate limits, side panel; `/paper`, `/concept`, Explorer with the 30-paper budget; `/suggest`; system pages; Live Content API | 7 h |
+| M3 | Lineage Desk | Review (batched accept/publish, triage) + Inbox (gap actions) + Composer (basic, live cursors are a stretch); deployed to Dashboard | 5 h |
 | M4 | Pipeline | Functions (question-to-gap, refresh-stats, start-intake) + paper-intake workflow on 1 new paper | 4 h |
 | M5 | Story + Visual Editing | Storyline page, Presentation tool, Composer (stretch) | 2 h |
 | M6 | Polish + submission | Mobile, a11y, demo video, DEV post(s) from BUILD_LOG | 3 h |

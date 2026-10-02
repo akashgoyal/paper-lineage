@@ -105,6 +105,8 @@ SANITY_ORGANIZATION_TOKEN=          # step 0
 SANITY_CONTEXT_GRAPH_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-graph
 SANITY_CONTEXT_PAPERS_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-papers
 ANTHROPIC_API_KEY=                  # the chat model
+UPSTASH_REDIS_REST_URL=             # rate limits (free Upstash database; DESIGN_SPEC §11.3)
+UPSTASH_REDIS_REST_TOKEN=
 ```
 
 Smoke test once set (lists tools per endpoint: expect `groq_query` on A, `knowledge_base_read` on B):
