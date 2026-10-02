@@ -1,7 +1,7 @@
 # Sanity Context setup: Knowledge Base + two MCP endpoints
 
 Everything in code is done: schema deployed, `production` seeded, Knowledge Base files built.
-The steps below happen in the **Sanity Dashboard → Context app** and **Manage**, which have no documented API.
+The Knowledge Base (step 1) is created, imported and built with `sanity context` (CLI). The other steps happen in the **Sanity Dashboard → Context app** and **Manage**.
 Values are ready to paste.
 
 Organization: `o2qzzix4g` · Project: `jd22zcim` · Dataset: `production`
@@ -16,6 +16,17 @@ Manage → organization `o2qzzix4g` → **API → Tokens** (organization level, 
 Put it in `web/.env.local` as `SANITY_ORGANIZATION_TOKEN=…`. Never commit it; it is server-side only.
 
 ## 1. Knowledge Base: "Paper Lineage: papers"
+
+> **Done via CLI (2026-10-03):** `sanity context` now covers creating, importing and building, so step 1's create, upload and build ran from the terminal. Knowledge Base id: **`kbawj3190IH1`**.
+>
+> ```bash
+> npx sanity context create --organization o2qzzix4g --title "Paper Lineage: papers" --description "<purpose below>"
+> npx sanity context imports create kbawj3190IH1 --file ../data/kb/paper-lineage-kb.zip   # 42 sources (40 PDFs + 2 .md)
+> npx sanity context build kbawj3190IH1 --watch
+> npx sanity context get kbawj3190IH1 --json                                              # entries, issues
+> ```
+>
+> Still in the Context app (no CLI command): the two **Instructions** below and reviewing **Issues**.
 
 Dashboard → **Context** → **New knowledge base**
 
