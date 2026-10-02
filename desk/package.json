@@ -1,0 +1,39 @@
+{
+  "name": "desk",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "typecheck": "tsc --noEmit -p .",
+    "lint": "eslint src scripts",
+    "check:queries": "sanity exec scripts/queries-check.ts --with-user-token",
+    "check:actions": "sanity exec scripts/actions-check.ts --with-user-token",
+    "check": "npm run typecheck && npm run lint && npm run check:queries && npm run build"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/sdk": "^2",
+    "@sanity/sdk-react": "^2",
+    "@sanity/ui": "^3.5.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^7",
+    "@types/node": "^24.19.1",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.8.1",
+    "prettier": "^3.5",
+    "sanity": "^6.17.0",
+    "typescript": "^5.8"
+  }
+}
