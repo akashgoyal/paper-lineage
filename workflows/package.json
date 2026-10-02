@@ -1,0 +1,23 @@
+{
+  "name": "paper-lineage-workflows",
+  "description": "paper-intake workflow definition, deploy config and effect runner",
+  "scripts": {
+    "check": "sanity-workflows deploy --check",
+    "deploy": "sanity-workflows deploy --deployment production",
+    "runner": "node --import tsx src/runner.ts",
+    "start": "node --import tsx src/start.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "@sanity/client": "^8.9.0",
+    "@sanity/workflow-engine": "^0.36.0"
+  },
+  "devDependencies": {
+    "@sanity/workflow-blueprint": "^0.36.0",
+    "@sanity/workflow-cli": "^0.36.0",
+    "@types/node": "^24.19.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}

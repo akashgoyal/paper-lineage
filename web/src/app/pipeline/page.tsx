@@ -4,6 +4,7 @@ import {Card, EmptyState, RelationChip} from '@/components/ui'
 import {sanityFetch} from '@/lib/sanity/client'
 import {PIPELINE_QUERY, STATS_QUERY} from '@/lib/sanity/queries'
 import type {LinkFields, Stats} from '@/lib/sanity/types'
+import {INTAKE_STAGES, intakeBoard} from '@/lib/sanity/workflows'
 
 export const metadata: Metadata = {title: 'Pipeline', description: 'How links get verified, and what curators have verified most recently.'}
 
@@ -12,10 +13,8 @@ type Pipeline = {
   gaps: number
 }
 
-const STAGES = ['Fetching', 'Enriching', 'Checks', 'Curation', 'Publishing', 'Published']
-
 export default async function PipelinePage() {
-  const [stats, pipeline] = await Promise.all([sanityFetch<Stats>(STATS_QUERY), sanityFetch<Pipeline>(PIPELINE_QUERY)])
+  const [stats, pipeline, board] = await Promise.all([sanityFetch<Stats>(STATS_QUERY), sanityFetch<Pipeline>(PIPELINE_QUERY), intakeBoard()])
   const pct = stats.links ? (stats.accepted / stats.links) * 100 : 0
   return (
     <main className="mx-auto max-w-[1100px] px-4 pb-14 pt-10 md:px-8">
@@ -56,15 +55,32 @@ export default async function PipelinePage() {
       )}
 
       <h2 className="mb-2 mt-10 font-serif text-2xl font-medium">Intake board</h2>
-      <p className="m-0 mb-3 text-sm text-ink-2">New papers move through these stages: AI drafts the links, checks verify the quotes, and a curator always decides.</p>
-      <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
-        {STAGES.map((s) => (
-          <div key={s} className="min-h-24 rounded-xl border border-line bg-surface p-3">
-            <div className="overline">{s}</div>
-          </div>
-        ))}
+      <p className="m-0 mb-3 text-sm text-ink-2">
+        New papers run through the <b>paper-intake</b> workflow (Sanity Workflows): metadata is fetched, links into the paper are counted, and a
+        curator approves only once every link has been reviewed. The workflow itself refuses approval before that.
+      </p>
+      <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        {INTAKE_STAGES.map((s) => {
+          const cards = board?.filter((c) => c.stage === s.name) ?? []
+          return (
+            <div key={s.name} className="min-h-24 rounded-xl border border-line bg-surface p-3">
+              <div className="overline">
+                {s.title} {cards.length > 0 && <span className="tabular">· {cards.length}</span>}
+              </div>
+              <ul className="m-0 mt-2 flex list-none flex-col gap-1.5 p-0">
+                {cards.map((c) => (
+                  <li key={c.id} className="text-sm">
+                    {c.paper?.slug ? <Link href={`/paper/${c.paper.slug}`}>{c.paper.shortName}</Link> : (c.paper?.shortName ?? 'New paper')}
+                    {c.decision === 'sent-back' && s.name !== 'curation' && <span className="block text-xs text-muted">sent back for fixes</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        })}
       </div>
-      <p className="mt-3 text-sm text-ink-2">No papers in the intake pipeline right now.</p>
+      {board === null && <p className="mt-3 text-sm text-ink-2">The intake board is unavailable right now.</p>}
+      {board?.length === 0 && <p className="mt-3 text-sm text-ink-2">No papers in the intake pipeline right now.</p>}
     </main>
   )
 }

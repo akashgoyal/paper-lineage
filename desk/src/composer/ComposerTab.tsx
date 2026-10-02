@@ -7,13 +7,12 @@ import {
   useDocument,
   useDocumentProjection,
   useEditDocument,
-  useNavigateToStudioDocument,
   useQuery,
   type DocumentHandle,
 } from '@sanity/sdk-react'
 import {Badge, Box, Button, Card, Flex, Stack, Text, TextArea, TextInput, Tooltip} from '@sanity/ui'
 import {useEffect, useState} from 'react'
-import {DATASET, PROJECT_ID, ago, relationTitle, year} from '../lib/model'
+import {DATASET, PROJECT_ID, ago, openInStudio, relationTitle, year} from '../lib/model'
 import {Boundary, Empty, Overline, useErrorToast, useUndoToast} from '../lib/ui'
 import {STORIES, STORY_PROJECTION} from '../lib/queries'
 
@@ -117,7 +116,7 @@ function Editor({handle}: {handle: DocumentHandle}) {
   const apply = useApplyDocumentActions()
   const undoToast = useUndoToast()
   const errorToast = useErrorToast()
-  const {navigateToStudioDocument} = useNavigateToStudioDocument(handle)
+  const navigateToStudioDocument = () => openInStudio(handle.documentId, 'storyline')
   if (!story) return <Empty title="This storyline was deleted" />
 
   const raw = story.raw ?? []

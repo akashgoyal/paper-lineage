@@ -3,12 +3,11 @@ import {
   useAgentGenerate,
   useApplyDocumentActions,
   useDocumentProjection,
-  useNavigateToStudioDocument,
   type DocumentHandle,
 } from '@sanity/sdk-react'
 import {Badge, Box, Button, Card, Flex, Grid, Radio, Stack, Text, TextArea, Tooltip} from '@sanity/ui'
 import {useEffect, useRef, useState} from 'react'
-import {HIGH_CONFIDENCE, RELATIONS, SCHEMA_ID, year, type Decision} from '../lib/model'
+import {HIGH_CONFIDENCE, RELATIONS, SCHEMA_ID, openInStudio, year, type Decision} from '../lib/model'
 import {DecisionBadge, useErrorToast, useUndoToast} from '../lib/ui'
 import {useKeys} from '../lib/keys'
 import {useReview} from './actions'
@@ -63,7 +62,7 @@ export function EdgeCard({handle, focused, onFocus}: {handle: DocumentHandle; fo
   const undoToast = useUndoToast()
   const errorToast = useErrorToast()
   const generate = useAgentGenerate()
-  const {navigateToStudioDocument} = useNavigateToStudioDocument(handle)
+  const navigateToStudioDocument = () => openInStudio(handle.documentId, 'influence')
   const [busy, setBusy] = useState<'accept' | 'reject' | 'explain' | null>(null)
   const [showAll, setShowAll] = useState(false)
   const ref = useRef<HTMLDivElement>(null)

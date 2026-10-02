@@ -2,6 +2,7 @@ import {useQuery} from '@sanity/sdk-react'
 import {Badge, Box, Card, Flex, Grid, Stack, Text} from '@sanity/ui'
 import {ago, relationTitle} from '../lib/model'
 import {Boundary, Overline} from '../lib/ui'
+import {IntakePanel} from '../workflow/IntakePanel'
 import {PIPELINE} from '../lib/queries'
 
 type Pipeline = {
@@ -19,6 +20,11 @@ type Pipeline = {
 export function PipelineTab() {
   return (
     <Box flex={1} overflow="auto">
+      <Stack space={5} padding={4}>
+        <Boundary label="Loading workflow…">
+          <IntakePanel />
+        </Boundary>
+      </Stack>
       <Boundary label="Loading pipeline…">
         <Board />
       </Boundary>

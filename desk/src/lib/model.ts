@@ -29,3 +29,8 @@ export const ago = (iso?: string | null) => {
   if (s < 86400) return `${Math.round(s / 3600)} h ago`
   return `${Math.round(s / 86400)} d ago`
 }
+
+export const STUDIO_URL = 'https://paper-lineage.sanity.studio'
+/** Open a document in the deployed Studio through its edit intent (new tab; the Desk keeps its place). */
+export const openInStudio = (id: string, type: string) =>
+  window.open(`${STUDIO_URL}/intent/edit/id=${encodeURIComponent(id.replace(/^drafts\./, ''))};type=${type}`, '_blank', 'noopener')

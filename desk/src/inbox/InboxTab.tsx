@@ -4,13 +4,13 @@ import {
   editDocument,
   publishDocument,
   useApplyDocumentActions,
-  useNavigateToStudioDocument,
   useQuery,
 } from '@sanity/sdk-react'
 import {Badge, Box, Button, Card, Flex, Stack, Text, TextArea} from '@sanity/ui'
 import {useState} from 'react'
-import {DATASET, PROJECT_ID, ago} from '../lib/model'
+import {DATASET, PROJECT_ID, ago, openInStudio} from '../lib/model'
 import {Boundary, Empty, Overline, useErrorToast, useUndoToast} from '../lib/ui'
+import {subjectField, usePaperIntakeEngine} from '../workflow/engine'
 import {GAPS, GAP, QUESTIONS} from '../lib/queries'
 
 type GapKind = 'missing-link' | 'missing-paper' | 'unanswered' | 'weak-evidence'
@@ -101,6 +101,7 @@ function GapDetail({id, onWriteStory}: {id: string; onWriteStory: (title: string
   const undoToast = useUndoToast()
   const errorToast = useErrorToast()
   const [note, setNote] = useState('')
+  const engine = usePaperIntakeEngine()
   const handle = createDocumentHandle({documentId: id, documentType: 'gap', projectId: PROJECT_ID, dataset: DATASET})
   if (!g) return <Empty title="This gap no longer exists" />
 
@@ -117,7 +118,8 @@ function GapDetail({id, onWriteStory}: {id: string; onWriteStory: (title: string
     }
   }
 
-  // Curators create papers (DESIGN_SPEC §6.7): a draft with the arXiv id, finished in Studio where the arXiv input fetches metadata.
+  // Curators create papers (DESIGN_SPEC §6.7): a draft with the arXiv id, then the paper-intake workflow
+  // fetches its metadata, counts its links and waits for a curator's approval in the Pipeline tab.
   const addPaper = async (arxivId: string) => {
     const paperId = `paper-${arxivId.replace(/[^0-9a-z]/gi, '-')}`
     const paper = createDocumentHandle({documentId: paperId, documentType: 'paper', projectId: PROJECT_ID, dataset: DATASET})
@@ -128,7 +130,8 @@ function GapDetail({id, onWriteStory}: {id: string; onWriteStory: (title: string
         editDocument(handle, {set: {status: 'in-progress'}}),
         publishDocument(handle),
       ])
-      undoToast(`Draft paper ${arxivId} created · finish it in Studio`)
+      await engine.startInstance({definition: 'paper-intake', initialFields: [subjectField(paperId)]})
+      undoToast(`Draft paper ${arxivId} created · intake started (see Pipeline)`)
     } catch (err) {
       errorToast('Could not create the paper', err)
     }
@@ -222,8 +225,7 @@ function GapDetail({id, onWriteStory}: {id: string; onWriteStory: (title: string
 }
 
 function PaperChip({id, name}: {id: string; name: string}) {
-  const {navigateToStudioDocument} = useNavigateToStudioDocument(createDocumentHandle({documentId: id, documentType: 'paper', projectId: PROJECT_ID, dataset: DATASET}))
-  return <Button mode="ghost" fontSize={1} padding={2} text={name} onClick={navigateToStudioDocument} />
+  return <Button mode="ghost" fontSize={1} padding={2} text={name} onClick={() => openInStudio(id, 'paper')} />
 }
 
 type Q = {_id: string; text: string; outcome: string; askedAt: string}
