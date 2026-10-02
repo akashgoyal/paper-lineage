@@ -26,7 +26,7 @@ This spec is the contract between the mockups and the code. Where the two differ
 | `/` | **Ask** (first visit) | Ask a question, or start from a paper | 1 |
 | `/?q=…` / `/ask/[id]` | **Ask** (conversation) | Answer with cards; open papers in the side panel | 2, 3 |
 | `/explore?focus=&depth=&verified=&datasets=` | **Explorer** | See a paper's ancestry by year | 4 |
-| `/explore/map` | **Map** | All papers in research-area rows × years | — (stretch) |
+| ~~`/explore/map`~~ | ~~Map~~ | Not at launch (decision D1) | — |
 | `/paper/[slug]` | **Paper** | What it built on, what it led to, its concepts | 5 |
 | `/concept/[slug]` | **Concept** | Where an idea came from and who carried it | 6 |
 | `/theme/[slug]` | **Theme** | Concepts in an area, on a year axis | — |
@@ -47,7 +47,7 @@ Curator-only surfaces (not linked from the site): **Sanity Studio** (hosted) and
 
 ## 3. Design tokens
 
-Implemented as CSS custom properties on `:root`, overridden under `@media (prefers-color-scheme: dark)` and `[data-theme="dark"]`, and mapped into Tailwind's theme.
+Implemented as CSS custom properties on `:root` and mapped into Tailwind's theme. **Launch is light-only** (decision D2): `color-scheme: light` on `:root`, and the Dark columns below are kept for a later release, not wired up.
 
 ### 3.1 Colour: neutrals
 
@@ -239,7 +239,7 @@ All desktop layouts are on a 12-column grid inside a max width of 1440 with 32 p
 
 ### 6.4 Paper (board 5)
 - Grid `minmax(0,1fr) 400px`. Main: breadcrumbs, chips, H1, authors, summary (AI caption), **Built on** (verified first, then "Also cited · not yet reviewed (n)" with 4 shown and "Show n more"), **Led to** (or its honest empty state), Abstract (collapsed).
-- Aside (sticky): Neighbourhood mini-graph (≤ 8 nodes), Concepts (Introduces / Uses with theme), "Where this comes from" provenance note, key figure (when present, with caption and alt).
+- Aside (sticky): Neighbourhood mini-graph (≤ 8 nodes), Concepts (Introduces / Uses with theme), "Where this comes from" provenance note. Key figures are not shown at launch (decision D3); the schema field stays.
 
 ### 6.5 Concept (board 6)
 - Grid `minmax(0,1fr) 380px`. Main: breadcrumb (Concepts / Theme / Concept), chips (category, "Introduced by ‹Paper› · year"), H1, summary, **How this idea evolved** (EvolutionSteps, oldest first), **Papers using this** (list). Aside: other concepts in the theme (name + introducing paper), "Next questions" (Ask links prefilled).
@@ -290,7 +290,7 @@ Touch targets ≥ 44 px; no hover-only information (hover cards also open on foc
 - Live regions: streaming answers in `aria-live="polite"` (the lead only, not every token; cards announced as "‹n› papers found"); toasts as `role="status"`.
 - Focus: visible 2 px `--ink` outline with 2 px offset; palette, dialogs and sheets trap focus and return it.
 - `prefers-reduced-motion` disables edge draw-in, pulses and smooth scrolling.
-- `lang` set; headings in order (one H1 per page); images (key figures) need `alt` (enforced in the schema).
+- `lang` set; headings in order (one H1 per page); any image needs `alt` (enforced in the schema).
 
 ---
 
@@ -347,9 +347,13 @@ Touch targets ≥ 44 px; no hover-only information (hover cards also open on foc
 
 ---
 
-## 12. Open design questions
+## 12. Design decisions
 
-1. Should the Map view ship, or does the Explorer + Ask cover discovery? (Currently the first cut.)
-2. Dark mode for the public site at launch, or light only? Tokens are ready; the graph needs a dark-mode pass.
-3. Key figures: pulling the first figure from the ar5iv HTML is feasible, but needs captions and alt text written or reviewed before publishing.
-4. Should a follow-up chip ever trigger an action (e.g. "Make this a storyline") without a confirmation? Proposal: yes for drafts, since curators review them.
+Taken 2026-10-02, following the recommendations in v1 of this spec.
+
+| # | Question | Decision | Why | Consequence |
+|---|---|---|---|---|
+| D1 | Ship the Map view? | **No, not at launch** | Ask answers "where do I start"; the Explorer covers browsing; a 197-node map is the costliest screen to make readable | Route removed from the sitemap; first screen to come back if time frees up |
+| D2 | Dark mode at launch? | **Light only** | The graph, relation palette and quote blocks need a separate dark-mode check; one theme done well beats two half-done | `color-scheme: light`; dark tokens kept in §3 for later; the Lineage Desk still follows the Dashboard theme (Sanity UI) |
+| D3 | Paper key figures? | **Not at launch** | Every figure needs a human-checked caption and alt text, which is time better spent on link review | `paper.keyFigure` stays in the schema (alt required); cards use type only |
+| D4 | "Make this a storyline" without confirmation? | **Yes, as a draft** | It only creates a private draft (`origin: "ai"`) that a curator must finish and publish; asking first adds friction for no safety gain | The chip creates the draft server-side (rate-limited with the Ask limit), then a toast "Storyline draft sent to curators · Undo". Nothing becomes public until a curator publishes it in the Desk Composer or Studio. Steps that use unreviewed links block publishing (schema validation), so the draft also tells curators which links to review first |

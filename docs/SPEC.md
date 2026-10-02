@@ -247,7 +247,7 @@ The 9-paper hand list was replaced by the harvested BLIP-2 lineage (see BUILD_LO
 | M5 | Story + Visual Editing | Storyline page, Presentation tool, Composer (stretch) | 2 h |
 | M6 | Polish + submission | Mobile, a11y, demo video, DEV post(s) from BUILD_LOG | 3 h |
 
-**Cut order** if behind: Composer live cursors → Map view → `/connect` → key figures → Studio Data-health tool → full intake workflow (keep `question-to-gap`).
+**Cut order** if behind (Map view, dark mode and key figures are already out per DESIGN_SPEC D1–D3): Composer live cursors → `/connect` → Studio Data-health tool → full intake workflow (keep `question-to-gap`).
 **Never cut:** Ask on Context with the data contract, facts vs interpretation, the Desk Review + Question Inbox, the deployed site, BUILD_LOG.
 
 ---
