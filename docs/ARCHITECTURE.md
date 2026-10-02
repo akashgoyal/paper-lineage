@@ -137,10 +137,9 @@ All Functions use one Blueprint-managed robot token. Timeouts are raised to the 
 
 ```
 paper-lineage/
-├── apps/
-│   ├── web/                 Next.js public site (Vercel)
-│   ├── studio/              Sanity Studio (schemas, structure, plugins) — owns the schema
-│   └── desk/                Lineage Desk — App SDK app (Sanity Dashboard)
+├── web/                     Next.js public site (Vercel)
+├── studio/                  Sanity Studio (schemas, structure, plugins) — owns the schema
+├── desk/                    Lineage Desk — App SDK app (Sanity Dashboard)
 ├── workflows/
 │   ├── paper-intake.ts      defineWorkflow(...)
 │   └── effect-handlers/     fetch-arxiv, ai-enrich, ai-edges, verify-evidence, publish-bundle
@@ -153,10 +152,10 @@ paper-lineage/
 ├── sanity.workflow.ts       workflow deployments (tag: prod / dev)
 ├── sanity.blueprint.ts      Functions + robot token
 ├── docs/                    ARCHITECTURE.md · SPEC.md · BUILD_LOG.md
-└── pnpm-workspace.yaml
+└── package.json             npm workspaces
 ```
 
-TypeGen: `apps/studio` extracts the schema, and `sanity typegen generate` writes `sanity.types.ts` into `apps/web` and `apps/desk`. Both apps use typed GROQ results.
+TypeGen: `studio` extracts the schema, and `sanity typegen generate` writes `sanity.types.ts` into `web` and `desk`. Both apps use typed GROQ results.
 
 ---
 

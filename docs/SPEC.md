@@ -68,7 +68,7 @@ Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## 4. Content model
 
-All types live in `apps/studio/schemaTypes/`. ⭐ marks the design decisions to highlight in the write-up.
+All types live in `studio/schemaTypes/`. ⭐ marks the design decisions to highlight in the write-up.
 
 ### 4.1 `paper` (document)
 
@@ -136,7 +136,7 @@ Portable Text includes custom **annotations** `paperMention` (→ paper) and `co
 
 ---
 
-## 5. Key GROQ queries (`apps/web/sanity/queries.ts`)
+## 5. Key GROQ queries (`web/sanity/queries.ts`)
 
 ```groq
 // GRAPH_QUERY: the whole published graph (one request)
@@ -174,7 +174,7 @@ Portable Text includes custom **annotations** `paperMention` (→ paper) and `co
 
 ## 6. Surfaces
 
-### 6.1 Sanity Studio (`apps/studio`)
+### 6.1 Sanity Studio (`studio`)
 
 | Feature | Spec | Acceptance |
 |---|---|---|
@@ -190,7 +190,7 @@ Portable Text includes custom **annotations** `paperMention` (→ paper) and `co
 | **Presentation tool** | `presentationTool` with a `locations` resolver: paper → `/paper/[slug]`, storyline → `/story/[slug]`, concept → `/concept/[slug]` | Click-to-edit works on the deployed site |
 | **Hosted** | `sanity deploy` → `paper-lineage.sanity.studio` | |
 
-### 6.2 Lineage Desk: App SDK app (`apps/desk`)
+### 6.2 Lineage Desk: App SDK app (`desk`)
 
 Layout is three panes and fully usable from the keyboard.
 
@@ -216,9 +216,9 @@ Layout is three panes and fully usable from the keyboard.
 | Workflow actions | `useWorkflowSession` → fire `approve` / `send-back` (note param). Buttons disabled, with the engine's insight text as tooltip, while the engine says no | "Approve" is disabled while any edge is still `proposed` (enforced in the UI and in the `publish-bundle` handler) |
 | Live collaboration | Two curators see each other's accept/reject in real time | Demo with two windows |
 | Shortcuts | `J/K` move · `A` accept · `R` reject · `E` edit · `⌘↵` approve · `?` help | |
-| Deploy | `sanity deploy` from `apps/desk` → appears in the Sanity Dashboard | |
+| Deploy | `sanity deploy` from `desk` → appears in the Sanity Dashboard | |
 
-### 6.3 Public site (`apps/web`)
+### 6.3 Public site (`web`)
 
 | Route | Content | Sanity features |
 |---|---|---|

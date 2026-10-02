@@ -26,3 +26,11 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Time:** about 1 h
 
 ---
+
+## 2026-10-02 · Session 1b: project setup (M0, part 1)
+
+- Created the Sanity project `jd22zcim` in the web UI.
+- **Hiccup:** the human ran `mkdir paper-lineage && cd paper-lineage && npm create sanity …`. The agent had already created that folder, so `mkdir` failed and the `&&` chain silently skipped the scaffold. The agent noticed because there was no `studio/` folder and no `~/.config/sanity` login. Fix: the human ran `npx sanity login`, then the agent ran the scaffold non-interactively (`--package-manager npm --yes`).
+- Studio: Sanity v6.17 (Workflows plugin needs ≥ 6.15 ✓). Next.js 16.3 scaffolded in `web/`.
+- Created the public `workflows` dataset and added CORS `http://localhost:3000` (with credentials, needed for Presentation / Visual Editing).
+- Layout changed from `apps/*` to `studio/`, `web/`, `desk/` at the repo root, to match what was already scaffolded.
