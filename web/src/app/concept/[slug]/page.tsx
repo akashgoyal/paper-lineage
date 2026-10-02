@@ -5,8 +5,9 @@ import {AiCaption, Breadcrumbs, Card, Chip, EmptyState, QuoteBlock, RelationChip
 import {chainPaperIds, mainChain, type ChainStep} from '@/lib/evolution'
 import {RELATION_COLOR, year} from '@/lib/format'
 import {sanityFetch} from '@/lib/sanity/client'
-import {CONCEPT_QUERY, CONCEPT_SLUGS_QUERY, LINKS_BETWEEN_QUERY} from '@/lib/sanity/queries'
+import {CONCEPT_QUERY, CONCEPT_SLUGS_QUERY, LINKS_BETWEEN_QUERY, SUGGESTED_EARLIER_QUERY} from '@/lib/sanity/queries'
 import type {Concept, LinkFields} from '@/lib/sanity/types'
+import {suggestEarlier, type SuggestedInput} from '@/lib/suggested'
 
 type BetweenLink = LinkFields & {from: string; to: string}
 
@@ -96,6 +97,8 @@ export default async function ConceptPage({params}: PageProps<'/concept/[slug]'>
   const steps = mainChain(concept)
   const ids = chainPaperIds(steps)
   const links = ids.length > 1 ? await sanityFetch<BetweenLink[]>(LINKS_BETWEEN_QUERY, {ids}) : []
+  // No curated chain: fall back to ideas the citations suggest (clearly labelled, never presented as curated).
+  const suggested = steps.length > 1 ? [] : suggestEarlier(await sanityFetch<SuggestedInput | null>(SUGGESTED_EARLIER_QUERY, {id: concept._id}))
 
   return (
     <main className="mx-auto max-w-[1440px] px-4 pb-14 pt-8 md:px-8">
@@ -136,6 +139,32 @@ export default async function ConceptPage({params}: PageProps<'/concept/[slug]'>
                     <Step key={step.node._id} step={step} next={steps[i + 1]} links={links} />
                   ))}
                 </ol>
+              </>
+            ) : suggested.length ? (
+              <>
+                <p className="m-0 mb-4 text-sm text-ink-2">
+                  <b className="font-semibold text-ink">Suggested from citations.</b> No curator has recorded what this idea builds on yet. These
+                  ideas from the same theme come from papers that {concept.by?.shortName ?? 'its introducing paper'} cites, directly or one step
+                  removed. Citation is a fact; the connection between the ideas is not verified.
+                </p>
+                <ul className="m-0 flex list-none flex-col gap-3 p-0">
+                  {suggested.map((s) => (
+                    <li key={s._id} className="rounded-xl border border-dashed border-line-strong bg-surface px-5 py-4">
+                      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <Link href={`/concept/${s.slug}`} className="font-serif text-xl text-ink">
+                          {s.name}
+                        </Link>
+                        {s.by && (
+                          <span className="text-sm text-ink-2">
+                            <Link href={`/paper/${s.by.slug}`}>{s.by.shortName}</Link> · {year(s.by.publishedAt)}
+                          </span>
+                        )}
+                        <span className="ml-auto font-mono text-xs text-muted">{s.distance === 1 ? 'cited directly' : 'two citations away'}</span>
+                      </div>
+                      {s.summary && <p className="m-0 mt-1.5 text-[15px] text-ink-2">{s.summary}</p>}
+                    </li>
+                  ))}
+                </ul>
               </>
             ) : (
               <EmptyState>No earlier ideas recorded for this concept yet.</EmptyState>

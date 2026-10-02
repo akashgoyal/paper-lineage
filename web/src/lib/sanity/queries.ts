@@ -149,3 +149,21 @@ export const OG_PAPER_QUERY = `*[_type == "paper" && slug.current == $slug][0]{
   "ledTo": count(*[_type == "influence" && from._ref == ^._id]),
   "verified": count(*[_type == "influence" && to._ref == ^._id && provenance.reviewDecision == "accepted"])
 }`
+
+/**
+ * Fallback for concepts without a curated buildsOn chain (DESIGN_SPEC §6.5): the introducing paper's
+ * ancestors up to two generations, plus same-theme concepts introduced by any of them. Ranked in lib/suggested.ts.
+ */
+export const SUGGESTED_EARLIER_QUERY = `*[_id == $id][0]{
+  "paper": introducedBy._ref,
+  "g1": *[_type == "influence" && to._ref == ^.introducedBy._ref]{
+    "id": from._ref, "s": 3 * coalesce(citation.methodMentions, 0) + coalesce(citation.mentions, 0)
+  },
+  "g2": *[_type == "influence" && to._ref in *[_type == "influence" && to._ref == ^.^.introducedBy._ref].from._ref]{
+    "via": to._ref, "id": from._ref, "s": 3 * coalesce(citation.methodMentions, 0) + coalesce(citation.mentions, 0)
+  },
+  "candidates": *[_type == "concept" && level == "concept" && broader._ref == ^.broader._ref && _id != ^._id && defined(introducedBy)]{
+    _id, name, "slug": slug.current, summary,
+    "by": introducedBy->{_id, shortName, "slug": slug.current, publishedAt}
+  }
+}`
