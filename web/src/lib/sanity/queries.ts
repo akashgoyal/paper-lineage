@@ -99,3 +99,17 @@ export const SEARCH_QUERY = `{
   "concepts": *[_type == "concept" && level == "concept" && (name match $q || aliases[] match $q)][0...8]{name, "slug": slug.current, "theme": broader->name},
   "themes": *[_type == "concept" && level == "theme" && name match $q][0...8]{name, "slug": slug.current}
 }`
+
+/** Light paper/concept summaries for the Ask side panel (fetched in the browser). */
+export const PANEL_PAPER_QUERY = `*[_type == "paper" && slug.current == $slug][0]{
+  ${PAPER_CARD}, authors, abstract, summary,
+  "introduces": *[_type == "concept" && introducedBy._ref == ^._id]{name, "slug": slug.current, "theme": broader->name},
+  "builtOn": *[_type == "influence" && to._ref == ^._id] | order(citation.methodMentions desc, citation.mentions desc){"name": from->shortName},
+  "builtOnIt": *[_type == "influence" && from._ref == ^._id] | order(citation.methodMentions desc){"name": to->shortName}
+}`
+
+export const PANEL_CONCEPT_QUERY = `*[_type == "concept" && slug.current == $slug][0]{
+  name, "slug": slug.current, summary, "theme": broader->name,
+  "by": introducedBy->{shortName, "slug": slug.current, publishedAt},
+  "buildsOn": buildsOn[]->{name, "slug": slug.current, "by": introducedBy->shortName}
+}`
