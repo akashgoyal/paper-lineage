@@ -1,6 +1,8 @@
 import {Box, Card, Flex, Spinner, Stack, Text} from '@sanity/ui'
 import type {UserViewComponent} from 'sanity/structure'
 import {highlight} from '../inputs/EvidencePickerInput'
+import {LINK_CONTEXT_QUERY as QUERY} from '../../lib/queries'
+import {paragraphFor, squash, surnameOf} from '../../lib/text'
 import {publishedId, useViewData} from './useViewData'
 
 type Data = {
@@ -11,33 +13,12 @@ type Data = {
   sections?: {heading?: string; text?: string}[]
 }
 
-const QUERY = `*[_id == $id][0]{
-  "from": from->{shortName, "author": authors[0]},
-  "to": to->{shortName},
-  "contexts": citation.contexts,
-  evidenceKey,
-  "sections": *[_type == "paperText" && paper._ref == ^.to._ref][0].sections[]{heading, text}
-}`
-
-const squash = (s = '') => s.replace(/\s+/g, ' ').trim()
-
-// Find the paragraph of the later paper that contains a citation sentence.
-function paragraphFor(sentence: string, sections: Data['sections'] = []) {
-  const probe = squash(sentence).slice(0, 60)
-  for (const section of sections) {
-    for (const paragraph of (section.text ?? '').split('\n\n')) {
-      if (squash(paragraph).includes(probe)) return {heading: section.heading, paragraph: squash(paragraph)}
-    }
-  }
-  return null
-}
-
 // Link → In context tab: each citation sentence inside its full paragraph, cited author marked.
 export const LinkContextView: UserViewComponent = ({documentId}) => {
   const {data, error} = useViewData<Data>(QUERY, {id: publishedId(documentId)})
   if (error) return <Box padding={4}><Text>Could not load context: {error.message}</Text></Box>
   if (!data) return <Flex padding={5} justify="center"><Spinner /></Flex>
-  const surname = data.from?.author?.split(' ').at(-1)
+  const surname = surnameOf(data.from?.author)
   if (!data.contexts?.length) return <Box padding={4}><Text muted>No citation sentences were captured for this link.</Text></Box>
   return (
     <Box padding={4} style={{maxWidth: 760}}>

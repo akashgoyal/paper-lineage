@@ -1,6 +1,7 @@
 import {Box, Card, Flex, Spinner, Stack, Text} from '@sanity/ui'
 import type {UserViewComponent} from 'sanity/structure'
 import {RELATIONS, RELATION_COLORS, UNREVIEWED_COLOR} from '../../schemaTypes/shared'
+import {PAPER_LINEAGE_QUERY as QUERY} from '../../lib/queries'
 import {publishedId, useViewData} from './useViewData'
 
 type Row = {
@@ -13,18 +14,6 @@ type Row = {
 }
 type Lineage = {paper?: {shortName?: string; publishedAt?: string}; builtOn: Row[]; ledTo: Row[]; grandparents: number}
 
-const QUERY = `{
-  "paper": *[_id == $id][0]{shortName, publishedAt},
-  "builtOn": *[_type == "influence" && to._ref == $id]{
-    _id, "paper": from->{shortName, publishedAt}, relation, "decision": provenance.reviewDecision,
-    "mentions": citation.mentions, "method": citation.methodMentions
-  } | order(method desc, mentions desc),
-  "ledTo": *[_type == "influence" && from._ref == $id]{
-    _id, "paper": to->{shortName, publishedAt}, relation, "decision": provenance.reviewDecision,
-    "mentions": citation.mentions, "method": citation.methodMentions
-  } | order(method desc, mentions desc),
-  "grandparents": count(array::unique(*[_type == "influence" && to._ref in *[_type == "influence" && to._ref == $id].from._ref].from._ref))
-}`
 
 function Line({row}: {row: Row}) {
   const accepted = row.decision === 'accepted' && row.relation

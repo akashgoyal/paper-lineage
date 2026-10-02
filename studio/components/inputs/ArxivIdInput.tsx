@@ -3,13 +3,7 @@ import {Flex, Text, TextInput} from '@sanity/ui'
 import {useCallback, useState, type ChangeEvent, type ClipboardEvent} from 'react'
 import {set, unset, type StringInputProps} from 'sanity'
 
-const ARXIV_ID = /^\d{4}\.\d{4,5}$/
-
-// "https://arxiv.org/pdf/2301.12597v3", "arXiv:2301.12597", "2301.12597v1" → "2301.12597"
-export function normalizeArxivId(raw: string): string {
-  const match = raw.trim().match(/(\d{4}\.\d{4,5})(?:v\d+)?/)
-  return match ? match[1] : raw.trim()
-}
+import {ARXIV_ID, normalizeArxivId} from '../../lib/text'
 
 export function ArxivIdInput(props: StringInputProps) {
   const {value, onChange, elementProps} = props

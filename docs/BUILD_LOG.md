@@ -104,4 +104,19 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 - `@sanity/ui` v4 deprecates `space` (typed `never`) in favour of `gap`, which gave 14 confusing "number is not assignable to undefined" errors.
 - `@sanity/icons` v5 types **every root export as `never`**; icons must come from subpaths (`@sanity/icons/Checkmark`). The schema icons written in Session 3 type-checked only because `icon` accepts anything, so they would have rendered blank. All imports were switched to subpaths.
 - Verified live: the public API returns Q-Former ← Perceiver resampler (Flamingo) ← latent-array cross-attention (Perceiver) ← inducing-point attention (Set Transformer), and Q-Former ← BLIP's encoder–decoder ← Align before fuse (ALBEF) ← contrastive image–text (ConVIRT).
-- **Not verified visually:** the Studio needs a Sanity login, which only the human can do in the browser pane.
+- **Not verified visually:** the Studio needs a Sanity login. Instead the human asked for API-level checks (Session 5b).
+
+## 2026-10-02 · Session 5b: API-level checks instead of a browser login
+
+**Prompt:** "Can you do sanity checks with some API code, rather than logging in in Claude's browser?"
+
+**Built:** `npm run check` in `studio/` runs five layers, all with the CLI's existing login (no token handled by the agent):
+1. `tsc --noEmit`
+2. **Unit tests** (`lib/text.test.ts`, 6): arXiv normalisation (7 paste formats), author highlighting, paragraph matching. The inputs' logic moved into `lib/text.ts` so tests and components share one copy.
+3. `sanity schema validate`: 0 errors, 0 warnings.
+4. **Negative validation cases** (`scripts/validation-cases.mjs`, 10): broken fixture documents validated with `sanity documents validate --file` (nothing written). Each rule fails with its exact message; the control passes.
+5. **Live checks** (`scripts/live-checks.ts`, 12): the Studio views' *own* queries (moved to `lib/queries.ts`) run against real documents; evidence keys, suggested relations and arXiv IDs checked across all data; privacy checked with an anonymous client (papers visible, full texts and questions not); and the facts-vs-interpretation rule tested end to end on a temporary private `test.*` link (relation hidden while proposed, shown once accepted), deleted afterwards (verified 0 left).
+
+**Found a real data bug:** `sanity documents validate` over all 1,950 documents flagged **19 links where the "earlier" paper came out after the citing paper**, e.g. Faster R-CNN (June 2015) → ResNet (Dec 2015). A later *revision* cited newer work. True citation, not ancestry. Root cause: `curate.mjs` compared years, not dates. Fixed (now 1,330 links); production still holds the 19 until the human approves deleting them.
+
+**Still not covered by these checks:** visual layout and click behaviour of the custom inputs and views (needs a logged-in browser).

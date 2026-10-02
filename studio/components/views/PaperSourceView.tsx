@@ -1,12 +1,13 @@
 import {Box, Flex, Spinner, Stack, Text} from '@sanity/ui'
 import type {UserViewComponent} from 'sanity/structure'
+import {PAPER_SOURCE_QUERY} from '../../lib/queries'
 import {publishedId, useViewData} from './useViewData'
 
 type Source = {source?: string; sections?: {_key: string; heading?: string; text?: string}[]} | null
 
 // Paper → Source tab: the parsed full text (private paperText.* document), section by section.
 export const PaperSourceView: UserViewComponent = ({documentId}) => {
-  const {data, error} = useViewData<Source>(`*[_type == "paperText" && paper._ref == $id][0]{source, sections}`, {
+  const {data, error} = useViewData<Source>(PAPER_SOURCE_QUERY, {
     id: publishedId(documentId),
   })
   if (error) return <Box padding={4}><Text>Could not load full text: {error.message}</Text></Box>

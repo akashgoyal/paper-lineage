@@ -1,16 +1,15 @@
 import {Card, Flex, Radio, Stack, Text} from '@sanity/ui'
 import {useEffect, useState, type ReactNode} from 'react'
 import {set, useClient, useFormValue, type StringInputProps} from 'sanity'
+import {splitHighlight, surnameOf} from '../../lib/text'
 import {API_VERSION} from '../../schemaTypes/shared'
 
 type Context = {_key: string; section?: string; text?: string}
 
 // Marks the cited paper's first-author surname inside a citation sentence.
 export function highlight(text: string, needle?: string): ReactNode {
-  if (!needle) return text
-  const parts = text.split(new RegExp(`(${needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g'))
-  return parts.map((part, i) =>
-    part === needle ? (
+  return splitHighlight(text, needle).map(({text: part, hit}, i) =>
+    hit ? (
       <mark key={i} style={{background: '#FFE9A8', color: 'inherit', padding: '0 2px', borderRadius: 2}}>
         {part}
       </mark>
@@ -28,7 +27,7 @@ export function useCitedSurname(): string | undefined {
     if (!from) return
     client
       .fetch<string | null>(`*[_id == $id][0].authors[0]`, {id: from})
-      .then((author) => setSurname(author?.split(' ').at(-1)))
+      .then((author) => setSurname(surnameOf(author)))
       .catch(() => setSurname(undefined))
   }, [client, from])
   return surname

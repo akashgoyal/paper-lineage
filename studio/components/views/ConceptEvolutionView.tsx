@@ -1,6 +1,7 @@
 import {Box, Card, Flex, Spinner, Stack, Text} from '@sanity/ui'
 import type {UserViewComponent} from 'sanity/structure'
 import {RELATIONS, RELATION_COLORS, UNREVIEWED_COLOR} from '../../schemaTypes/shared'
+import {CONCEPT_EVOLUTION_QUERY as QUERY} from '../../lib/queries'
 import {publishedId, useViewData} from './useViewData'
 
 type Node = {
@@ -11,15 +12,6 @@ type Node = {
 }
 type Link = {from: string; to: string; relation?: string; decision?: string; mentions?: number}
 
-// Follow buildsOn up to 6 levels (DESIGN_SPEC §6.5). GROQ can't recurse, so the projection is nested.
-const level = (depth: number): string =>
-  depth === 0
-    ? `_id, name, "by": introducedBy->{_id, shortName, "year": string::split(publishedAt, "-")[0]}`
-    : `_id, name, "by": introducedBy->{_id, shortName, "year": string::split(publishedAt, "-")[0]}, "buildsOn": buildsOn[]->{${level(depth - 1)}}`
-const QUERY = `{
-  "root": *[_id == $id][0]{${level(6)}},
-  "links": *[_type == "influence"]{"from": from._ref, "to": to._ref, relation, "decision": provenance.reviewDecision, "mentions": citation.mentions}
-}`
 
 function Connector({link}: {link?: Link}) {
   const accepted = link?.decision === 'accepted' && link.relation

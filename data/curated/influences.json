@@ -8086,35 +8086,6 @@
     }
   },
   {
-    "_id": "influence-2103-00020-2102-05918",
-    "from": "2103.00020",
-    "to": "2102.05918",
-    "relation": "benchmarks-against",
-    "inherited": [
-      "zero-shot-transfer"
-    ],
-    "explanation": "ALIGN compares itself against CLIP — carrying Zero-shot transfer via text prompts, citing it 2×.",
-    "evidence": {
-      "quote": "In the zero-shot setting, ALIGN gets more than 7% improvement in image retrieval task compared to the previous SOTA, CLIP (Radford et al. 2021).",
-      "location": "experiments",
-      "section": "Experiments and Results"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 1,
-      "sections": [
-        "Related Work",
-        "Experiments and Results"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.61,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1902-10811-2102-05918",
     "from": "1902.10811",
     "to": "2102.05918",
@@ -11301,29 +11272,6 @@
     }
   },
   {
-    "_id": "influence-2206-04615-2204-02311",
-    "from": "2206.04615",
-    "to": "2204.02311",
-    "relation": null,
-    "inherited": [],
-    "explanation": null,
-    "evidence": null,
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Introduction",
-        "Evaluation"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.21,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-2005-14165-2204-02311",
     "from": "2005.14165",
     "to": "2204.02311",
@@ -13808,35 +13756,6 @@
     }
   },
   {
-    "_id": "influence-1909-11942-1909-08053",
-    "from": "1909.11942",
-    "to": "1909.08053",
-    "relation": "extends",
-    "inherited": [],
-    "explanation": "Megatron-LM builds on ALBERT, citing it 4× in its method.",
-    "evidence": {
-      "quote": "For BERT models, we largely follow the training process described in (Lan et al. 2019).",
-      "location": "method",
-      "section": "Setup"
-    },
-    "signals": {
-      "mentions": 9,
-      "methodMentions": 4,
-      "relatedMentions": 0,
-      "sections": [
-        "Introduction",
-        "Background and Challenges",
-        "Setup",
-        "Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.95,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1907-11692-1909-08053",
     "from": "1907.11692",
     "to": "1909.08053",
@@ -14875,28 +14794,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.85,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-2206-04615-2203-15556",
-    "from": "2206.04615",
-    "to": "2203.15556",
-    "relation": null,
-    "inherited": [],
-    "explanation": null,
-    "evidence": null,
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Chinchilla"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.21,
       "reviewDecision": "proposed"
     }
   },
@@ -16059,35 +15956,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.95,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1909-11740-1908-06066",
-    "from": "1909.11740",
-    "to": "1908.06066",
-    "relation": null,
-    "inherited": [
-      "word-region-alignment"
-    ],
-    "explanation": null,
-    "evidence": {
-      "quote": "Concurrent to our work, several recent released works, such as ViLBERT [\\citeauthoryearLu et al.2019], VisualBERT [\\citeauthoryearLi et al.2019], VL-BERT [\\citeauthoryearSu et al.2019] and UNITER [\\citeauthoryearChen et al.2019] are pre-training methods on vision-and-language tasks.",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 4,
-      "methodMentions": 0,
-      "relatedMentions": 1,
-      "sections": [
-        "Related Work",
-        "Results and Analysis"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.57,
       "reviewDecision": "proposed"
     }
   },
@@ -19771,35 +19639,6 @@
     }
   },
   {
-    "_id": "influence-1409-4842-1409-1556",
-    "from": "1409.4842",
-    "to": "1409.1556",
-    "relation": "extends",
-    "inherited": [
-      "inception-module"
-    ],
-    "explanation": "VGG builds on GoogLeNet (Inception) — carrying Inception module, citing it 2× in its method.",
-    "evidence": {
-      "quote": "GoogLeNet (Szegedy et al. 2014), a top-performing entry of the ILSVRC-2014 classification task, was developed independently of our work, but is similar in that it is based on very deep ConvNets (22 weight layers) and small convolution filters (apart from 3×33\\times 3, they also use 1×11\\times 1 and 5×55\\times 5 convolutions).",
-      "location": "other",
-      "section": "ConvNet Configurations"
-    },
-    "signals": {
-      "mentions": 4,
-      "methodMentions": 2,
-      "relatedMentions": 0,
-      "sections": [
-        "ConvNet Configurations",
-        "Classification Framework"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.95,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1311-2901-1409-1556",
     "from": "1311.2901",
     "to": "1409.1556",
@@ -20181,33 +20020,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.95,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-2103-00020-2102-02779",
-    "from": "2103.00020",
-    "to": "2102.02779",
-    "relation": "extends",
-    "inherited": [],
-    "explanation": "VL-T5 builds on CLIP, citing it 2×.",
-    "evidence": {
-      "quote": "Following this success, image+text pretraining models (Lu et al. 2019; Tan & Bansal 2019; Chen et al. 2020; Huang et al. 2020; Li et al. 2020b; Cho et al. 2020; Radford et al. 2021; Zhang et al. 2021) and video+text pretraining models (Sun et al. 2019b; Sun et al. 2019a; Li et al. 2020a; Zhu & Yang 2020; Miech et al. 2020) have also shown to perform better than previous non-pretraining approaches (Yu et al. 2018a; Anderson et al. 2018; Kim et al. 2018; Yu et al. 2018b) in a wide range of discriminative (Goyal et al. 2019; Hudson & Manning 2019; Lei et al. 2018; Mao et al. 2016; Xu et al. 2016;",
-      "location": "related-work",
-      "section": "Related Works"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 1,
-      "sections": [
-        "Related Works",
-        "Downstream Tasks and Results"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.61,
       "reviewDecision": "proposed"
     }
   },
@@ -23475,34 +23287,6 @@
     }
   },
   {
-    "_id": "influence-2111-11432-2111-02358",
-    "from": "2111.11432",
-    "to": "2111.02358",
-    "relation": null,
-    "inherited": [
-      "vision-foundation-model"
-    ],
-    "explanation": null,
-    "evidence": {
-      "quote": "Our large-size model even outperforms SimVLM-Huge [46] and Florence-Huge [48] by a large margin, which consists of more parameters and are also trained on larger-scale image-text pairs.",
-      "location": "experiments",
-      "section": "Experiments"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.41,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-2101-00529-2111-02358",
     "from": "2101.00529",
     "to": "2111.02358",
@@ -24520,32 +24304,6 @@
     }
   },
   {
-    "_id": "influence-2103-00020-2102-03334",
-    "from": "2103.00020",
-    "to": "2102.03334",
-    "relation": "challenges",
-    "inherited": [],
-    "explanation": "ViLT addresses limitations of CLIP, citing it 1× in its method.",
-    "evidence": {
-      "quote": "CLIP (Radford et al. 2021) belongs to Figure 2(b) as it uses separate but equally expensive transformer embedders for each modality.",
-      "location": "other",
-      "section": "Background"
-    },
-    "signals": {
-      "mentions": 1,
-      "methodMentions": 1,
-      "relatedMentions": 0,
-      "sections": [
-        "Background"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.65,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1506-01497-2102-03334",
     "from": "1506.01497",
     "to": "2102.03334",
@@ -25352,32 +25110,6 @@
     }
   },
   {
-    "_id": "influence-2208-06366-2206-01127",
-    "from": "2208.06366",
-    "to": "2206.01127",
-    "relation": "combines",
-    "inherited": [],
-    "explanation": "VL-BEiT reuses components from BEiT v2, citing it 1× in its method.",
-    "evidence": {
-      "quote": "We use image tokenizer of BEiTv2 [26] to obtain the discrete tokens as the reconstructed targets.",
-      "location": "method",
-      "section": "Methods"
-    },
-    "signals": {
-      "mentions": 1,
-      "methodMentions": 1,
-      "relatedMentions": 0,
-      "sections": [
-        "Methods"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.65,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1505-04870-2206-01127",
     "from": "1505.04870",
     "to": "2206.01127",
@@ -26097,35 +25829,6 @@
     }
   },
   {
-    "_id": "influence-1906-00910-1905-09272",
-    "from": "1906.00910",
-    "to": "1905.09272",
-    "relation": "extends",
-    "inherited": [
-      "mutual-information-max"
-    ],
-    "explanation": "CPC v2 builds on AMDIM — carrying Mutual-information maximisation, citing it 2×.",
-    "evidence": {
-      "quote": "Augmented Multiscale Deep InfoMax (AMDIM, Bachman et al. 2019) is most similar to CPC in that it makes predictions across space, but differs in that it also predicts representations across layers in the model.",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 1,
-      "sections": [
-        "Related Work",
-        "Results"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.61,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1512-03385-1905-09272",
     "from": "1512.03385",
     "to": "1905.09272",
@@ -26236,35 +25939,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.61,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1909-11942-1909-11764",
-    "from": "1909.11942",
-    "to": "1909.11764",
-    "relation": null,
-    "inherited": [
-      "parameter-sharing-lm"
-    ],
-    "explanation": null,
-    "evidence": {
-      "quote": "To further explore its ability to improve more sophisticated language models, we apply FreeLB to the fine-tuning stage of ALBERT-xxlarge-v2 (Lan et al. 2020) model on the dev set of GLUE.",
-      "location": "experiments",
-      "section": "Experiments"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Adversarial Training for Language Understanding",
-        "Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.41,
       "reviewDecision": "proposed"
     }
   },
@@ -31329,35 +31003,6 @@
     }
   },
   {
-    "_id": "influence-1811-00982-1807-02136",
-    "from": "1811.00982",
-    "to": "1807.02136",
-    "relation": "uses-dataset",
-    "inherited": [
-      "box-attention"
-    ],
-    "explanation": "Box Attention trains or evaluates on The Open Images Dataset V4 — carrying Box attention for visual relationships, citing it 2×.",
-    "evidence": {
-      "quote": "We evaluate our approach on the V-COCO [10], Visual Relationships [20] and Open Images [16] datasets in Section 4.",
-      "location": "introduction",
-      "section": "Introduction"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Introduction",
-        "Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.61,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1706-03762-1806-08730",
     "from": "1706.03762",
     "to": "1806.08730",
@@ -31740,33 +31385,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.61,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1512-03385-1506-01497",
-    "from": "1512.03385",
-    "to": "1506.01497",
-    "relation": null,
-    "inherited": [],
-    "explanation": null,
-    "evidence": {
-      "quote": "In ILSVRC and COCO 2015 competitions, Faster R-CNN and RPN are the basis of several 1st-place entries He2015a in the tracks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.",
-      "location": "introduction",
-      "section": "I Introduction"
-    },
-    "signals": {
-      "mentions": 7,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "I Introduction",
-        "IV Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.81,
       "reviewDecision": "proposed"
     }
   },
@@ -32355,37 +31973,6 @@
     }
   },
   {
-    "_id": "influence-1409-3215-1409-0473",
-    "from": "1409.3215",
-    "to": "1409.0473",
-    "relation": "extends",
-    "inherited": [
-      "seq2seq",
-      "lstm"
-    ],
-    "explanation": "Bahdanau attention builds on Seq2Seq — carrying Encoder–decoder seq2seq, LSTM recurrent networks, citing it 7× in its method.",
-    "evidence": {
-      "quote": "Sutskever et al. 2014 reported that the neural machine translation based on RNNs with long short-term memory (LSTM) units achieves close to the state-of-the-art performance of the conventional phrase-based machine translation system on an English-to-French translation task.11 1 We mean by the state-of-the-art performance, the performance of the conventional phrase-based system without using any neural network-based component.",
-      "location": "other",
-      "section": "Background: Neural Machine Translation"
-    },
-    "signals": {
-      "mentions": 10,
-      "methodMentions": 7,
-      "relatedMentions": 0,
-      "sections": [
-        "Introduction",
-        "Background: Neural Machine Translation",
-        "Experiment Settings"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.95,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1409-0473-1610-10099",
     "from": "1409.0473",
     "to": "1610.10099",
@@ -32584,35 +32171,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.85,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-2103-00020-2102-12092",
-    "from": "2103.00020",
-    "to": "2102.12092",
-    "relation": "extends",
-    "inherited": [
-      "zero-shot-transfer"
-    ],
-    "explanation": "DALL·E builds on CLIP — carrying Zero-shot transfer via text prompts, citing it 1× in its method.",
-    "evidence": {
-      "quote": "Similar to Razavi et al. 2019, we rerank the samples drawn from the transformer using a pretrained contrastive model (Radford et al. 2021).",
-      "location": "method",
-      "section": "Method"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 1,
-      "relatedMentions": 0,
-      "sections": [
-        "Method",
-        "Experiments"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.73,
       "reviewDecision": "proposed"
     }
   },
@@ -33633,32 +33191,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.41,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1412-2306-1411-5726",
-    "from": "1412.2306",
-    "to": "1411.5726",
-    "relation": "extends",
-    "inherited": [],
-    "explanation": "CIDEr builds on Karpathy visual-semantic alignment, citing it 3×.",
-    "evidence": {
-      "quote": "Recently, generative approaches based on combination of Convolutional and Recurrent Neural Networks DBLP:journals/corr/KarpathyF14; DBLP:journals/corr/ChenZ14a; DBLP:journals/corr/DonahueHGRVSD14; DBLP:journals/corr/VinyalsTBE14; DBLP:journals/corr/MaoXYWY14; DBLP:journals/corr/KirosSZ14 have created a lot of excitement.",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 3,
-      "methodMentions": 0,
-      "relatedMentions": 3,
-      "sections": [
-        "Related Work"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.69,
       "reviewDecision": "proposed"
     }
   },
@@ -37432,32 +36964,6 @@
     }
   },
   {
-    "_id": "influence-1412-2306-1411-4952",
-    "from": "1412.2306",
-    "to": "1411.4952",
-    "relation": null,
-    "inherited": [],
-    "explanation": null,
-    "evidence": {
-      "quote": "Also related are several contemporaneous papers mao2014explain; Vinyals2014b; Chen2014; Karpathy2014b; Donahue2014a; Xu2015; Lebret2015.",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 2,
-      "sections": [
-        "Related Work"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.41,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
     "_id": "influence-1405-0312-1411-4952",
     "from": "1405.0312",
     "to": "1411.4952",
@@ -37501,34 +37007,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.45,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1411-5726-1411-4952",
-    "from": "1411.5726",
-    "to": "1411.4952",
-    "relation": null,
-    "inherited": [
-      "consensus-caption-metric"
-    ],
-    "explanation": null,
-    "evidence": {
-      "quote": "We additionally report performance on the metrics made available from the MSCOCO captioning challenge,55 5 http://mscoco.org/dataset/#cap2015 which includes scores for BLEU-1 through BLEU-4, METEOR, CIDEr VedantamCORR14, and ROUGE-L LinACL04.",
-      "location": "experiments",
-      "section": "Experimental Results"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 0,
-      "sections": [
-        "Experimental Results"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.41,
       "reviewDecision": "proposed"
     }
   }

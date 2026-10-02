@@ -98,7 +98,9 @@ const influences = []
 for (const e of strong) {
   if (!keptIds.has(e.citing) || !keptIds.has(e.cited)) continue
   const from = byId.get(e.cited), to = byId.get(e.citing) // lineage flows from the cited (older) paper
-  if (year(from) > year(to)) continue // citation to a later version of an older idea; not lineage
+  // A revision of the later paper can cite work that appeared after its first version (e.g. Faster R-CNN v3
+  // citing ResNet). True citation, not ancestry: compare full first-version dates, not years.
+  if (from.published > to.published) continue
   // A context only counts as evidence if it names the cited paper's first author; the harvester
   // falls back to a paragraph's first sentence when it can't place the citation label.
   const surname = firstAuthorSurname(e.bibText) ?? from.authors?.[0]?.split(' ').at(-1)
