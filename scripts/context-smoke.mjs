@@ -7,7 +7,8 @@ const env = Object.fromEntries(
   readFileSync('web/.env.local', 'utf8')
     .split('\n')
     .filter((l) => /^[A-Z_]+=/.test(l))
-    .map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1).trim()]),
+    // Unquote "value" / 'value' the way Next.js's env loader does.
+    .map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1).trim().replace(/^(["'])(.*)\1$/, '$2')]),
 )
 
 // Minimal MCP over streamable HTTP: initialize, acknowledge, then list tools on the same session.
