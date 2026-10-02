@@ -13,3 +13,7 @@ data/raw/openalex/
 data/raw/arxiv-search/
 data/raw/search/
 data/harvest.log
+
+# Knowledge Base sources (re-creatable: scripts/kb-fetch.sh, scripts/kb-build.mjs)
+data/kb/papers/
+data/kb/*.zip

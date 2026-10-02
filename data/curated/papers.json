@@ -665,7 +665,7 @@
     ],
     "stats": {
       "ancestors": 1,
-      "descendants": 13
+      "descendants": 14
     }
   },
   {
@@ -735,7 +735,7 @@
       "theme-convnets"
     ],
     "stats": {
-      "ancestors": 5,
+      "ancestors": 6,
       "descendants": 13
     }
   },
@@ -1123,7 +1123,7 @@
     ],
     "stats": {
       "ancestors": 12,
-      "descendants": 21
+      "descendants": 20
     }
   },
   {
@@ -3641,7 +3641,7 @@
     ],
     "stats": {
       "ancestors": 3,
-      "descendants": 3
+      "descendants": 4
     }
   },
   {
@@ -3867,7 +3867,7 @@
     ],
     "stats": {
       "ancestors": 18,
-      "descendants": 38
+      "descendants": 37
     }
   },
   {
@@ -3950,7 +3950,7 @@
     ],
     "stats": {
       "ancestors": 8,
-      "descendants": 5
+      "descendants": 6
     }
   },
   {
@@ -4502,7 +4502,7 @@
       "theme-attention-transformers"
     ],
     "stats": {
-      "ancestors": 11,
+      "ancestors": 12,
       "descendants": 40
     }
   },
@@ -4876,7 +4876,7 @@
     ],
     "stats": {
       "ancestors": 8,
-      "descendants": 25
+      "descendants": 26
     }
   },
   {
@@ -5325,7 +5325,7 @@
       "theme-attention-transformers"
     ],
     "stats": {
-      "ancestors": 29,
+      "ancestors": 28,
       "descendants": 6
     }
   },
@@ -5703,7 +5703,7 @@
       "theme-large-language-models"
     ],
     "stats": {
-      "ancestors": 8,
+      "ancestors": 9,
       "descendants": 5
     }
   },
@@ -6242,6 +6242,7 @@
       "in-context-learning",
       "zero-shot-transfer",
       "byol",
+      "discrete-visual-tokens",
       "text-to-image-transformer"
     ],
     "themes": [
@@ -6710,11 +6711,11 @@
       "noisy-alt-text-scaling",
       "visual-question-answering",
       "attention-detection-head",
+      "vision-transformer",
+      "transformer",
       "robust-pretraining-recipe",
       "web-scale-image-text-data",
       "hierarchical-vision-transformer",
-      "transformer",
-      "vision-transformer",
       "prefix-lm-vlp",
       "noisy-student"
     ],
@@ -6724,14 +6725,14 @@
       "theme-large-language-models",
       "theme-vqa",
       "theme-detection-grounding",
-      "theme-datasets",
       "theme-vision-transformers",
       "theme-attention-transformers",
+      "theme-datasets",
       "theme-end-to-end-vlp",
       "theme-transfer-weak-supervision"
     ],
     "stats": {
-      "ancestors": 20,
+      "ancestors": 21,
       "descendants": 4
     }
   },
@@ -6839,8 +6840,8 @@
       "diverse-text-corpus",
       "sentencepiece",
       "text-to-text",
-      "pretrain-finetune",
       "span-corruption",
+      "pretrain-finetune",
       "prompted-multitask",
       "model-parallelism",
       "autoregressive-lm"
@@ -6858,7 +6859,7 @@
       "theme-large-language-models"
     ],
     "stats": {
-      "ancestors": 15,
+      "ancestors": 14,
       "descendants": 10
     }
   },

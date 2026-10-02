@@ -1,6 +1,6 @@
 # Paper Lineage — Product & Technical Spec
 
-Status: **Draft v2** · 2026-10-02 (v2 adds the [UX review](UX_REVIEW.md) changes after harvesting real data: 197 papers, 1,347 edges, 25 themes → 180 concepts) · Submission deadline **2026-10-04 23:59 PDT**
+Status: **v3** · 2026-10-02 · v3: chat-first **Ask** home on Sanity Context (GROQ endpoint + Knowledge Base), schema deployed and seeded (197 papers, 1,349 links, 205 concepts), Studio/Desk for curators only. Submission deadline **2026-10-04 23:59 PDT**
 Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -34,6 +34,16 @@ Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## 3. Core user flows
 
+### F0. Ask (visitor): **the front door**
+1. `/` is a chat box with example questions (from `siteSettings.examplePrompts`) and "start from a paper" shortcuts.
+2. The question goes to `/api/ask`. The agent (Claude) uses **Context MCP A (graph, GROQ mode)** for who/when/which/how-many/verified and **Context MCP B (papers, Knowledge Base)** for how/why/results. See the data contract in [ARCHITECTURE §5](ARCHITECTURE.md#5-data-contract-for-ask-groq-vs-knowledge-base).
+3. The answer streams as short prose plus **cards drawn from cited `_id`s** (paper cards, chains, comparison tables, status chips) and **quote blocks from the Knowledge Base** ("From the paper · §Method").
+4. Clicking a paper opens it in the side panel (tabs). Follow-up chips continue the conversation. "Make this a storyline" creates a storyline draft for curators.
+5. The question is saved as `questions.<uuid>` (private id path). A partial or unanswered outcome becomes a `gap` (Function `question-to-gap`).
+
+Acceptance: the four known-answer checks in [CONTEXT_SETUP.md](CONTEXT_SETUP.md#known-answer-checks) pass; no answer states a relation for an unreviewed link.
+
+
 ### F1. Explore the lineage (visitor)
 1. On `/`, the full lineage graph is laid out by year from left to right. Edge colour shows the relation type.
 2. Hovering an edge shows a tooltip: *"ViT **applied** self-attention **to a new domain** (text → image patches)"* plus the evidence quote.
@@ -66,81 +76,22 @@ Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
 
-## 4. Content model
+## 4. Content model (deployed)
 
-All types live in `studio/schemaTypes/`. ⭐ marks the design decisions to highlight in the write-up.
+Source of truth: `studio/schemaTypes/*.ts` (deployed with `sanity schema deploy`); summary and id/privacy rules in [ARCHITECTURE §6](ARCHITECTURE.md#6-content-model-deployed).
 
-### 4.1 `paper` (document)
+| Type | Highlights |
+|---|---|
+| `paper` | title, shortName, slug, kind, arxivId (format + uniqueness validation), publishedAt, authors[], summary, abstract, keyFigure (hotspot, alt required), `uses[]` → concept (filtered to level concept), read-only `harvest` record |
+| `paperText` | private `paperText.<arxiv>`; sections[{heading, text}] |
+| `influence` | groups **Fact** (from, to, read-only `citation{mentions, methodMentions, relatedMentions, sections[], contexts[_key]}`), **Interpretation** (`evidenceKey` → context _key, relation incl. `uses-dataset`, inherited[], explanation), **Review** (`provenance{origin, suggestedRelation, confidence, reviewDecision, reviewedBy, reviewedAt}`). Async validation: time order, no self-link, no duplicate pair; accepted ⇒ relation |
+| `concept` | level theme/concept, broader → theme, category, summary, aliases, introducedBy → paper, origin |
+| `storyline` | title, slug, dek, intro (Portable Text with paperMention / conceptMention / linkMention), steps[{influence (accepted only), narrative}], featured |
+| `question` | private `questions.<uuid>`; text, askedAt, outcome, endpoints used, weak refs to cited papers and links, gap |
+| `gap` | kind (missing-link, missing-paper, unanswered, weak-evidence), title, detail, papers, suggestedArxivIds, questionCount, status, resolution |
+| `datasetStats`, `siteSettings` | singletons (no create/delete actions) |
 
-| Field | Type | Rules / notes |
-|---|---|---|
-| `title` | string | required |
-| `shortName` | string | required, max 40. Graph label ("BLIP-2", "ALBEF") |
-| `kind` | string enum | `method` · `dataset` · `benchmark` · `analysis`. Datasets render as distinct nodes and can be filtered out |
-| `slug` | slug | from title, required |
-| `arxivId` | string | ⭐ custom input normalises URLs and versions. Regex `^\d{4}\.\d{4,5}$`. **Unique** (async validation) |
-| `publishedAt` | date | required |
-| `authors` | array → `author` | ordered |
-| `venue` | string | e.g. "NeurIPS 2017" |
-| `summary` | string | max 200, one plain-English line |
-| `abstract` | text | from arXiv |
-| `sourceText` | text | hidden in the form, read-only. Intro and related-work text used as AI evidence |
-| `keyFigure` | image | hotspot on, `alt` required, `caption` |
-| `introduces` | array → `concept` | ⭐ concepts this paper *originated* |
-| `uses` | array → `concept` | validation: no overlap with `introduces` |
-| `trainedOn` | array → `dataset` | |
-| `results` | array of `result` | see 4.8 |
-| `insights` | array of `insight` | max 1 per category (continues the paperflakes insight categories) |
-| `proposedConcepts` | array of string | read-only. Concept names the AI found that don't exist yet. Curator promotes them with a single click |
-| `enrichment` | object `{model, enrichedAt, revisionNote}` | read-only provenance |
-
-Preview: `title · year`, with the key figure as media.
-
-### 4.2 `influence` (document) ⭐ the edge
-
-| Field | Type | Rules / notes |
-|---|---|---|
-| `from` | reference → `paper` | required |
-| `to` | reference → `paper` | required. ⭐ async validation: `to.publishedAt >= from.publishedAt`, `to != from` |
-| `relation` | string enum, **optional** | `extends` · `applies-to-new-domain` · `combines` · `simplifies` · `replaces` · `challenges` · `benchmarks-against` · `uses-dataset`, shown as a radio list with descriptions. Empty = not yet interpreted |
-| `citation` | object, read-only | ⭐ **the fact**: `{mentions, methodMentions, relatedMentions, sections[], contexts[{section, text}]}` mined from the citing paper's full text. Always publishable |
-| `inherited` | array → `concept` | ⭐ reference **filter**: only concepts that `from` introduces or uses |
-| `explanation` | text | required, max 280 |
-| `evidence` | object `{quote: text, location: 'abstract' \| 'introduction' \| 'related-work' \| 'method'}` | |
-| `provenance` | object | `origin: 'harvest' \| 'ai' \| 'curator'`, `confidence: number 0–1`, `checks: {quoteFound: boolean, supportVerdict: 'supports' \| 'weak' \| 'contradicts', note}`, `reviewDecision: 'proposed' \| 'accepted' \| 'rejected'` (⭐ independent of the workflow engine), `reviewedBy: string` |
-
-⭐ **Facts vs interpretations** (see UX_REVIEW §2): `citation` is always shown. `relation`, `inherited` and `explanation` are projected to the public site only when `provenance.reviewDecision == "accepted"`. Unreviewed edges render as neutral dotted "cites" links.
-
-⭐ Uniqueness: no second edge with the same `(from, to, relation)` (async validation).
-Preview: `Transformer → ViT`, subtitle `applies-to-new-domain · self-attention`.
-
-### 4.3 `concept`
-`name` (required), `slug`, `level` (`theme` · `concept`), ⭐ `broader` → `concept` (required for concepts, filtered to `level == "theme"`, absent on themes), `aliases[]` (string), `category` enum (`architecture` · `objective` · `optimization` · `training-technique` · `data` · `evaluation`), `summary` (string, max 200), `color` (derived from category in code, not stored).
-Two levels: **25 themes → 180 concepts** (seed: `data/curated/concepts.json`, written by the agent from all 197 abstracts, `origin: 'ai'`). Concept pages show the theme breadcrumb, and theme pages aggregate their concepts' papers.
-Introduced-by and used-by are **derived** with `references()` queries and never stored twice. A paper's *uses* combines its abstract and the concepts inherited along its incoming edges.
-
-### 4.4 `dataset`
-`name`, `slug`, `modality` enum (`text` · `image` · `image-text` · `audio` · `multimodal`), `size` (string, e.g. "1.2M images"), `url`.
-
-### 4.5 `benchmark`
-`name`, `dataset` → `dataset`, `metric` (string, e.g. "top-1 accuracy"), `unit` (`%`, `BLEU`, `FID`…), `higherIsBetter` (boolean). The last field lets the UI render "better/worse" arrows correctly. FID is lower-is-better, for example.
-
-### 4.6 `author` / `organization`
-`author`: `name`, `slug`, `affiliation` → `organization`.
-`organization`: `name`, `slug`, `kind` (`industry-lab` · `university`), `logo` (image).
-
-### 4.7 `storyline`
-`title`, `slug`, `dek` (string), `cover` (image), `intro` (Portable Text), `steps[]` (object `{influence → influence, narrative: Portable Text}`), `featured` (boolean).
-Portable Text includes custom **annotations** `paperMention` (→ paper) and `conceptMention` (→ concept). On the site these show as hover cards.
-
-### 4.8 Objects
-- `result`: `benchmark` → benchmark (required), `value` (number, required), `setting` enum (`zero-shot` · `few-shot` · `fine-tuned` · `linear-probe`), `note`.
-- `insight`: `category` enum (`did-you-know` · `key-takeaway` · `contrarian` · `data-point`), `text` (max 280), `origin` (`ai` · `curator`).
-
-### 4.9 `siteSettings` (singleton)
-`heroTitle`, `heroDek`, `featuredStoryline` → storyline.
-
----
+Dropped from v2: separate `dataset`, `benchmark`, `author`, `organization` types (paper `kind` covers datasets and benchmarks; authors are strings for now), and `insights` (the Knowledge Base answers "what does the paper say").
 
 ## 5. Key GROQ queries (`web/sanity/queries.ts`)
 
@@ -277,43 +228,27 @@ Failures: a `*-failed` action stops the instance in its current stage. `/pipelin
 
 ---
 
-## 8. Seed data (`scripts/seed.ts`)
+## 8. Seed data (`scripts/seed.mjs`), done
 
-The 9 papers already curated in paperflakes: Transformer, BERT, ResNet, GAN, Adam, DDPM, GPT-3, ViT, CLIP. They come with hand-verified edges (`origin: 'curator'`), concepts, datasets (ImageNet, WebText, the CLIP WIT-400M dataset, CIFAR-10…), benchmarks, results, and one storyline, *"From Attention to CLIP"*. The seed spends **no AI credits** and makes the site useful from the start. New papers after that go through the AI pipeline. **Demo candidates**: GPT-2, Swin, Latent Diffusion (Stable Diffusion), LLaMA.
-
-Draft edge list (checked against the papers before seeding):
-
-| From → To | Relation | Inherited |
-|---|---|---|
-| Transformer → BERT | extends | self-attention, Transformer encoder |
-| Transformer → GPT-3 | extends | Transformer decoder |
-| Transformer → ViT | applies-to-new-domain | self-attention |
-| ResNet → ViT | benchmarks-against | (ImageNet baseline; the hybrid variant uses ResNet features) |
-| ViT → CLIP | combines | ViT image encoder |
-| Transformer → CLIP | combines | Transformer text encoder |
-| ResNet → DDPM | combines | residual blocks |
-| Transformer → DDPM | combines | sinusoidal position embedding |
-| GAN → DDPM | challenges | generative image modelling |
-| Adam → Transformer | uses* | Adam optimiser |
-
-\*Optimiser use is modelled as `combines` with an `optimization` concept, so we don't need a weaker extra relation type.
+The 9-paper hand list was replaced by the harvested BLIP-2 lineage (see BUILD_LOG Session 2). `node scripts/seed.mjs` writes `data/seed/production.ndjson` (1,950 documents), imported with `sanity dataset import --replace`. All links are seeded **published** with `reviewDecision: "proposed"` (facts public, interpretation hidden until accepted). The Knowledge Base package comes from `scripts/kb-fetch.sh` + `scripts/kb-build.mjs`. Setup steps: [CONTEXT_SETUP.md](CONTEXT_SETUP.md).
 
 ---
 
 ## 9. Milestones and cut lines
 
-| # | Milestone | Done when | Est. |
+| # | Milestone | Status / done when | Est. |
 |---|---|---|---|
-| M0 | Scaffold | pnpm monorepo, Sanity project + 2 datasets, Studio runs locally, Next.js runs, TypeGen wired | 1.5 h |
-| M1 | Content model + seed | All schemas, validation and previews done; seed loaded; structure tool; arXiv input | 3 h |
-| M2 | Public site core | `/`, `/paper`, `/concept` with live graph on Vercel; Live Content API working | 5 h |
-| M3 | Pipeline | Workflow deployed, Functions deployed, fetch → enrich → edges → checks working end to end on 1 new paper | 5 h |
-| M4 | Lineage Desk | Queue, edge cards, accept/reject, approve/send-back deployed to Dashboard | 4 h |
-| M5 | Story + Visual Editing + `/pipeline` | Storyline page, Presentation tool click-to-edit, live pipeline board | 3 h |
-| M6 | Polish + submission | Mobile, dark mode, a11y pass, demo video, DEV post from BUILD_LOG | 3 h |
+| M0 | Scaffold | ✅ Studio + Next.js scaffolded, 2 datasets, CORS | done |
+| M1 | Content model + seed | ✅ schemas deployed, structure, 1,950 docs seeded, privacy verified · ⏳ custom inputs (arXiv, evidence picker, relation picker) | 2 h left |
+| M1b | Context | ⏳ curator creates KB + 2 MCP endpoints ([CONTEXT_SETUP](CONTEXT_SETUP.md)); smoke test passes | 0.5 h |
+| M2 | Ask + site core | `/` Ask with /api/ask (Context A + B), cards, side panel; `/paper`, `/concept`, Explorer; Live Content API | 6 h |
+| M3 | Lineage Desk | Review (batched accept/publish, triage) + Question Inbox; deployed to Dashboard | 4 h |
+| M4 | Pipeline | Functions (question-to-gap, refresh-stats, start-intake) + paper-intake workflow on 1 new paper | 4 h |
+| M5 | Story + Visual Editing | Storyline page, Presentation tool, Composer (stretch) | 2 h |
+| M6 | Polish + submission | Mobile, a11y, demo video, DEV post(s) from BUILD_LOG | 3 h |
 
-**Cut lines**, dropped in this order if we fall behind: `/connect` → `/suggest` → semantic search (stretch) → Studio Lineage view tab → scrollytelling animation (story becomes a static page) → Desk live graph preview.
-**Never cut:** schema quality, the workflow with human approval, the App SDK Desk, the deployed site, BUILD_LOG.
+**Cut order** if behind: Composer live cursors → Map view → `/connect` → key figures → Studio Data-health tool → full intake workflow (keep `question-to-gap`).
+**Never cut:** Ask on Context with the data contract, facts vs interpretation, the Desk Review + Question Inbox, the deployed site, BUILD_LOG.
 
 ---
 

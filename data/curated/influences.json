@@ -3184,44 +3184,18 @@
       "section": "Evaluating Vision-and-Language Pre-Training Data"
     },
     "signals": {
-      "mentions": 2,
+      "mentions": 5,
       "methodMentions": 1,
-      "relatedMentions": 0,
-      "sections": [
-        "Introduction",
-        "Evaluating Vision-and-Language Pre-Training Data"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.73,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1602-07332-2102-08981",
-    "from": "1602.07332",
-    "to": "2102.08981",
-    "relation": "uses-dataset",
-    "inherited": [],
-    "explanation": "Conceptual 12M trains or evaluates on Visual Genome, citing it 3×.",
-    "evidence": {
-      "quote": "Some work [77, 21, 50] use V+L resources collected for dense captioning or visual question answering (VQA), such as VG [44], VQA2 [27], and GQA [34].",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 3,
-      "methodMentions": 0,
       "relatedMentions": 1,
       "sections": [
         "Introduction",
+        "Evaluating Vision-and-Language Pre-Training Data",
         "Related Work"
       ]
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.69,
+      "confidence": 0.95,
       "reviewDecision": "proposed"
     }
   },
@@ -9537,7 +9511,7 @@
     "explanation": null,
     "evidence": null,
     "signals": {
-      "mentions": 2,
+      "mentions": 3,
       "methodMentions": 0,
       "relatedMentions": 0,
       "sections": [
@@ -9547,7 +9521,7 @@
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.21,
+      "confidence": 0.29,
       "reviewDecision": "proposed"
     }
   },
@@ -10481,6 +10455,35 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.61,
+      "reviewDecision": "proposed"
+    }
+  },
+  {
+    "_id": "influence-1909-08593-2005-14165",
+    "from": "1909.08593",
+    "to": "2005.14165",
+    "relation": null,
+    "inherited": [
+      "pretrain-finetune"
+    ],
+    "explanation": null,
+    "evidence": {
+      "quote": "One direction for future work might be attempting to generate a broader set of explicit tasks for multi-task learning, for example through procedural generation [128], human interaction [144], or active learning [80].",
+      "location": "related-work",
+      "section": "Related Work"
+    },
+    "signals": {
+      "mentions": 2,
+      "methodMentions": 0,
+      "relatedMentions": 1,
+      "sections": [
+        "Limitations",
+        "Related Work"
+      ]
+    },
+    "provenance": {
+      "origin": "harvest",
+      "confidence": 0.41,
       "reviewDecision": "proposed"
     }
   },
@@ -12013,7 +12016,7 @@
       "section": "What is in BIG-bench?"
     },
     "signals": {
-      "mentions": 25,
+      "mentions": 26,
       "methodMentions": 1,
       "relatedMentions": 0,
       "sections": [
@@ -14253,35 +14256,8 @@
     "relation": null,
     "inherited": [
       "text-to-text",
+      "span-corruption",
       "pretrain-finetune"
-    ],
-    "explanation": null,
-    "evidence": {
-      "quote": "Notable models along this progression include the 345 million parameter BERT (Devlin et al. 2019) performing strongly across a wide benchmark of language classification tasks, the 1.5 billion parameter GPT-2 (Radford et al. 2018) and 8.3 billion parameter Megatron (Shoeybi et al. 2019) displaying progressively superior zero-shot language model performance, the 11 billion parameter T5 (Raffel et al. 2020a) which advanced transfer learning and performance on several closed-book question answering tasks, and the aforementioned 175 billion parameter GPT-3.",
-      "location": "other",
-      "section": "Background"
-    },
-    "signals": {
-      "mentions": 1,
-      "methodMentions": 1,
-      "relatedMentions": 0,
-      "sections": [
-        "Background"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.45,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1910-10683-2112-11446",
-    "from": "1910.10683",
-    "to": "2112.11446",
-    "relation": null,
-    "inherited": [
-      "span-corruption"
     ],
     "explanation": null,
     "evidence": {
@@ -14290,16 +14266,17 @@
       "section": "Method"
     },
     "signals": {
-      "mentions": 1,
-      "methodMentions": 1,
+      "mentions": 2,
+      "methodMentions": 2,
       "relatedMentions": 0,
       "sections": [
+        "Background",
         "Method"
       ]
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.45,
+      "confidence": 0.65,
       "reviewDecision": "proposed"
     }
   },
@@ -18768,7 +18745,7 @@
     "explanation": null,
     "evidence": null,
     "signals": {
-      "mentions": 2,
+      "mentions": 3,
       "methodMentions": 0,
       "relatedMentions": 1,
       "sections": [
@@ -18778,7 +18755,7 @@
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.21,
+      "confidence": 0.29,
       "reviewDecision": "proposed"
     }
   },
@@ -18943,6 +18920,29 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.25,
+      "reviewDecision": "proposed"
+    }
+  },
+  {
+    "_id": "influence-1911-04252-2106-04560",
+    "from": "1911.04252",
+    "to": "2106.04560",
+    "relation": null,
+    "inherited": [],
+    "explanation": null,
+    "evidence": null,
+    "signals": {
+      "mentions": 2,
+      "methodMentions": 0,
+      "relatedMentions": 1,
+      "sections": [
+        "Core Results",
+        "Related Work"
+      ]
+    },
+    "provenance": {
+      "origin": "harvest",
+      "confidence": 0.21,
       "reviewDecision": "proposed"
     }
   },
@@ -19254,6 +19254,32 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.41,
+      "reviewDecision": "proposed"
+    }
+  },
+  {
+    "_id": "influence-1504-00325-1505-00468",
+    "from": "1504.00325",
+    "to": "1505.00468",
+    "relation": "uses-dataset",
+    "inherited": [],
+    "explanation": "VQA trains or evaluates on COCO Captions, citing it 2×.",
+    "evidence": {
+      "quote": "Moreover, these automatic metrics such as BLEU and ROUGE have been found to poorly correlate with human judgement for tasks such as image caption evaluation [6].",
+      "location": "other",
+      "section": "III VQA Dataset Collection"
+    },
+    "signals": {
+      "mentions": 2,
+      "methodMentions": 0,
+      "relatedMentions": 0,
+      "sections": [
+        "III VQA Dataset Collection"
+      ]
+    },
+    "provenance": {
+      "origin": "harvest",
+      "confidence": 0.61,
       "reviewDecision": "proposed"
     }
   },
@@ -20461,31 +20487,32 @@
     "_id": "influence-1912-08226-2201-12723",
     "from": "1912.08226",
     "to": "2201.12723",
-    "relation": null,
+    "relation": "extends",
     "inherited": [
       "memory-captioning-transformer",
       "transformer",
       "image-captioning-objective"
     ],
-    "explanation": null,
+    "explanation": "Simple end-to-end captioning builds on Meshed-Memory Transformer — carrying Meshed-memory captioning Transformer, Transformer, Image-grounded text generation, citing it 2× in its method.",
     "evidence": {
-      "quote": "Apart from this basic training strategy, most previous works (Yao et al. 2018; Anderson et al. 2018; Cornia et al. 2019; Pan et al. 2020b; Li et al. 2020) also indicate that after optimizing with cross-entropy loss, continually training image captioning systems with REINFORCE algorithms (Sutton et al. 1999) can boost the performance by a large margin.",
-      "location": "method",
-      "section": ". Methodology"
+      "quote": "Early works are based on the features extracted by a pre-trained image classification model (Chen et al. 2017; Chen and Zitnick 2014), while the later works (Rennie et al. 2017a; Lu et al. 2017; Anderson et al. 2018; Lu et al. 2018; Yao et al. 2018; Zhou et al. 2019a; Huang et al. 2019; Cornia et al. 2020; Pan et al. 2020b) choose to exploit the object detectors to extract the visual features.",
+      "location": "related-work",
+      "section": ". Related Work"
     },
     "signals": {
-      "mentions": 3,
+      "mentions": 4,
       "methodMentions": 2,
-      "relatedMentions": 0,
+      "relatedMentions": 1,
       "sections": [
         ". Introduction",
         ". Methodology",
-        ". Experiment Setup"
+        ". Experiment Setup",
+        ". Related Work"
       ]
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.73,
+      "confidence": 0.95,
       "reviewDecision": "proposed"
     }
   },
@@ -20794,10 +20821,11 @@
       "section": ". Related Work"
     },
     "signals": {
-      "mentions": 3,
+      "mentions": 4,
       "methodMentions": 2,
       "relatedMentions": 1,
       "sections": [
+        ". Introduction",
         ". Related Work",
         ". Methodology",
         ". Experiment Setup"
@@ -20805,7 +20833,7 @@
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.93,
+      "confidence": 0.95,
       "reviewDecision": "proposed"
     }
   },
@@ -23585,6 +23613,36 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.95,
+      "reviewDecision": "proposed"
+    }
+  },
+  {
+    "_id": "influence-2010-11929-2111-11432",
+    "from": "2010.11929",
+    "to": "2111.11432",
+    "relation": null,
+    "inherited": [
+      "vision-transformer",
+      "transformer"
+    ],
+    "explanation": null,
+    "evidence": {
+      "quote": "While inheriting performance benefits of the transformer self-attention operations (Dosovitskiy et al. 2021b), these hierarchical architectures model the scale invariance nature of images and have linear computational complexity with respect to image size, a property that is essential to dense prediction tasks such as object detection and segmentation.",
+      "location": "introduction",
+      "section": "Introduction"
+    },
+    "signals": {
+      "mentions": 2,
+      "methodMentions": 0,
+      "relatedMentions": 0,
+      "sections": [
+        "Experiments",
+        "Introduction"
+      ]
+    },
+    "provenance": {
+      "origin": "harvest",
+      "confidence": 0.41,
       "reviewDecision": "proposed"
     }
   },
@@ -30300,7 +30358,7 @@
       "section": "Introduction"
     },
     "signals": {
-      "mentions": 2,
+      "mentions": 3,
       "methodMentions": 0,
       "relatedMentions": 0,
       "sections": [
@@ -30309,7 +30367,7 @@
     },
     "provenance": {
       "origin": "harvest",
-      "confidence": 0.41,
+      "confidence": 0.49,
       "reviewDecision": "proposed"
     }
   },
@@ -32697,6 +32755,36 @@
     }
   },
   {
+    "_id": "influence-1711-00937-2110-04627",
+    "from": "1711.00937",
+    "to": "2110.04627",
+    "relation": "challenges",
+    "inherited": [
+      "discrete-visual-tokens"
+    ],
+    "explanation": "ViT-VQGAN addresses limitations of VQ-VAE — carrying Discrete visual tokens (VQ-VAE), citing it 3×.",
+    "evidence": {
+      "quote": "Unlike many autogressive methods which generate sequence directly in pixel space, VQVAE (van den Oord et al. 2017; Razavi et al. 2019) decomposes the image generation process into two stages: the first stage trains a vector quantized autoencoder with image reconstruction objective to convert an image into a shorter sequence of discrete tokens.",
+      "location": "related-work",
+      "section": "Related Work"
+    },
+    "signals": {
+      "mentions": 3,
+      "methodMentions": 0,
+      "relatedMentions": 1,
+      "sections": [
+        "Introduction",
+        "Related Work",
+        "Vector-quantized Images with ViT-VQGAN"
+      ]
+    },
+    "provenance": {
+      "origin": "harvest",
+      "confidence": 0.69,
+      "reviewDecision": "proposed"
+    }
+  },
+  {
     "_id": "influence-2102-12092-2110-04627",
     "from": "2102.12092",
     "to": "2110.04627",
@@ -32722,33 +32810,6 @@
     "provenance": {
       "origin": "harvest",
       "confidence": 0.49,
-      "reviewDecision": "proposed"
-    }
-  },
-  {
-    "_id": "influence-1711-00937-2110-04627",
-    "from": "1711.00937",
-    "to": "2110.04627",
-    "relation": "challenges",
-    "inherited": [],
-    "explanation": "ViT-VQGAN addresses limitations of VQ-VAE, citing it 2×.",
-    "evidence": {
-      "quote": "Unlike many autogressive methods which generate sequence directly in pixel space, VQVAE (van den Oord et al. 2017; Razavi et al. 2019) decomposes the image generation process into two stages: the first stage trains a vector quantized autoencoder with image reconstruction objective to convert an image into a shorter sequence of discrete tokens.",
-      "location": "related-work",
-      "section": "Related Work"
-    },
-    "signals": {
-      "mentions": 2,
-      "methodMentions": 0,
-      "relatedMentions": 1,
-      "sections": [
-        "Related Work",
-        "Vector-quantized Images with ViT-VQGAN"
-      ]
-    },
-    "provenance": {
-      "origin": "harvest",
-      "confidence": 0.61,
       "reviewDecision": "proposed"
     }
   },

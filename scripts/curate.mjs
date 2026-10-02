@@ -13,6 +13,7 @@
 // Usage: node scripts/curate.mjs
 
 import {readFile, writeFile} from 'node:fs/promises'
+import {mergeEdges} from './lib/edges.mjs'
 
 const graph = JSON.parse(await readFile('data/raw/graph.json', 'utf8'))
 const concepts = JSON.parse(await readFile('data/curated/concepts.json', 'utf8'))
@@ -68,7 +69,7 @@ const hasAlias = (text, c) => [c.name, ...(c.aliases ?? [])].some((a) => new Reg
 
 // 1. Influence filter + reachability back to the root.
 const isStrong = (e) => e.mentions >= 2 || e.methodMentions >= 1
-const strong = graph.edges.filter(isStrong)
+const strong = mergeEdges(graph.edges).filter(isStrong)
 const reach = new Set([graph.root])
 for (let changed = true; changed; ) {
   changed = false

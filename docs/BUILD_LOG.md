@@ -66,3 +66,16 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Fix:** the agent read all 197 abstracts and rebuilt the vocabulary as a **two-level taxonomy**: 25 themes → 180 concepts, each concept with a `broader` theme and an `introducedBy` paper. `curate.mjs` now fails if any `broader` or `introducedBy` doesn't resolve. "Uses" now also comes from the paper's own citation sentences (whatever it inherits along an incoming edge), because abstracts under-report methods. While reading, it found 8 more off-topic papers (NeRF, dialogue platforms…) and excluded them with reasons.
 
 **Result:** 163/197 papers introduce at least one concept, there are 5.4 concepts per paper on average, and every concept is used. Inherited concepts on edges went from 382 to 701. Nice side-effect for the story: the taxonomy shows *Set Transformer → Perceiver → Flamingo's resampler → BLIP-2's Q-Former* as one idea evolving.
+
+## 2026-10-02 · Session 3: chat-first design, Sanity Context, schema + seed live
+
+**Prompts (summarised):** make the first page a chat box that opens papers; "the current data storage use seems very simple use of sanity"; who can edit in Studio; how to use Knowledge Bases; split KB vs GROQ data; "setup the Sanity KB with relevant pdfs & correct schema"; mark Sanity vs our code in the diagram.
+
+**Corrections the agent made after reading docs:**
+- It had said Sanity Context couldn't power the chat because of a 150-document cap. Wrong: the cap applies to **Knowledge Bases** (beta). **GROQ mode** queries the live dataset with no such cap. The design now uses **two MCP endpoints**, because one endpoint with both source types silently ignores the Knowledge Base.
+- Free plan roles are only Administrator and Viewer, so Studio and Desk are **curator tools**, not end-user tools. That became an explicit access model.
+- Knowledge Bases and MCP endpoints are created in the Dashboard Context app (no documented API), so the agent prepared everything for one upload and wrote a paste-ready setup sheet (`docs/CONTEXT_SETUP.md`) instead of guessing an API.
+
+**Built:** 9 schema types with Fact / Interpretation / Review groups and async validation; custom Studio structure; seed of 1,950 documents imported; schema deployed; **verified** that private-id documents (`paperText.*`) are invisible to public queries (count 0); 40 core PDFs (219 MB) → `paper-lineage-kb.zip` with a manifest (so entries cite "BLIP-2 (2023)") and a concept glossary.
+
+**Bugs hit:** 2 duplicate link IDs because some bibliographies list the same work twice (fixed by merging citations per pair: `scripts/lib/edges.mjs`); LaTeX alt-text leaking into quotes ("BERTbase{}_{\text{base}}"), now stripped in the seed; one transient `fetch failed` on import (a retry worked).
