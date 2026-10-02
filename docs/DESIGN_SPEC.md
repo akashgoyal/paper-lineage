@@ -1,9 +1,18 @@
 # Paper Lineage: Design Spec
 
-Status: **v1.1** · 2026-10-02 · ready for implementation
+Status: **v1.2 (as built)** · 2026-10-03 · implemented; see "As built" below
 Mockups: [Paper Lineage UI canvas](https://claude.ai/artifact/WEJKpzxJntAVTP2q7U3CJT) (boards 1–9, private until shared) · System: [ARCHITECTURE.md](ARCHITECTURE.md) · Product: [SPEC.md](SPEC.md)
 
 This spec is the contract between the mockups and the code. Where the two differ, the spec wins and the canvas gets updated.
+
+**As built (v1.2)**, where the code differs from the sections below:
+- **Graph (§5.3, §12):** the budget, stacks and table view are as specified, but the layout is a custom deterministic year-column layout, not `@xyflow/react` + `elkjs`.
+- **Ask (§5.6, §12):** `@anthropic-ai/sdk` with the MCP connector replaces the Vercel AI SDK. Display tools, verbatim quote checks and the facts-vs-interpretation gate are as specified. `reportOutcome` also creates or bumps the gap.
+- **VerifiedMeter (§4, §13):** a live `count()` query, not `datasetStats`.
+- **Loading (§11):** no `loading.tsx`. Every page is prerendered and refreshed by the Live Content API, and streaming broke 404s for unknown slugs.
+- **Desk (§10.2):** Review, Inbox, Composer and Pipeline are built. Accept and reject are published in one transaction with Undo. "Accept all high-confidence" is batched. "Write explanation" is an Agent Action. The **Pipeline** tab drives `paper-intake` instances via the Workflows SDK, and **Approve** is disabled with the engine's reason while links are unreviewed. Composer narrative is plain paragraphs (mentions are edited in Studio), and reordering uses ↑/↓ buttons, not drag. Live cursors are cut.
+- **Concept evolution (§6.5):** all three tiers are built; the "Suggested from citations" fallback covers 93 of 142 uncurated concepts.
+- **Stories (§6.6):** `/story/[slug]` with Portable Text mentions and a sticky chain rail is built. No storyline is published yet, so the nav item stays hidden (as specified).
 
 **v1.1 changes** (from the implementation-readiness review):
 - **Ask display tools** (§5.6): the model shows cards by calling typed tools. The server resolves every card from Sanity and checks every quote.

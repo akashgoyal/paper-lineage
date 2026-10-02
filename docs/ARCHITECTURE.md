@@ -42,8 +42,14 @@ flowchart LR
     direction TB
     ASK["Ask page<br/>chat UI + cards"]
     PAGES["Explore · Paper · Concept<br/>Story · Pipeline pages"]
-    AGENT["/api/ask route<br/>agent loop (Vercel AI SDK)<br/>+ card queries + rate limit"]
+    AGENT["/api/ask route<br/>agent loop (Anthropic SDK + MCP connector)<br/>+ display tools + rate limit"]
     SUGGEST["Suggest-a-paper<br/>server action → gap"]
+  end
+
+  subgraph RUN["Curator's machine"]
+    direction TB
+    RUNNER["paper-intake runner<br/>(self-hosted effect drain)"]
+    FNS["Effect handlers<br/>fetch-arxiv · check-links<br/>recheck-links · publish-bundle"]
   end
 
   subgraph PREP["Data prep (laptop, run once)"]
@@ -62,7 +68,7 @@ flowchart LR
   subgraph SAN["Sanity platform (Free plan)"]
     direction TB
     subgraph LAKE["Content Lake"]
-      PROD[("production dataset<br/>paper · influence · concept<br/>storyline · datasetStats")]
+      PROD[("production dataset<br/>paper · influence · concept<br/>storyline · gap")]
       PRIV[("private id paths<br/>paperText.* · questions.*")]
       WFDS[("workflows dataset")]
     end
@@ -71,7 +77,6 @@ flowchart LR
     CTXK["Context MCP endpoint B<br/>paper-lineage-papers<br/>(Knowledge Base mode)"]
     KB[["Knowledge Base<br/>40 papers + glossary"]]
     AA["Agent Actions<br/>generate · prompt · patch"]
-    FNRT["Functions runtime"]
     WFE["Workflow engine<br/>(library)"]
     DASH["Dashboard"]
     STUDIO_RT["Studio hosting<br/>Presentation tool"]
@@ -79,7 +84,6 @@ flowchart LR
     SCHEMA["Schema + validation<br/>facts vs interpretation"]
     STUDIOX["Studio customisations<br/>structure · evidence picker<br/>views · actions · badges"]
     DESK["Lineage Desk (App SDK)<br/>Review · Question Inbox<br/>Storyline Composer"]
-    FNS["Function handlers<br/>start-intake · drain-effects<br/>question-to-gap · refresh-stats"]
     WFDEF["paper-intake<br/>workflow definition"]
     CTXCFG["MCP instructions<br/>groqFilter · KB purpose"]
   end
@@ -94,6 +98,7 @@ flowchart LR
   AGENT -->|tools| CTXG & CTXK
   AGENT -->|card queries| LIVE
   AGENT -->|save question| PRIV
+  AGENT -->|create / bump gap| PROD
   PAGES --> LIVE
   SUGGEST -->|create / bump gap| PROD
   CTXG --> PROD
@@ -104,13 +109,14 @@ flowchart LR
   C --> DASH --> DESK
   STUDIOX --> PROD
   DESK -->|accept / reject<br/>batched actions| PROD
-  DESK --> WFE
+  DESK -->|start · approve · send back<br/>Workflows SDK| WFE
+  DESK -->|write explanation| AA --> PROD
+  PAGES -->|intake board, server token| WFDS
 
-  PROD -->|document events| FNRT --> FNS
-  PRIV -->|question saved| FNRT
-  FNS --> WFE
   WFE --> WFDS
-  FNS --> AA --> PROD
+  WFDS -->|queued effects| RUNNER --> FNS
+  FNS -->|complete effect| WFE
+  FNS --> PROD
   FNS --> ARXIV
   WFDEF -.-> WFE
   SCHEMA -.-> PROD
@@ -129,9 +135,9 @@ flowchart LR
   classDef third fill:#F1F1F1,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3;
   classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E;
 
-  class PROD,PRIV,WFDS,LIVE,CTXG,CTXK,KB,AA,FNRT,WFE,DASH,STUDIO_RT sanity;
-  class SCHEMA,STUDIOX,DESK,FNS,WFDEF,CTXCFG ours_on_sanity;
-  class ASK,PAGES,AGENT,SUGGEST,HARVEST,CURATE,SEED ours;
+  class PROD,PRIV,WFDS,LIVE,CTXG,CTXK,KB,AA,WFE,DASH,STUDIO_RT sanity;
+  class SCHEMA,STUDIOX,DESK,WFDEF,CTXCFG ours_on_sanity;
+  class ASK,PAGES,AGENT,SUGGEST,HARVEST,CURATE,SEED,RUNNER,FNS ours;
   class CLAUDE,ARXIV,REDIS third;
   class V,C person;
 ```
@@ -143,19 +149,18 @@ flowchart LR
 | Content Lake `production` | 🟥 Sanity | Papers, links, concepts, storylines, stats | Documents, references, GROQ |
 | Private id paths `paperText.*`, `questions.*` | 🟥 Sanity | Full texts and visitor questions, not readable by public queries | Document id paths (verified: public `count(*[_type=="paperText"]) == 0`) |
 | Content Lake `workflows` | 🟥 Sanity | Workflow definitions and instances | Second Free-plan dataset |
-| Live Content API + CDN | 🟥 Sanity | Site reads; approvals appear without reload | `next-sanity` `defineLive` |
+| Live Content API + CDN | 🟥 Sanity | Site reads; approvals appear without reload | `client.live.events()` → `updateTag` + `router.refresh()` |
 | Context MCP **A: graph** | 🟥 Sanity, 🟧 our config | GROQ access to the lineage for the agent | Dataset source, `groqFilter`, instructions |
 | Context MCP **B: papers** | 🟥 Sanity, 🟧 our config | Knowledge Base access for "how does it work" | Knowledge Base source, instructions |
 | Knowledge Base | 🟥 Sanity, 🟧 our sources | Prebuilt, cited entries from 40 papers; conflicting claims flagged as issues | File source (zip), optional dataset source |
-| Agent Actions | 🟥 Sanity | Summaries, explanations, evidence checks, Desk "Rewrite" | `client.agent.action.*`, `useAgentPatch` |
-| Functions runtime | 🟥 Sanity | Runs our handlers on document events and a daily schedule | Blueprints |
-| Workflow engine | 🟥 Sanity library | Stages, actions and effects of `paper-intake` | `@sanity/workflow-engine` (early access) |
+| Agent Actions | 🟥 Sanity | Desk "Write explanation" (one sentence grounded in the chosen citation sentence) | `useAgentGenerate` with `target: {path: 'explanation'}` |
+| Workflow engine | 🟥 Sanity library | Stages, actions, gates and effects of `paper-intake` | `@sanity/workflow-engine` 0.36 (early access), deployed with `@sanity/workflow-cli` |
 | Schema | 🟧 ours on Sanity | Facts / interpretation groups, validation, reference filters | `defineType` (deployed with `sanity schema deploy`) |
 | Studio customisations | 🟧 ours on Sanity | Curator editing (§3) | Structure builder, custom inputs, views, actions |
-| Lineage Desk | 🟧 ours on Sanity | Fast work across many documents (§3) | App SDK, Sanity UI, Workflows SDK |
-| Function handlers | 🟧 ours on Sanity | Intake, effect draining, question → gap, stats | `@sanity/functions` |
-| Next.js site | 🟦 ours | Ask + browse pages for visitors | Next.js, React Flow, TypeGen |
-| `/api/ask` agent route | 🟦 ours | Agent loop over Context A + B, **server-validated display tools** (DESIGN_SPEC §5.6), question logging, rate limit | Vercel AI SDK + `@ai-sdk/mcp` |
+| Lineage Desk | 🟧 ours on Sanity | Review, Inbox, Composer, Pipeline (§3) | App SDK v3, Sanity UI, Workflows SDK (`useWorkflowInstances`, `useWorkflowSession`) |
+| paper-intake runner + handlers | 🟦 ours | Drains queued effects (fetch metadata, count links, publish) | `createEngine` + `drainEffects`; a hosted Blueprints runtime isn't accepted by the backend yet, and Free-plan scheduled Functions run daily |
+| Next.js site | 🟦 ours | Ask + browse pages for visitors | Next.js 16, custom deterministic graph layout (no React Flow / ELK), `next/og` |
+| `/api/ask` agent route | 🟦 ours | Agent loop over Context A + B, **server-validated display tools** (DESIGN_SPEC §5.6), question + gap logging, rate limit | `@anthropic-ai/sdk` beta MCP connector, NDJSON stream |
 | Suggest-a-paper action | 🟦 ours | Validates an arXiv ID and creates or bumps a `missing-paper` gap (never a paper) | Next.js server action |
 | Data prep scripts | 🟦 ours | Harvest → curate → seed → KB zip | Node, ar5iv HTML, `pdftotext` |
 | Claude | ⬜ third party | The chat model | Anthropic API |
@@ -171,14 +176,15 @@ flowchart LR
 | **Visitor** | Website only: Ask, browse, suggest a paper | None | Writes (questions, suggestions) go through the site's server token |
 | **Judge** | Website; optionally the hosted Studio, read-only | Invited as **Viewer** (free, unlimited) | Can see schema, structure and inputs, but not edit |
 | **Curator** | Studio + Lineage Desk | **Administrator** (the only role that can write on Free) | Small trusted team, because Administrators also control project settings |
-| **Builder** | Everything + CLI | Administrator / organization admin | Deploys schema, Studio, Desk, Functions, workflows |
+| **Builder** | Everything + CLI | Administrator / organization admin | Deploys schema, Studio, Desk, workflow definitions |
 
 | Credential | Lives in | Permission |
 |---|---|---|
 | Organization token (Context Viewer) | `web/.env.local` on the server | Read through Context MCP only |
 | Project write token (narrow) | `web/.env.local` on the server | Create `question` documents, `gap` upserts, storyline drafts |
 | Upstash REST URL + token | `web/.env.local` on the server | Rate-limit counters only |
-| Robot token | Functions Blueprint | Workflow + content writes for handlers |
+| Curator login session (`sanity login`) or `SANITY_AUTH_TOKEN` | the machine running the paper-intake runner | Workflow + content writes for effect handlers |
+| Read token (optional, `SANITY_READ_TOKEN`) | `web/.env.local` on the server | Reads workflow instance summaries for /pipeline (falls back to the write token) |
 | Anthropic API key | `web/.env.local` on the server | Chat model |
 
 Studio, Desk and Context are **builder and curator tools**. The website is the only end-user surface.
@@ -219,10 +225,10 @@ sequenceDiagram
 
 ```
 question saved (outcome partial / unanswered)
-   → Function question-to-gap 🟧 → gap document
+   → /api/ask 🟦 creates or bumps a gap document in the same request
    → Lineage Desk 🟧 Question Inbox: accept links · add missing paper · write storyline
-   → paper created → Function start-intake 🟧 → Workflow paper-intake 🟥/🟧
-        fetching → enriching (Agent Actions 🟥) → checks → curation (human) → publishing
+   → "Add paper" creates the paper draft and starts Workflow paper-intake 🟥/🟧 (Workflows SDK)
+        fetching → checks → curation (human; approve gated on 0 unreviewed links) → publishing
    → Live Content API 🟥 updates the site; the next Knowledge Base refresh picks up curated text
 ```
 
@@ -230,11 +236,12 @@ question saved (outcome partial / unanswered)
 
 | Stage | Moved by | Work |
 |---|---|---|
-| fetching | Function effect | arXiv metadata + full text → `paper` + `paperText.*` |
-| enriching | Function effect | Agent Actions: summary, concepts used, proposed links (drafts) |
-| checks | Function effect | Quote found in full text? Agent Action `prompt`: does the quote support the relation? |
-| curation | **Curator** (Desk / Studio Workflows view) | Accept / reject each link, then **Approve** or **Send back** with a note |
-| publishing | Function effect | Publish paper + accepted links in one transaction |
+| fetching | effect `fetch-arxiv` (runner) | Fills a placeholder paper draft from the arXiv API; complete papers are untouched. Retries 3× |
+| checks | effect `check-links` (runner) | Counts unreviewed / accepted / total links into the paper |
+| curation | **Curator** (Desk Pipeline tab) | Review links in the Desk, **Re-check links**, then **Approve** (the engine refuses while any link is unreviewed) or **Send back** with a required note (→ fetching) |
+| publishing | effect `publish-bundle` (runner) | Refuses if a link is unreviewed; publishes the paper draft in one transaction |
+
+*Cut from v3:* the `enriching` stage (Agent Actions proposing links) and `verify-evidence`. Links come from the full-text harvest, and evidence is chosen by the curator with the evidence picker.
 
 Human curation is never skipped, because lineage links are claims about history. The checks only set review priority.
 
@@ -276,7 +283,7 @@ Human curation is never skipped, because lineage links are claims about history.
 | `storyline` | free | ✅ | Steps reference **accepted** links only (reference filter). Portable Text with paper / concept / link annotations |
 | `question` | `questions.<uuid>` | ❌ private path | Outcome, endpoints used, weak refs to cited papers and links, `gap` |
 | `gap` | free | ✅ (curator data) | `missing-link · missing-paper · unanswered · weak-evidence`, status |
-| `datasetStats`, `siteSettings` | singletons | ✅ | Stats refreshed by Function; example prompts, start papers |
+| `datasetStats`, `siteSettings` | singletons | ✅ | `siteSettings`: example prompts, start papers. Stats are computed live with `count()` (`datasetStats` is unused) |
 
 Seeded: 197 papers, 197 full texts, 1,349 links (1,127 with a keyed evidence sentence), 25 themes + 180 concepts, 2 singletons.
 
@@ -309,8 +316,7 @@ paper-lineage/
 ├── web/                     🟦 Next.js site + /api/ask (Vercel)
 ├── studio/                  🟧 Sanity Studio: schemaTypes/, structure.ts
 ├── desk/                    🟧 Lineage Desk (App SDK)
-├── workflows/               🟧 paper-intake definition + effect handlers
-├── functions/               🟧 Function handlers
+├── workflows/               🟧 paper-intake definition (sanity.workflow.ts) + 🟦 runner and effect handlers
 ├── scripts/                 🟦 harvest, curate, seed, kb-fetch, kb-build, context-smoke
 ├── data/
 │   ├── raw/graph.json       harvested citation graph (HTML/PDF caches git-ignored)
@@ -332,10 +338,10 @@ paper-lineage/
 | Live Content API | 1,000 connections / dataset | site |
 | **Sanity Context** (MCP, GROQ mode) | included ("Agent Actions and Context") | Ask endpoint A |
 | **Knowledge Bases** (beta, Labs) | plan-capped count / sources; limits may change | Ask endpoint B |
-| Agent Actions | 1,000 AI credits / mo | intake, Rewrite, checks |
-| Functions | 500k invocations, scheduled daily minimum | runtime |
-| App SDK + Dashboard | included | Lineage Desk |
-| Workflows (early access) | library on our datasets + Functions | intake |
+| Agent Actions | 1,000 AI credits / mo | Desk "Write explanation" |
+| App SDK + Dashboard | included | Lineage Desk (deployed organization app) |
+| Workflows (early access) | library on our `workflows` dataset + self-hosted runner | paper intake |
+| Functions | not used | a scheduled Function runs daily on Free, too slow for intake; hosted workflow runtimes await Blueprints support |
 | Not on Free → replaced | Comments, Tasks, Releases, custom roles, private datasets | send-back notes · one-transaction publish · trusted Admins · private id paths |
 
 ---

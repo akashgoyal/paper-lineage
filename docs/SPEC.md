@@ -1,7 +1,27 @@
 # Paper Lineage — Product & Technical Spec
 
-Status: **v3** · 2026-10-02 · v3: chat-first **Ask** home on Sanity Context (GROQ endpoint + Knowledge Base), schema deployed and seeded (197 papers, 1,349 links, 205 concepts), Studio/Desk for curators only. Submission deadline **2026-10-04 23:59 PDT**
+Status: **v4 (as built)** · 2026-10-03 · v3: chat-first **Ask** home on Sanity Context (GROQ endpoint + Knowledge Base), schema deployed and seeded (197 papers, 1,349 links, 205 concepts), Studio/Desk for curators only. v4: implementation complete; deviations below. Submission deadline **2026-10-04 23:59 PDT**
 Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
+
+## As built (v4): where the code differs from this spec
+
+The sections below are the original plan. Where they disagree with this list, this list is what shipped.
+
+| Area | Planned | Shipped | Why |
+|---|---|---|---|
+| Ask agent | Vercel AI SDK + `@ai-sdk/mcp` | `@anthropic-ai/sdk` beta messages with the **MCP connector** (both Context endpoints server-side) + 7 display tools, streamed as NDJSON | One SDK, no MCP client to host; tool calls and quotes are still validated on our server |
+| Question → gap | Function `question-to-gap` | `/api/ask` creates or bumps the gap in the same request (`reportOutcome`) | No extra moving part; same document |
+| Stats | `datasetStats` refreshed by a Function | Live `count()` queries | Always correct, no schedule |
+| Graph | React Flow + ELK in a Web Worker | Custom deterministic year-column layout (`web/src/lib/graph-budget.ts`, unit-tested) | 30-node budget makes a layout engine unnecessary; smaller bundle |
+| Workflow | `fetching → enriching → checks → curation → publishing`, effects on Functions | `fetching → checks → curation → publishing → published` on `@sanity/workflow-engine` 0.36; effects drained by a **self-hosted runner** (`workflows/src/runner.ts`); approve **gated by the engine** on zero unreviewed links (`recheck-links` effect); send-back loops to fetching | AI link proposal (`enriching`, `verify-evidence`) was cut: links come from the full-text harvest. Hosted workflow runtimes need Blueprints support that isn't live; Free-plan scheduled Functions run daily |
+| Functions | start-intake, drain-effects, question-to-gap, refresh-stats | none | Covered above |
+| Desk queue | `useWorkflowInstances` filtered to curation | Review queue = papers with unreviewed links (GROQ, live); workflow instances live in the **Pipeline** tab | Curation of 1,349 seeded links doesn't need an intake instance per paper |
+| Desk SDK | App SDK (template pinned v2) | App SDK **v3.7** (required by `@sanity/workflow-sdk`), `@sanity/mutate` 0.18.2 override | Workflows SDK peer requirement |
+| Composer | `SDKPortableTextEditable` with live cursors | Plain-paragraph narrative editor; steps with mentions open in Studio | Cut order: live cursors were first to go |
+| `/connect` path finder | planned | not built | Cut order |
+| Routes added | — | `/concepts` index; "Suggested from citations" on 93 of 142 concepts without a curated chain | DESIGN_SPEC §6.5 fallback |
+| Loading states | `loading.tsx` per route | removed; pages are static (614 prerendered) | Streaming made unknown slugs return 200 instead of 404 |
+| /pipeline intake board | reads the public `workflows` dataset | server-side summary with a token | Instance ids are on a private id path (`prod.wf-instance.*`), unreadable without a token even in a public dataset |
 
 ---
 
@@ -245,7 +265,7 @@ The 9-paper hand list was replaced by the harvested BLIP-2 lineage (see BUILD_LO
 | M1b | Context | ⏳ curator creates KB + 2 MCP endpoints ([CONTEXT_SETUP](CONTEXT_SETUP.md)); smoke test passes | 0.5 h |
 | M2 | Ask + site core | `/` Ask with /api/ask (Context A + B) and the **display tools** (DESIGN_SPEC §5.6), Upstash rate limits, side panel; `/paper`, `/concept`, Explorer with the 30-paper budget; `/suggest`; system pages; Live Content API | 7 h |
 | M3 | Lineage Desk | Review (batched accept/publish, triage) + Inbox (gap actions) + Composer (basic, live cursors are a stretch); deployed to Dashboard | 5 h |
-| M4 | Pipeline | Functions (question-to-gap, refresh-stats, start-intake) + paper-intake workflow on 1 new paper | 4 h |
+| M4 | Pipeline | ~~Functions (question-to-gap, refresh-stats, start-intake)~~ paper-intake workflow + runner, Desk Pipeline tab, /pipeline board (see "As built") | 4 h |
 | M5 | Story + Visual Editing | Storyline page, Presentation tool, Composer (stretch) | 2 h |
 | M6 | Polish + submission | Mobile, a11y, demo video, DEV post(s) from BUILD_LOG | 3 h |
 

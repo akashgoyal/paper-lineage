@@ -105,8 +105,25 @@ SANITY_ORGANIZATION_TOKEN=          # step 0
 SANITY_CONTEXT_GRAPH_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-graph
 SANITY_CONTEXT_PAPERS_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-papers
 ANTHROPIC_API_KEY=                  # the chat model
+ASK_MODEL=                          # optional, defaults to claude-opus-5
+SANITY_WRITE_TOKEN=                 # project token, Editor: saves questions.*, creates/bumps gaps, storyline drafts
+SANITY_READ_TOKEN=                  # optional Viewer token for the /pipeline intake board (falls back to the write token)
 UPSTASH_REDIS_REST_URL=             # rate limits (free Upstash database; DESIGN_SPEC §11.3)
-UPSTASH_REDIS_REST_TOKEN=
+UPSTASH_REDIS_REST_TOKEN=           # without Upstash, an in-memory limiter is used (fine locally, not on serverless)
+RATE_LIMIT_SALT=                    # optional, salts the hashed visitor key
+NEXT_PUBLIC_SITE_URL=               # optional on Vercel (VERCEL_PROJECT_PRODUCTION_URL is used); absolute URLs for OG/sitemap
+```
+
+Without the Context, Anthropic or write variables, `/api/ask` answers 503 "Ask is unavailable right now" and the rest of the site works.
+
+## 5. Run the paper-intake workflow (curators)
+
+The definition is deployed to the `workflows` dataset (`cd workflows && npm run deploy`). Its effects (fetch arXiv metadata, count links, publish) run in a small runner that uses your `sanity login` session (or `SANITY_AUTH_TOKEN`):
+
+```bash
+cd workflows && npm run runner          # keep running while curating; drains queued effects every 5 s
+npm run start -- paper-2301-12597       # start an intake by hand (the Desk Inbox "Add paper" also starts one)
+npx sanity-workflows list               # in-flight instances · show <id> · diagnose <id>
 ```
 
 Smoke test once set (lists tools per endpoint: expect `groq_query` on A, `knowledge_base_read` on B):

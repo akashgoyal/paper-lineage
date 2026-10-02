@@ -120,3 +120,29 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Found a real data bug:** `sanity documents validate` over all 1,950 documents flagged **19 links where the "earlier" paper came out after the citing paper**, e.g. Faster R-CNN (June 2015) → ResNet (Dec 2015). A later *revision* cited newer work. True citation, not ancestry. Root cause: `curate.mjs` compared years, not dates. Fixed (now 1,330 links); production still holds the 19 until the human approves deleting them.
 
 **Still not covered by these checks:** visual layout and click behaviour of the custom inputs and views (needs a logged-in browser).
+
+## 2026-10-02/03 · Session 6: the rest of the app (site, Ask, Desk, Workflows)
+
+**Prompts:** "Let the links be. Build the remaining part of the app. You are in auto mode, so go ahead with your recommended/suggested answers if any confusion. Note: Review as you keep building"; then "complete the implementation".
+
+**Built:**
+- **Site** (`web/`): every route in DESIGN_SPEC, live through the Live Content API (`client.live.events()` → `updateTag` → `router.refresh()`), 614 static pages, sitemap, robots, OG cards (`next/og`), and `/story/[slug]` (Portable Text mentions + sticky chain rail).
+- **Ask** (`/api/ask`): the Anthropic SDK's MCP connector calls both Context endpoints. Seven **display tools** are resolved by our server: cards come from Sanity by id, relations appear only for accepted links, quotes must match the Knowledge Base entry or stored citation sentence verbatim, and chains must be in date order. Questions are saved to `questions.<uuid>`, and weak answers create or bump a `gap`. Rate limits use Upstash, with an in-memory fallback.
+- **Lineage Desk** (`desk/`, App SDK): Review (queue, EdgeCards, accept/reject published in one transaction with Undo, batched high-confidence triage, Agent Action "Write explanation", J/K/A/R/1–8 keys), Inbox (gaps, example questions, Add paper → starts intake), Composer (accepted-only step picker, publish gate) and Pipeline (Workflows SDK). Deployed to the Dashboard.
+- **Workflows** (`workflows/`): `paper-intake` on `@sanity/workflow-engine` 0.36, deployed with `@sanity/workflow-cli`. **Approve is gated by the engine** on zero unreviewed links. Send-back requires a note and loops back. Effects run in a self-hosted runner.
+- "Suggested from citations" for concepts without a curated chain (93 of 142).
+
+**What went wrong, and how it was caught:**
+- **`loading.tsx` broke 404s.** Streaming had already sent a 200 when `notFound()` ran. Found with curl on a made-up slug; all `loading.tsx` files were removed.
+- **The first graph query was 672 KB.** Evidence moved to a per-link query (now 257 KB).
+- **A GROQ sort on an expression** (`order(low > 0 desc)`) is a parse error. The Desk's queries compiled and type-checked; it was caught by a script that runs every Desk query against production (`desk/scripts/queries-check.ts`). The fix projects a field first.
+- **The App SDK template pinned SDK v2**, but `@sanity/workflow-sdk` needs v3 and a `@sanity/mutate` override. After the upgrade, `useNavigateToStudioDocument` was gone (replaced with Studio intent links), and the write-path check was re-run on v3.
+- **Write paths verified without a browser.** `desk/scripts/actions-check.ts` runs the Desk's own action creators (dotted-path set, publish in the same transaction, undo) on a throwaway document in the `workflows` dataset, then deletes it.
+- **Workflows, first contact:** effect names must be unique per definition (the curator's re-check became its own effect, and the gate reads whichever ran last). A subject in another dataset needs `resourceClients`. The effect binding `$fields.subject._id` is a **GDR URI**, not a bare id, so the first instance failed with "paper not found" and was aborted. Network effects got a bounded retry. Instance ids sit on a private id path, so the public site reads the intake board server-side with a token.
+- **React Compiler lint** rejected synchronous `setState` in effects. Fixed with a keyed `useClientQuery`, a `useSyncExternalStore` conversation store, and adjusting Explorer state during render.
+
+**Verified:** web unit tests (18) and live display-tool tests (6); the Desk's 11 queries against production; the Desk's write paths; the workflow end to end on BLIP-2 (fetching → checks → curation; approve refused while 16 links are open; re-check; send-back loop).
+
+**Not verified:** clicking through the Desk and Studio UI (needs a Sanity login in a browser), and Ask against the real Context endpoints (they need the human's organization token, Knowledge Base upload and Anthropic key).
+
+**Cut, honestly:** the AI `enriching` stage and `verify-evidence` (links come from the harvest), Functions (Free-plan schedules are daily, and hosted workflow runtimes await Blueprints support), `/connect`, Composer live cursors and drag-to-reorder.
