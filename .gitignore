@@ -6,3 +6,10 @@ dist
 .sanity
 .vercel
 .DS_Store
+# harvest caches (re-creatable with scripts/harvest.mjs)
+data/raw/html/
+data/raw/pdf/
+data/raw/openalex/
+data/raw/arxiv-search/
+data/raw/search/
+data/harvest.log

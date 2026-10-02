@@ -1,0 +1,12 @@
+{
+  "name": "paper-lineage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "harvest": "node scripts/harvest.mjs"
+  },
+  "devDependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "node-html-parser": "^9.0.4"
+  }
+}

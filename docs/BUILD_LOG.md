@@ -34,3 +34,25 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 - Studio: Sanity v6.17 (Workflows plugin needs ≥ 6.15 ✓). Next.js 16.3 scaffolded in `web/`.
 - Created the public `workflows` dataset and added CORS `http://localhost:3000` (with credentials, needed for Presentation / Visual Editing).
 - Layout changed from `apps/*` to `studio/`, `web/`, `desk/` at the repo root, to match what was already scaffolded.
+
+## 2026-10-02 · Session 2: harvesting a real lineage dataset from BLIP-2
+
+**Prompt:** "Prepare data for many papers (don't limit to only 9). Take any one as start point - like BLIP2. Then backtrack the references or prior papers & create dataset around that." Later: "If paper apis are not working … download the pdf & analyse it on your own."
+
+**What we built:** `scripts/harvest.mjs` reads each paper's full text (ar5iv / arXiv HTML, falling back to the PDF through `pdftotext`). It parses the bibliography and records **every in-text citation with its sentence and section**. A reference counts as influence if it is cited 2+ times or inside a Method-like section. That turned out to be a better lineage signal than raw citation counts. `scripts/curate.mjs` then proposes relations from cue phrases, tags 48 hand-written concepts, and applies hand decisions from `data/curated/overrides.json`.
+
+**Result:** walked 3 levels back from BLIP-2. 229 papers harvested; **205 kept** (171 methods, 14 datasets, 11 benchmarks, 9 analyses) with **1,369 lineage edges**, each with an evidence quote. Shortest paths look right: *Transformer → ALBEF → BLIP-2*, *ResNet → CLIP → BLIP-2*, *Bahdanau attention → LXMERT → ALBEF → BLIP-2*.
+
+**What went wrong (honestly):**
+- **Semantic Scholar** (the first plan) returned HTTP 429 on every call: the keyless pool was exhausted. We switched to reading full text ourselves.
+- **OpenAlex** stores no references for arXiv preprints. We only used it for title → arXiv ID lookups, until its keyless **daily budget ran out** mid-run.
+- **DBLP** answered with a bot-check page. We did *not* try to get around it.
+- **arXiv title search silently returned 0 hits** whenever the query contained stopwords ("with", "before"). That is why ALBEF ("Align *before* fuse") was missing at first. 51 false "not found" results had been cached and had to be purged.
+- A **catastrophic-backtracking regex** in the PDF parser (`^([A-Z][a-z]*\.?\s?,?\s*)+(and|&)`) pinned the CPU at 100% for 50 minutes on one paper. It was replaced with a token-ratio heuristic and a stall detector was added to the monitor.
+- The **evidence quotes were wrong** when the parser couldn't place a citation label and fell back to the paragraph's first sentence (Flamingo's "quote" was BLIP-2's opening line). Fix: a quote must name the cited first author.
+- The first cue-phrase pass labelled **929 edges "extends" by default**. Fix: no cue means no label (702 unlabelled, left for curators). Cue order changed so reuse ("we use … from") beats "state-of-the-art".
+- Known remaining errors (left on purpose for the curation demo): *ViT "challenges" BERT* (triggered by the word "however"), and *BLIP-2 "reuses" Flamingo* (it actually argues against Flamingo's loss).
+
+**Design change this caused:** facts vs interpretations (see `UX_REVIEW.md`). Citation facts are public; relation labels need human acceptance.
+
+**Time:** about 3 h, mostly waiting on rate limits.

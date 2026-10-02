@@ -1,6 +1,6 @@
 # Paper Lineage — Product & Technical Spec
 
-Status: **Draft v1** · 2026-10-02 · Submission deadline **2026-10-04 23:59 PDT**
+Status: **Draft v2** · 2026-10-02 (v2 adds the [UX review](UX_REVIEW.md) changes after harvesting real data: 205 papers, 1,369 edges) · Submission deadline **2026-10-04 23:59 PDT**
 Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -75,6 +75,8 @@ All types live in `studio/schemaTypes/`. ⭐ marks the design decisions to highl
 | Field | Type | Rules / notes |
 |---|---|---|
 | `title` | string | required |
+| `shortName` | string | required, max 40. Graph label ("BLIP-2", "ALBEF") |
+| `kind` | string enum | `method` · `dataset` · `benchmark` · `analysis`. Datasets render as distinct nodes and can be filtered out |
 | `slug` | slug | from title, required |
 | `arxivId` | string | ⭐ custom input normalises URLs and versions. Regex `^\d{4}\.\d{4,5}$`. **Unique** (async validation) |
 | `publishedAt` | date | required |
@@ -100,11 +102,14 @@ Preview: `title · year`, with the key figure as media.
 |---|---|---|
 | `from` | reference → `paper` | required |
 | `to` | reference → `paper` | required. ⭐ async validation: `to.publishedAt >= from.publishedAt`, `to != from` |
-| `relation` | string enum | `extends` · `applies-to-new-domain` · `combines` · `simplifies` · `replaces` · `challenges` · `benchmarks-against`, shown as a radio list with descriptions |
+| `relation` | string enum, **optional** | `extends` · `applies-to-new-domain` · `combines` · `simplifies` · `replaces` · `challenges` · `benchmarks-against` · `uses-dataset`, shown as a radio list with descriptions. Empty = not yet interpreted |
+| `citation` | object, read-only | ⭐ **the fact**: `{mentions, methodMentions, relatedMentions, sections[], contexts[{section, text}]}` mined from the citing paper's full text. Always publishable |
 | `inherited` | array → `concept` | ⭐ reference **filter**: only concepts that `from` introduces or uses |
 | `explanation` | text | required, max 280 |
 | `evidence` | object `{quote: text, location: 'abstract' \| 'introduction' \| 'related-work' \| 'method'}` | |
-| `provenance` | object | `origin: 'ai' \| 'curator'`, `confidence: number 0–1`, `checks: {quoteFound: boolean, supportVerdict: 'supports' \| 'weak' \| 'contradicts', note}`, `reviewDecision: 'proposed' \| 'accepted' \| 'rejected'` (⭐ independent of the workflow engine), `reviewedBy: string` |
+| `provenance` | object | `origin: 'harvest' \| 'ai' \| 'curator'`, `confidence: number 0–1`, `checks: {quoteFound: boolean, supportVerdict: 'supports' \| 'weak' \| 'contradicts', note}`, `reviewDecision: 'proposed' \| 'accepted' \| 'rejected'` (⭐ independent of the workflow engine), `reviewedBy: string` |
+
+⭐ **Facts vs interpretations** (see UX_REVIEW §2): `citation` is always shown. `relation`, `inherited` and `explanation` are projected to the public site only when `provenance.reviewDecision == "accepted"`. Unreviewed edges render as neutral dotted "cites" links.
 
 ⭐ Uniqueness: no second edge with the same `(from, to, relation)` (async validation).
 Preview: `Transformer → ViT`, subtitle `applies-to-new-domain · self-attention`.
