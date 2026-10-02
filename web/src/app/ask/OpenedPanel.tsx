@@ -1,11 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import {useEffect, useState} from 'react'
 import {Chip, ConceptChip, StatTile} from '@/components/ui'
 import {abstractLead, authorLine, monthYear, year} from '@/lib/format'
-import {client} from '@/lib/sanity/client'
 import {PANEL_CONCEPT_QUERY, PANEL_PAPER_QUERY} from '@/lib/sanity/queries'
+import {useClientQuery} from '@/lib/sanity/useClientQuery'
 import type {ConceptRef} from '@/lib/sanity/types'
 import type {OpenItem} from './AnswerCards'
 
@@ -28,11 +27,7 @@ type PanelConcept = {name: string; slug: string; summary: string; theme?: string
 const names = (rows: {name: string}[]) => (rows.length ? `${rows.slice(0, 3).map((r) => r.name).join(', ')}${rows.length > 3 ? '…' : ''}` : undefined)
 
 function PaperTab({slug, onAsk}: {slug: string; onAsk: (q: string) => void}) {
-  const [p, setP] = useState<PanelPaper | null | undefined>(undefined)
-  useEffect(() => {
-    setP(undefined)
-    client.fetch<PanelPaper | null>(PANEL_PAPER_QUERY, {slug}).then(setP).catch(() => setP(null))
-  }, [slug])
+  const p = useClientQuery<PanelPaper | null>(PANEL_PAPER_QUERY, {slug}, slug)
   if (p === undefined) return <div aria-hidden className="h-80 animate-pulse rounded-lg bg-line" />
   if (!p) return <p className="text-sm text-ink-2">This paper could not be loaded.</p>
   return (
@@ -78,11 +73,7 @@ function PaperTab({slug, onAsk}: {slug: string; onAsk: (q: string) => void}) {
 }
 
 function ConceptTab({slug, onAsk}: {slug: string; onAsk: (q: string) => void}) {
-  const [c, setC] = useState<PanelConcept | null | undefined>(undefined)
-  useEffect(() => {
-    setC(undefined)
-    client.fetch<PanelConcept | null>(PANEL_CONCEPT_QUERY, {slug}).then(setC).catch(() => setC(null))
-  }, [slug])
+  const c = useClientQuery<PanelConcept | null>(PANEL_CONCEPT_QUERY, {slug}, slug)
   if (c === undefined) return <div aria-hidden className="h-60 animate-pulse rounded-lg bg-line" />
   if (!c) return <p className="text-sm text-ink-2">This concept could not be loaded.</p>
   return (

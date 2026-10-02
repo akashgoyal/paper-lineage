@@ -53,10 +53,7 @@ export function CommandPalette() {
 
   useEffect(() => {
     const term = q.trim()
-    if (term.length < 2) {
-      setResults(null)
-      return
-    }
+    if (term.length < 2) return
     const id = setTimeout(() => {
       const words = term.split(/\s+/).map((w) => `${w}*`)
       client.fetch<Results>(SEARCH_QUERY, {q: words}).then(setResults).catch(() => setResults(null))
@@ -64,11 +61,13 @@ export function CommandPalette() {
     return () => clearTimeout(id)
   }, [q])
 
-  const groups: {title: string; rows: Row[]}[] = results
+  // Short queries show nothing, even if an older result is still held.
+  const shown = q.trim().length < 2 ? null : results
+  const groups: {title: string; rows: Row[]}[] = shown
     ? [
-        {title: 'Papers', rows: results.papers.map((p) => ({label: p.shortName, meta: p.publishedAt?.slice(0, 4), href: `/paper/${p.slug}`}))},
-        {title: 'Concepts', rows: results.concepts.map((c) => ({label: c.name, meta: c.theme, href: `/concept/${c.slug}`}))},
-        {title: 'Themes', rows: results.themes.map((t) => ({label: t.name, href: `/theme/${t.slug}`}))},
+        {title: 'Papers', rows: shown.papers.map((p) => ({label: p.shortName, meta: p.publishedAt?.slice(0, 4), href: `/paper/${p.slug}`}))},
+        {title: 'Concepts', rows: shown.concepts.map((c) => ({label: c.name, meta: c.theme, href: `/concept/${c.slug}`}))},
+        {title: 'Themes', rows: shown.themes.map((t) => ({label: t.name, href: `/theme/${t.slug}`}))},
       ].filter((g) => g.rows.length)
     : []
   if (q.trim()) groups.push({title: 'Ask', rows: [{label: `Ask: ${q.trim()}`, href: `/?q=${encodeURIComponent(q.trim())}`}]})
@@ -110,8 +109,14 @@ export function CommandPalette() {
               setActive(0)
             }}
             onKeyDown={(e) => {
-              if (e.key === 'ArrowDown') (e.preventDefault(), setActive((a) => Math.min(a + 1, flat.length - 1)))
-              if (e.key === 'ArrowUp') (e.preventDefault(), setActive((a) => Math.max(a - 1, 0)))
+              if (e.key === 'ArrowDown') {
+                e.preventDefault()
+                setActive((a) => Math.min(a + 1, flat.length - 1))
+              }
+              if (e.key === 'ArrowUp') {
+                e.preventDefault()
+                setActive((a) => Math.max(a - 1, 0))
+              }
               if (e.key === 'Enter') go(flat[active])
             }}
             placeholder="Search papers, concepts, themes…"

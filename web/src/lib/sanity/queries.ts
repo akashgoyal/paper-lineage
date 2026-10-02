@@ -113,3 +113,39 @@ export const PANEL_CONCEPT_QUERY = `*[_type == "concept" && slug.current == $slu
   "by": introducedBy->{shortName, "slug": slug.current, publishedAt},
   "buildsOn": buildsOn[]->{name, "slug": slug.current, "by": introducedBy->shortName}
 }`
+
+export const STORY_SLUGS_QUERY = `*[_type == "storyline" && defined(slug.current)].slug.current`
+
+const RICH_TEXT = `[]{
+  ...,
+  markDefs[]{
+    ...,
+    _type == "paperMention" => {"href": "/paper/" + paper->slug.current, "label": paper->shortName},
+    _type == "conceptMention" => {"href": "/concept/" + concept->slug.current, "label": concept->name},
+    _type == "linkMention" => {"href": "/explore?focus=" + influence->to->slug.current, "label": influence->from->shortName + " → " + influence->to->shortName}
+  }
+}`
+
+export const STORY_QUERY = `*[_type == "storyline" && slug.current == $slug][0]{
+  title, "slug": slug.current, dek, _updatedAt,
+  "intro": intro${RICH_TEXT},
+  "steps": steps[defined(influence)]{
+    _key,
+    "narrative": narrative${RICH_TEXT},
+    "link": influence->{${LINK_FIELDS}, "from": from->{${PAPER_CARD}}, "to": to->{${PAPER_CARD}}}
+  }
+}`
+
+export const SITEMAP_QUERY = `{
+  "papers": *[_type == "paper" && defined(slug.current)]{"slug": slug.current, _updatedAt},
+  "concepts": *[_type == "concept" && level == "concept" && defined(slug.current)]{"slug": slug.current, _updatedAt},
+  "themes": *[_type == "concept" && level == "theme" && defined(slug.current)]{"slug": slug.current, _updatedAt},
+  "stories": *[_type == "storyline" && defined(slug.current)]{"slug": slug.current, _updatedAt}
+}`
+
+export const OG_PAPER_QUERY = `*[_type == "paper" && slug.current == $slug][0]{
+  shortName, title, publishedAt, authors,
+  "builtOn": count(*[_type == "influence" && to._ref == ^._id]),
+  "ledTo": count(*[_type == "influence" && from._ref == ^._id]),
+  "verified": count(*[_type == "influence" && to._ref == ^._id && provenance.reviewDecision == "accepted"])
+}`

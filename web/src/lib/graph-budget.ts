@@ -58,7 +58,9 @@ export function budgetGraph(papers: GraphPaper[], links: GraphLink[], o: BudgetO
 
   const keep = new Set<string>([o.focusId])
   for (const id of candidates) if (generation.get(id) === 1) keep.add(id)
-  for (const l of usable) if (verified(l) && generation.has(l.from) && generation.has(l.to)) (keep.add(l.from), keep.add(l.to))
+  for (const l of usable) {
+    if (verified(l) && generation.has(l.from) && generation.has(l.to)) keep.add(l.from).add(l.to)
+  }
   for (const id of o.pinned ?? []) if (generation.has(id)) keep.add(id)
 
   const ranked = candidates

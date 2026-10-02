@@ -3,6 +3,7 @@ import {IBM_Plex_Mono, IBM_Plex_Sans, Newsreader} from 'next/font/google'
 import {Footer} from '@/components/Footer'
 import {TopNav} from '@/components/TopNav'
 import {SanityLive} from '@/lib/sanity/live'
+import {SITE_URL} from '@/lib/site'
 import './globals.css'
 
 const newsreader = Newsreader({variable: '--font-newsreader', subsets: ['latin'], weight: 'variable', style: ['normal', 'italic'], display: 'swap'})
@@ -10,7 +11,7 @@ const plexSans = IBM_Plex_Sans({variable: '--font-plex-sans', subsets: ['latin']
 const plexMono = IBM_Plex_Mono({variable: '--font-plex-mono', subsets: ['latin'], weight: ['400', '500'], display: 'swap'})
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(SITE_URL),
   title: {default: 'Paper Lineage: every idea has ancestors', template: '%s · Paper Lineage'},
   description:
     'Ask where an AI idea came from, what a paper built on, or how two papers are connected. An evidence-backed family tree of 197 papers traced back from BLIP-2.',

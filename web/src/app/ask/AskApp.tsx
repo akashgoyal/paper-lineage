@@ -2,32 +2,16 @@
 
 import Link from 'next/link'
 import {useRouter, useSearchParams} from 'next/navigation'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState, useSyncExternalStore} from 'react'
 import type {Stats, SiteSettings} from '@/lib/sanity/types'
 import {CardSkeleton, CardView, FollowUps, SourcesLine, type OpenItem} from './AnswerCards'
+import {conversations as store, type Conversation} from './conversations'
 import {OpenedPanel} from './OpenedPanel'
 import {applyEvent, parseLines, toHistory, type Turn} from './stream'
 
-type Conversation = {id: string; title: string; turns: Turn[]; updatedAt: number}
-const STORE = 'pl:conversations'
-const MAX_CONVERSATIONS = 10
 const MAX_TURNS = 30
 const MAX_CHARS = 500
 
-function load(): Conversation[] {
-  try {
-    return JSON.parse(localStorage.getItem(STORE) ?? '[]') as Conversation[]
-  } catch {
-    return []
-  }
-}
-function save(list: Conversation[]) {
-  try {
-    localStorage.setItem(STORE, JSON.stringify(list.slice(0, MAX_CONVERSATIONS)))
-  } catch {
-    /* private mode or full storage: conversations just won't persist */
-  }
-}
 const newId = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now()))
 
 const SendIcon = () => (
@@ -147,7 +131,7 @@ function Answer({turn, onOpen, onAsk, streaming}: {turn: Turn; onOpen: (i: OpenI
 export function AskApp({settings, stats}: {settings: SiteSettings | null; stats: Stats}) {
   const params = useSearchParams()
   const router = useRouter()
-  const [conversations, setConversations] = useState<Conversation[]>([])
+  const conversations = useSyncExternalStore(store.subscribe, store.get, store.server)
   const [current, setCurrent] = useState<Conversation | null>(null)
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
@@ -159,20 +143,13 @@ export function AskApp({settings, stats}: {settings: SiteSettings | null; stats:
   const lastQuestion = useRef<HTMLDivElement>(null)
   const startedFromQuery = useRef(false)
 
-  useEffect(() => setConversations(load()), [])
   useEffect(() => {
     if (!blockedUntil) return
     const id = setInterval(() => setNow(Date.now()), 1000)
     return () => clearInterval(id)
   }, [blockedUntil])
 
-  const persist = useCallback((conv: Conversation) => {
-    setConversations((list) => {
-      const next = [conv, ...list.filter((c) => c.id !== conv.id)]
-      save(next)
-      return next
-    })
-  }, [])
+  const persist = useCallback((conv: Conversation) => store.upsert(conv), [])
 
   const openItem = useCallback((item: OpenItem) => {
     setOpen((items) => {

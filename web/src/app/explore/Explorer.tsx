@@ -6,8 +6,8 @@ import {useEffect, useMemo, useState} from 'react'
 import {QuoteBlock, RelationChip, StatTile} from '@/components/ui'
 import {RELATION_COLOR, RELATION_LABEL, year} from '@/lib/format'
 import {budgetGraph, layout, linkStrength, type Placed} from '@/lib/graph-budget'
-import {client} from '@/lib/sanity/client'
 import {LINK_QUERY} from '@/lib/sanity/queries'
+import {useClientQuery} from '@/lib/sanity/useClientQuery'
 import type {GraphLink, GraphPaper, LinkFields, Relation} from '@/lib/sanity/types'
 
 const NW = 104
@@ -22,7 +22,10 @@ function useParamState() {
   const pathname = usePathname()
   const set = (patch: Record<string, string | null>) => {
     const next = new URLSearchParams(params.toString())
-    for (const [k, v] of Object.entries(patch)) (v === null ? next.delete(k) : next.set(k, v))
+    for (const [k, v] of Object.entries(patch)) {
+      if (v === null) next.delete(k)
+      else next.set(k, v)
+    }
     router.replace(`${pathname}?${next.toString()}`, {scroll: false})
   }
   return {params, set}
@@ -57,10 +60,14 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
     mq.addEventListener('change', apply)
     return () => mq.removeEventListener('change', apply)
   }, [])
-  useEffect(() => {
+  // A new focus or depth starts a fresh view (adjusting state while rendering, not in an effect).
+  const view = `${focus._id}:${depth}`
+  const [lastView, setLastView] = useState(view)
+  if (view !== lastView) {
+    setLastView(view)
     setExpandedYears(new Set())
     setSelected(null)
-  }, [focus._id, depth])
+  }
 
   const result = useMemo(
     () => budgetGraph(papers, links, {focusId: focus._id, depth, budget, hideDatasets, verifiedOnly, simplify, expandedYears, pinned}),
@@ -206,7 +213,7 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
             <Legend />
           </section>
 
-          <MobileList focus={focus} result={result} byId={byId} />
+          <MobileList focus={focus} result={result} />
 
           <aside aria-label="Inspector" className="flex flex-col gap-4">
             {selectedLink ? (
@@ -258,11 +265,7 @@ function Legend() {
 }
 
 function LinkInspector({link, from, to}: {link: GraphLink; from: GraphPaper; to: GraphPaper}) {
-  const [full, setFull] = useState<FullLink | null>(null)
-  useEffect(() => {
-    setFull(null)
-    client.fetch<FullLink>(LINK_QUERY, {id: link._id}).then(setFull).catch(() => setFull(null))
-  }, [link._id])
+  const full = useClientQuery<FullLink>(LINK_QUERY, {id: link._id}, link._id) ?? null
   const verified = link.decision === 'accepted' && link.relation
   return (
     <div className="flex flex-col gap-3.5 rounded-xl border border-line bg-surface p-5">
@@ -331,7 +334,7 @@ function PaperInspector(props: {paper: GraphPaper; links: GraphLink[]; isFocus: 
 }
 
 // < 640 px: list mode grouped by generation (DESIGN_SPEC §8, board 8).
-function MobileList({focus, result, byId}: {focus: GraphPaper; result: ReturnType<typeof budgetGraph>; byId: Map<string, GraphPaper>}) {
+function MobileList({focus, result}: {focus: GraphPaper; result: ReturnType<typeof budgetGraph>}) {
   const gens = [1, 2, 3].map((g) => result.nodes.filter((n) => n.generation === g).sort((a, b) => b.strength - a.strength)).filter((g) => g.length)
   return (
     <section aria-label="Built on, by generation" className="sm:hidden">
