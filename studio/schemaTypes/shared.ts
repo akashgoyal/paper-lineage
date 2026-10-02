@@ -11,6 +11,20 @@ export const RELATIONS = [
   {value: 'uses-dataset', title: 'Trained / evaluated on', description: 'The earlier paper is a dataset or benchmark this one uses.'},
 ]
 
+// Same palette as the public site (docs/DESIGN_SPEC.md §3.2), so curators see what visitors will see.
+export const RELATION_COLORS: Record<string, string> = {
+  extends: '#3446C4',
+  combines: '#A35A0B',
+  'applies-to-new-domain': '#3446C4',
+  simplifies: '#4B5563',
+  replaces: '#4B5563',
+  challenges: '#A21C5B',
+  'benchmarks-against': '#0F766E',
+  'uses-dataset': '#4B5563',
+}
+export const UNREVIEWED_COLOR = '#7E848E'
+export const API_VERSION = '2025-02-19'
+
 export const ORIGINS = [
   {value: 'harvest', title: 'Harvest (mined from citation text)'},
   {value: 'ai', title: 'AI (Agent Action or build agent)'},

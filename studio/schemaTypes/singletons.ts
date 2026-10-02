@@ -1,4 +1,5 @@
-import {CogIcon, DashboardIcon} from '@sanity/icons'
+import {CogIcon} from '@sanity/icons/Cog'
+import {DashboardIcon} from '@sanity/icons/Dashboard'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 // Kept current by the `refresh-stats` Function, so the site reads one small document

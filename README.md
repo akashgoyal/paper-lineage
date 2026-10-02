@@ -12,4 +12,4 @@ Built for the [DEV × Sanity Challenge](): Path Two (vibe-coded app) with the **
 
 Stack: Sanity (Content Lake, Context MCP + Knowledge Base, Studio, App SDK, Functions, Agent Actions, Workflows, Live Content API, Visual Editing) · Next.js · React Flow · Vercel. Uses Sanity Free plan features only.
 
-> Status: schema deployed and `production` seeded (1,950 docs); Knowledge Base package ready; Context endpoints pending setup ([steps](docs/CONTEXT_SETUP.md)); site and Desk not built yet.
+> Status: **M1 done**: schema + Studio customisations deployed at [paper-lineage.sanity.studio](https://paper-lineage.sanity.studio) (curators only); `production` seeded (1,950 docs); Knowledge Base package ready; Context endpoints pending setup ([steps](docs/CONTEXT_SETUP.md)). Next: M2 (Ask + site).

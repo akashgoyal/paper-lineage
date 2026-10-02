@@ -1,5 +1,14 @@
-import {CogIcon, CommentIcon, DashboardIcon, LinkIcon, TagIcon, WarningOutlineIcon} from '@sanity/icons'
-import type {StructureResolver} from 'sanity/structure'
+import {CogIcon} from '@sanity/icons/Cog'
+import {CommentIcon} from '@sanity/icons/Comment'
+import {DashboardIcon} from '@sanity/icons/Dashboard'
+import {LinkIcon} from '@sanity/icons/Link'
+import {TagIcon} from '@sanity/icons/Tag'
+import {WarningOutlineIcon} from '@sanity/icons/WarningOutline'
+import type {DefaultDocumentNodeResolver, StructureResolver} from 'sanity/structure'
+import {ConceptEvolutionView} from './components/views/ConceptEvolutionView'
+import {LinkContextView} from './components/views/LinkContextView'
+import {PaperLineageView} from './components/views/PaperLineageView'
+import {PaperSourceView} from './components/views/PaperSourceView'
 
 const linksBy = (S: Parameters<StructureResolver>[0], title: string, filter: string) =>
   S.listItem()
@@ -70,3 +79,21 @@ export const structure: StructureResolver = (S) =>
       S.listItem().title('Dataset stats').icon(DashboardIcon).child(S.document().schemaType('datasetStats').documentId('datasetStats')),
       S.listItem().title('Site settings').icon(CogIcon).child(S.document().schemaType('siteSettings').documentId('siteSettings')),
     ])
+
+// Extra tabs next to the form (DESIGN_SPEC §10.1): curators read lineage and source without leaving the document.
+export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
+  switch (schemaType) {
+    case 'paper':
+      return S.document().views([
+        S.view.form(),
+        S.view.component(PaperLineageView).title('Lineage'),
+        S.view.component(PaperSourceView).title('Source'),
+      ])
+    case 'influence':
+      return S.document().views([S.view.form(), S.view.component(LinkContextView).title('In context')])
+    case 'concept':
+      return S.document().views([S.view.form(), S.view.component(ConceptEvolutionView).title('Evolution')])
+    default:
+      return S.document().views([S.view.form()])
+  }
+}

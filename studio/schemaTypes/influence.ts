@@ -1,5 +1,7 @@
-import {LinkIcon} from '@sanity/icons'
+import {LinkIcon} from '@sanity/icons/Link'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {EvidencePickerInput} from '../components/inputs/EvidencePickerInput'
+import {RelationPickerInput} from '../components/inputs/RelationPickerInput'
 import {ORIGINS, RELATIONS} from './shared'
 
 type Ref = {_ref?: string}
@@ -86,6 +88,7 @@ export const influence = defineType({
       description: 'The _key of the citation sentence that best supports the relation.',
       type: 'string',
       group: 'interpretation',
+      components: {input: EvidencePickerInput},
       validation: (rule) =>
         rule.custom((key: string | undefined, context) => {
           if (!key) return true
@@ -98,6 +101,7 @@ export const influence = defineType({
       type: 'string',
       group: 'interpretation',
       options: {list: RELATIONS, layout: 'radio'},
+      components: {input: RelationPickerInput},
     }),
     defineField({
       name: 'inherited',

@@ -2,7 +2,9 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {SINGLETONS, schemaTypes} from './schemaTypes'
-import {structure} from './structure'
+import {AcceptLinkAction, RejectLinkAction} from './components/actions'
+import {OriginBadge, ReviewBadge} from './components/badges'
+import {defaultDocumentNode, structure} from './structure'
 
 export default defineConfig({
   name: 'default',
@@ -11,7 +13,7 @@ export default defineConfig({
   projectId: 'jd22zcim',
   dataset: 'production',
 
-  plugins: [structureTool({structure}), visionTool()],
+  plugins: [structureTool({structure, defaultDocumentNode}), visionTool()],
 
   schema: {
     types: schemaTypes,
@@ -20,7 +22,18 @@ export default defineConfig({
   },
 
   document: {
-    actions: (actions, {schemaType}) =>
-      SINGLETONS.includes(schemaType) ? actions.filter(({action}) => action && ['publish', 'discardChanges', 'restore'].includes(action)) : actions,
+    actions: (actions, {schemaType}) => {
+      if (SINGLETONS.includes(schemaType)) {
+        return actions.filter(({action}) => action && ['publish', 'discardChanges', 'restore'].includes(action))
+      }
+      // Curators review links with Accept / Reject first; the default actions stay available after them.
+      if (schemaType === 'influence') return [AcceptLinkAction, RejectLinkAction, ...actions]
+      return actions
+    },
+    badges: (badges, {schemaType}) => {
+      if (schemaType === 'influence') return [ReviewBadge, OriginBadge, ...badges]
+      if (schemaType === 'paper' || schemaType === 'concept' || schemaType === 'storyline') return [OriginBadge, ...badges]
+      return badges
+    },
   },
 })

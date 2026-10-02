@@ -1,5 +1,6 @@
-import {DocumentTextIcon} from '@sanity/icons'
+import {DocumentTextIcon} from '@sanity/icons/DocumentText'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {ArxivIdInput} from '../components/inputs/ArxivIdInput'
 import {PAPER_KINDS, originField} from './shared'
 
 const ARXIV_ID = /^\d{4}\.\d{4,5}$/
@@ -45,6 +46,7 @@ export const paper = defineType({
       description: 'Without version, e.g. 2301.12597.',
       type: 'string',
       group: 'overview',
+      components: {input: ArxivIdInput},
       validation: (rule) =>
         rule.required().custom(async (value, context) => {
           if (!value) return true

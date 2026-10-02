@@ -17,6 +17,7 @@ const CUR = 'data/curated'
 const papers = JSON.parse(readFileSync(`${CUR}/papers.json`, 'utf8'))
 const influences = JSON.parse(readFileSync(`${CUR}/influences.json`, 'utf8'))
 const concepts = JSON.parse(readFileSync(`${CUR}/concepts.json`, 'utf8'))
+const buildsOn = JSON.parse(readFileSync(`${CUR}/concept-buildson.json`, 'utf8'))
 const graph = JSON.parse(readFileSync('data/raw/graph.json', 'utf8'))
 
 const idOf = (arxivId) => arxivId.replace('.', '-')
@@ -49,6 +50,7 @@ for (const c of concepts) {
     summary: c.summary,
     ...(c.aliases?.length ? {aliases: c.aliases} : {}),
     ...(c.introducedBy ? {introducedBy: ref(paperId(c.introducedBy))} : {}),
+    ...(buildsOn[c.slug] ? {buildsOn: buildsOn[c.slug].map((slug, k) => ref(conceptId(slug), `b${k}`))} : {}),
     origin: 'ai',
   })
 }

@@ -241,7 +241,7 @@ The 9-paper hand list was replaced by the harvested BLIP-2 lineage (see BUILD_LO
 | # | Milestone | Status / done when | Est. |
 |---|---|---|---|
 | M0 | Scaffold | ✅ Studio + Next.js scaffolded, 2 datasets, CORS | done |
-| M1 | Content model + seed | ✅ schemas deployed, structure, 1,950 docs seeded, privacy verified · ⏳ custom inputs (arXiv, evidence picker, relation picker, buildsOn) + `concept.buildsOn` field and seed for key chains (DESIGN_SPEC D10) | 2.5 h left |
+| M1 | Content model + seed | ✅ schemas + `concept.buildsOn` deployed; 1,950 docs seeded; 38 concepts with curated idea chains (52 pairs, date-checked); custom inputs (arXiv ID, evidence picker, relation picker); views (Lineage, Source, In context, Evolution); Accept/Reject actions; origin + review badges; hosted Studio at paper-lineage.sanity.studio | done |
 | M1b | Context | ⏳ curator creates KB + 2 MCP endpoints ([CONTEXT_SETUP](CONTEXT_SETUP.md)); smoke test passes | 0.5 h |
 | M2 | Ask + site core | `/` Ask with /api/ask (Context A + B) and the **display tools** (DESIGN_SPEC §5.6), Upstash rate limits, side panel; `/paper`, `/concept`, Explorer with the 30-paper budget; `/suggest`; system pages; Live Content API | 7 h |
 | M3 | Lineage Desk | Review (batched accept/publish, triage) + Inbox (gap actions) + Composer (basic, live cursors are a stretch); deployed to Dashboard | 5 h |

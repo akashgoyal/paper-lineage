@@ -1,4 +1,5 @@
-import {CommentIcon, WarningOutlineIcon} from '@sanity/icons'
+import {CommentIcon} from '@sanity/icons/Comment'
+import {WarningOutlineIcon} from '@sanity/icons/WarningOutline'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 // Visitor questions are written server-side with ids `questions.<uuid>`: a private id path that

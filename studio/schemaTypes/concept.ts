@@ -1,6 +1,6 @@
-import {TagIcon} from '@sanity/icons'
+import {TagIcon} from '@sanity/icons/Tag'
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {CONCEPT_CATEGORIES, originField} from './shared'
+import {API_VERSION, CONCEPT_CATEGORIES, originField} from './shared'
 
 // Two levels: a theme ("Vision-language models on frozen LLMs") groups concepts ("Q-Former").
 // Who *uses* a concept is derived from `paper.uses`; who introduced it lives only here.
@@ -46,6 +46,37 @@ export const concept = defineType({
       type: 'reference',
       to: [{type: 'paper'}],
       hidden: ({document}) => document?.level === 'theme',
+    }),
+    defineField({
+      name: 'buildsOn',
+      title: 'Builds on',
+      description: 'Earlier ideas this one grew out of (curated). Drives the concept page’s “How this idea evolved”.',
+      type: 'array',
+      hidden: ({document}) => document?.level === 'theme',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'concept'}],
+          options: {
+            filter: ({document}) => ({
+              filter: 'level == "concept" && !(_id in [$self, "drafts." + $self])',
+              params: {self: document._id.replace(/^drafts\./, '')},
+            }),
+          },
+        }),
+      ],
+      validation: (rule) =>
+        rule.unique().custom(async (refs: {_ref: string}[] | undefined, context) => {
+          const own = (context.document?.introducedBy as {_ref?: string} | undefined)?._ref
+          if (!refs?.length || !own) return true
+          const rows = await context.getClient({apiVersion: API_VERSION}).fetch<{name: string; year?: string}[]>(
+            '*[_id in $ids]{name, "year": introducedBy->publishedAt}',
+            {ids: refs.map((r) => r._ref)},
+          )
+          const mine = await context.getClient({apiVersion: API_VERSION}).fetch<string | null>('*[_id == $id][0].publishedAt', {id: own})
+          const later = rows.filter((r) => r.year && mine && r.year > mine).map((r) => r.name)
+          return later.length ? `Introduced after this concept: ${later.join(', ')}` : true
+        }),
     }),
     originField('ai'),
   ],

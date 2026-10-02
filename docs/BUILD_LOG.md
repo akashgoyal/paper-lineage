@@ -93,3 +93,15 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 - Contrast checks found that the mockups' unreviewed grey failed 3:1 (fixed to `#7E848E`), and that one ratio I'd written down was wrong (warning 4.9, not 5.9).
 
 **Also added:** Desk Inbox / Composer / Pipeline specs, Suggest-a-paper creates a **gap** (not a paper), the concept evolution rule with a new curated `concept.buildsOn` field, SEO / errors / loading / performance budgets / caching / privacy, and decisions D5–D10. The canvas was updated to match (grey, nav, stacks, Desk tabs, a mock-state note, Upstash on the architecture board).
+
+## 2026-10-02 · Session 5: M1, Studio customisations + idea chains
+
+**Prompt:** "start implementation with M1".
+
+**Built:** `concept.buildsOn` (reference filter, async validation that earlier ideas really are older); 52 curated idea-chain pairs on 38 concepts, all checked against introduction dates before applying (`data/curated/concept-buildson.json`, applied with `sanity exec … --with-user-token` so no token was handled). Custom inputs: **arXiv ID** (paste any arXiv URL and it stores the bare ID), **Evidence picker** (every citation sentence as a radio card, cited author highlighted), **Relation picker** (the public site's palette, meanings, suggestion tagged with origin and confidence). Views: Paper → **Lineage** / **Source**, Link → **In context** (each sentence inside its full paragraph), Concept → **Evolution** (the buildsOn chain with link status between the introducing papers). **Accept / Reject** document actions (record reviewer and time, then publish), **origin / review badges**. Hosted at https://paper-lineage.sanity.studio.
+
+**What went wrong:**
+- `@sanity/ui` v4 deprecates `space` (typed `never`) in favour of `gap`, which gave 14 confusing "number is not assignable to undefined" errors.
+- `@sanity/icons` v5 types **every root export as `never`**; icons must come from subpaths (`@sanity/icons/Checkmark`). The schema icons written in Session 3 type-checked only because `icon` accepts anything, so they would have rendered blank. All imports were switched to subpaths.
+- Verified live: the public API returns Q-Former ← Perceiver resampler (Flamingo) ← latent-array cross-attention (Perceiver) ← inducing-point attention (Set Transformer), and Q-Former ← BLIP's encoder–decoder ← Align before fuse (ALBEF) ← contrastive image–text (ConVIRT).
+- **Not verified visually:** the Studio needs a Sanity login, which only the human can do in the browser pane.
