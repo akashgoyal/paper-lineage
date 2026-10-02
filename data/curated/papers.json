@@ -17,8 +17,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "word-embeddings"
+    ],
     "uses": [],
+    "themes": [
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 4
@@ -45,9 +50,12 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [
-      "deep-convnet"
+    "introduces": [
+      "off-the-shelf-features"
+    ],
+    "uses": [],
+    "themes": [
+      "theme-transfer-weak-supervision"
     ],
     "stats": {
       "ancestors": 0,
@@ -70,9 +78,12 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [
-      "deep-convnet"
+    "introduces": [
+      "deconvnet-visualization"
+    ],
+    "uses": [],
+    "themes": [
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 1,
@@ -99,8 +110,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "sliding-window-convnet"
+    ],
     "uses": [],
+    "themes": [
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 6
@@ -109,7 +125,7 @@
   {
     "arxivId": "1403.6382",
     "title": "CNN Features off-the-shelf: an Astounding Baseline for Recognition",
-    "shortName": "CNN Features off-the-shelf",
+    "shortName": "CNN features off-the-shelf",
     "kind": "method",
     "slug": "cnn-features-off-the-shelf",
     "publishedAt": "2014-03-23",
@@ -125,7 +141,14 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "off-the-shelf-features",
+      "sliding-window-convnet"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 3
@@ -157,6 +180,7 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [],
+    "themes": [],
     "stats": {
       "ancestors": 0,
       "descendants": 38
@@ -182,6 +206,7 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [],
+    "themes": [],
     "stats": {
       "ancestors": 0,
       "descendants": 2
@@ -204,8 +229,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "joint-image-text-embedding"
+    ],
     "uses": [],
+    "themes": [
+      "theme-contrastive-vl"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 2
@@ -231,10 +261,19 @@
     "introduces": [
       "attention-mechanism"
     ],
-    "uses": [],
+    "uses": [
+      "seq2seq",
+      "noisy-alt-text-scaling",
+      "lstm"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-sequence-models",
+      "theme-contrastive-vl"
+    ],
     "stats": {
       "ancestors": 1,
-      "descendants": 10
+      "descendants": 9
     }
   },
   {
@@ -256,7 +295,12 @@
     "introduces": [
       "deep-convnet"
     ],
-    "uses": [],
+    "uses": [
+      "inception-module"
+    ],
+    "themes": [
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 26
@@ -279,11 +323,20 @@
     "comment": "9 pages",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "seq2seq"
+    ],
+    "uses": [
+      "lstm",
+      "attention-mechanism"
+    ],
+    "themes": [
+      "theme-sequence-models",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 1,
-      "descendants": 8
+      "descendants": 7
     }
   },
   {
@@ -309,8 +362,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "inception-module"
+    ],
     "uses": [],
+    "themes": [
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 20
@@ -332,8 +390,13 @@
     "comment": "Published in NIPS 2014",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "symbolic-visual-qa"
+    ],
     "uses": [],
+    "themes": [
+      "theme-vqa"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 5
@@ -365,8 +428,15 @@
     "comment": "version corresponding to CVPR15 paper",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "word-detectors-captioning"
+    ],
+    "uses": [
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-captioning"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 6
@@ -376,7 +446,7 @@
     "arxivId": "1411.5726",
     "title": "CIDEr: Consensus-based Image Description Evaluation",
     "shortName": "CIDEr",
-    "kind": "method",
+    "kind": "benchmark",
     "slug": "cider",
     "publishedAt": "2014-11-20",
     "authors": [
@@ -389,8 +459,13 @@
     "comment": "To appear in CVPR 2015",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "consensus-caption-metric"
+    ],
     "uses": [],
+    "themes": [
+      "theme-captioning"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 9
@@ -412,9 +487,15 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "visual-semantic-alignment"
+    ],
     "uses": [
       "attention-mechanism"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 4,
@@ -424,9 +505,9 @@
   {
     "arxivId": "1502.01852",
     "title": "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification",
-    "shortName": "Delving Deep into Rectifiers",
+    "shortName": "PReLU / He init",
     "kind": "method",
-    "slug": "delving-deep-into-rectifiers",
+    "slug": "prelu-he-init",
     "publishedAt": "2015-02-06",
     "authors": [
       "Kaiming He",
@@ -439,8 +520,19 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "prelu-he-init"
+    ],
+    "uses": [
+      "inception-module",
+      "sliding-window-convnet",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-convnets",
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 5
@@ -465,7 +557,13 @@
     "introduces": [
       "batch-normalization"
     ],
-    "uses": [],
+    "uses": [
+      "inception-module"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 13
@@ -475,7 +573,7 @@
     "arxivId": "1503.01817",
     "title": "YFCC100M: The New Data in Multimedia Research",
     "shortName": "YFCC100M",
-    "kind": "method",
+    "kind": "dataset",
     "slug": "yfcc100m",
     "publishedAt": "2015-03-05",
     "authors": [
@@ -494,7 +592,12 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "inception-module"
+    ],
+    "themes": [
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 6
@@ -517,8 +620,16 @@
     "comment": "NIPS 2014 Deep Learning Workshop",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "knowledge-distillation"
+    ],
+    "uses": [
+      "sparse-moe"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-sparse-models"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 10
@@ -547,11 +658,14 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "dense-image-annotation"
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-captioning"
     ],
     "stats": {
       "ancestors": 1,
-      "descendants": 14
+      "descendants": 13
     }
   },
   {
@@ -574,8 +688,16 @@
     "comment": "ICCV 2015 camera ready version. We add much more novel visual concepts in the NVC dataset and have released it, see http://www.stat.ucla.edu/~junhua.mao/projects/child_learning.html",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "novel-object-captioning"
+    ],
+    "uses": [
+      "visual-semantic-alignment",
+      "image-captioning-objective"
+    ],
+    "themes": [
+      "theme-captioning"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 1
@@ -605,10 +727,16 @@
     "introduces": [
       "visual-question-answering"
     ],
-    "uses": [],
+    "uses": [
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-vqa",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 5,
-      "descendants": 14
+      "descendants": 13
     }
   },
   {
@@ -628,8 +756,19 @@
     "comment": "ICCV'15 (Oral)",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "neural-vqa"
+    ],
+    "uses": [
+      "symbolic-visual-qa",
+      "lstm",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-vqa",
+      "theme-sequence-models",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 3
@@ -652,8 +791,15 @@
     "comment": "12 pages. Conference paper at NIPS 2015",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "qa-from-captions"
+    ],
+    "uses": [
+      "neural-vqa"
+    ],
+    "themes": [
+      "theme-vqa"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 3
@@ -679,8 +825,18 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "phrase-grounding"
+    ],
+    "uses": [
+      "word-detectors-captioning",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-detection-grounding",
+      "theme-captioning",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 11
@@ -707,7 +863,19 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "lstm",
+      "neural-vqa",
+      "image-captioning-objective",
+      "deep-convnet",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-sequence-models",
+      "theme-vqa",
+      "theme-captioning",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 8,
       "descendants": 2
@@ -731,9 +899,15 @@
     "comment": "Extended tech report",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "region-proposal-network"
+    ],
     "uses": [
       "deep-convnet"
+    ],
+    "themes": [
+      "theme-detection-grounding",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 1,
@@ -743,9 +917,9 @@
   {
     "arxivId": "1506.06724",
     "title": "Aligning Books and Movies: Towards Story-like Visual Explanations by Watching Movies and Reading Books",
-    "shortName": "Aligning Books and Movies",
-    "kind": "method",
-    "slug": "aligning-books-and-movies",
+    "shortName": "BookCorpus (books & movies)",
+    "kind": "dataset",
+    "slug": "bookcorpus-books-movies",
     "publishedAt": "2015-06-22",
     "authors": [
       "Yukun Zhu",
@@ -762,34 +936,17 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "noisy-alt-text-scaling",
+      "attention-mechanism"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 11
-    }
-  },
-  {
-    "arxivId": "1507.02030",
-    "title": "Beyond Convexity: Stochastic Quasi-Convex Optimization",
-    "shortName": "Beyond Convexity",
-    "kind": "method",
-    "slug": "beyond-convexity",
-    "publishedAt": "2015-07-08",
-    "authors": [
-      "Elad Hazan",
-      "Kfir Y. Levy",
-      "Shai Shalev-Shwartz"
-    ],
-    "abstract": "Stochastic convex optimization is a basic and well studied primitive in machine learning. It is well known that convex and Lipschitz functions can be minimized efficiently using Stochastic Gradient Descent (SGD). The Normalized Gradient Descent (NGD) algorithm, is an adaptation of Gradient Descent, which updates according to the direction of the gradients, rather than the gradients themselves. In this paper we analyze a stochastic version of NGD and prove its convergence to a global minimum for a wider class of functions: we require the functions to be quasi-convex and locally-Lipschitz. Quasi-convexity broadens the con- cept of unimodality to multidimensions and allows for certain types of saddle points, which are a known hurdle for first-order optimization methods such as gradient descent. Locally-Lipschitz functions are only required to be Lipschitz in a small region around the optimum. This assumption circumvents gradient explosion, which is another known hurdle for gradient descent variants. Interestingly, unlike the vanilla SGD algorithm, the stochastic normalized gradient descent algorithm provably requires a minimal minibatch size.",
-    "primaryCategory": "cs.LG",
-    "comment": null,
-    "depth": 2,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 0,
-      "descendants": 1
     }
   },
   {
@@ -810,8 +967,13 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "weak-supervision"
+    ],
     "uses": [],
+    "themes": [
+      "theme-transfer-weak-supervision"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 4
@@ -836,8 +998,17 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "label-smoothing"
+    ],
+    "uses": [
+      "deep-convnet",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 6
@@ -865,7 +1036,14 @@
       "residual-connection"
     ],
     "uses": [
-      "deep-convnet"
+      "deep-convnet",
+      "batch-normalization",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-convnets",
+      "theme-training-optimization",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 5,
@@ -891,37 +1069,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "large-rnn-lm"
+    ],
     "uses": [],
+    "themes": [
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 4
-    }
-  },
-  {
-    "arxivId": "1602.03032",
-    "title": "Associative Long Short-Term Memory",
-    "shortName": "Associative Long Short-Term Memory",
-    "kind": "method",
-    "slug": "associative-long-short-term-memory",
-    "publishedAt": "2016-02-09",
-    "authors": [
-      "Ivo Danihelka",
-      "Greg Wayne",
-      "Benigno Uria",
-      "Nal Kalchbrenner",
-      "Alex Graves"
-    ],
-    "abstract": "We investigate a new method to augment recurrent neural networks with extra memory without increasing the number of network parameters. The system has an associative memory based on complex-valued vectors and is closely related to Holographic Reduced Representations and Long Short-Term Memory networks. Holographic Reduced Representations have limited capacity: as they store more information, each retrieval becomes noisier due to interference. Our system in contrast creates redundant copies of stored information, which enables retrieval with reduced noise. Experiments demonstrate faster learning on multiple memorization tasks.",
-    "primaryCategory": "cs.NE",
-    "comment": "ICML-2016",
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 0,
-      "descendants": 0
     }
   },
   {
@@ -953,7 +1110,17 @@
     "introduces": [
       "dense-image-annotation"
     ],
-    "uses": [],
+    "uses": [
+      "visual-question-answering",
+      "consensus-caption-metric",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-datasets",
+      "theme-vqa",
+      "theme-captioning",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 12,
       "descendants": 21
@@ -975,9 +1142,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "wide-resnet"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "deep-convnet",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 3,
@@ -1002,11 +1176,16 @@
     "comment": "To appear in Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
     "depth": 3,
     "fullTextSource": "pdf",
-    "introduces": [],
+    "introduces": [
+      "extractive-reading-comprehension"
+    ],
     "uses": [],
+    "themes": [
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 0,
-      "descendants": 13
+      "descendants": 11
     }
   },
   {
@@ -1054,9 +1233,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "wordpiece"
+    ],
     "uses": [
+      "lstm",
       "attention-mechanism"
+    ],
+    "themes": [
+      "theme-sequence-models",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 3,
@@ -1083,8 +1269,15 @@
     "comment": "9 pages",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "dilated-conv-seq"
+    ],
+    "uses": [
+      "seq2seq"
+    ],
+    "themes": [
+      "theme-sequence-models"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 2
@@ -1109,13 +1302,22 @@
     "comment": "Accepted to CVPR 2017. Code and models: https://github.com/facebookresearch/ResNeXt",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "cardinality"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "batch-normalization",
+      "deep-convnet",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-convnets",
+      "theme-training-optimization"
     ],
     "stats": {
       "ancestors": 8,
-      "descendants": 9
+      "descendants": 8
     }
   },
   {
@@ -1136,8 +1338,20 @@
     "comment": "EMNLP 2017",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "constrained-beam-search"
+    ],
+    "uses": [
+      "word-embeddings",
+      "image-captioning-objective",
+      "residual-connection",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-lm-pretraining",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 6,
       "descendants": 3
@@ -1162,9 +1376,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "balanced-vqa"
+    ],
     "uses": [
-      "visual-question-answering"
+      "visual-question-answering",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-vqa",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 8,
@@ -1189,8 +1410,18 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "pdf",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "natural-language-supervision"
+    ],
+    "uses": [
+      "zero-shot-transfer",
+      "web-scale-image-text-data"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-contrastive-vl",
+      "theme-datasets"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 2
@@ -1214,11 +1445,18 @@
     "comment": "ACL2017, 10 pages",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "retriever-reader-qa"
+    ],
+    "uses": [
+      "extractive-reading-comprehension"
+    ],
+    "themes": [
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 1,
-      "descendants": 3
+      "descendants": 1
     }
   },
   {
@@ -1243,37 +1481,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "depthwise-separable-conv"
+    ],
     "uses": [],
+    "themes": [
+      "theme-efficient-architectures"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 5
-    }
-  },
-  {
-    "arxivId": "1705.00106",
-    "title": "Learning to Ask: Neural Question Generation for Reading Comprehension",
-    "shortName": "Learning to Ask",
-    "kind": "method",
-    "slug": "learning-to-ask",
-    "publishedAt": "2017-04-29",
-    "authors": [
-      "Xinya Du",
-      "Junru Shao",
-      "Claire Cardie"
-    ],
-    "abstract": "We study automatic question generation for sentences from text passages in reading comprehension. We introduce an attention-based sequence learning model for the task and investigate the effect of encoding sentence- vs. paragraph-level information. In contrast to all previous work, our model does not rely on hand-crafted rules or a sophisticated NLP pipeline; it is instead trainable end-to-end via sequence-to-sequence learning. Automatic evaluation results show that our system significantly outperforms the state-of-the-art rule-based system. In human evaluations, questions generated by our system are also rated as being more natural (i.e., grammaticality, fluency) and as more difficult to answer (in terms of syntactic and lexical divergence from the original text and reasoning needed to answer).",
-    "primaryCategory": "cs.CL",
-    "comment": "Accepted to ACL 2017, 11 pages",
-    "depth": 2,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [
-      "text-to-text"
-    ],
-    "stats": {
-      "ancestors": 4,
-      "descendants": 1
     }
   },
   {
@@ -1295,7 +1512,14 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "word-embeddings",
+      "self-training"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-transfer-weak-supervision"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 1
@@ -1320,42 +1544,22 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "pdf",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "conv-seq2seq"
+    ],
+    "uses": [
+      "lstm",
+      "seq2seq",
+      "attention-mechanism",
+      "dilated-conv-seq"
+    ],
+    "themes": [
+      "theme-sequence-models",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 3
-    }
-  },
-  {
-    "arxivId": "1705.06476",
-    "title": "ParlAI: A Dialog Research Software Platform",
-    "shortName": "ParlAI",
-    "kind": "method",
-    "slug": "parlai",
-    "publishedAt": "2017-05-18",
-    "authors": [
-      "Alexander H. Miller",
-      "Will Feng",
-      "Adam Fisch",
-      "Jiasen Lu",
-      "Dhruv Batra",
-      "Antoine Bordes",
-      "Devi Parikh",
-      "Jason Weston"
-    ],
-    "abstract": "We introduce ParlAI (pronounced \"par-lay\"), an open-source software platform for dialog research implemented in Python, available at http://parl.ai. Its goal is to provide a unified framework for sharing, training and testing of dialog models, integration of Amazon Mechanical Turk for data collection, human evaluation, and online/reinforcement learning; and a repository of machine learning models for comparing with others' models, and improving upon existing architectures. Over 20 tasks are supported in the first release, including popular datasets such as SQuAD, bAbI tasks, MCTest, WikiQA, QACNN, QADailyMail, CBT, bAbI Dialog, Ubuntu, OpenSubtitles and VQA. Several models are integrated, including neural models such as memory networks, seq2seq and attentive LSTMs.",
-    "primaryCategory": "cs.CL",
-    "comment": null,
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [
-      "visual-question-answering"
-    ],
-    "stats": {
-      "ancestors": 3,
-      "descendants": 1
     }
   },
   {
@@ -1385,7 +1589,14 @@
       "large-batch-training"
     ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "batch-normalization",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-convnets",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 7,
@@ -1416,14 +1627,25 @@
     "fullTextSource": "html",
     "introduces": [
       "self-attention",
-      "transformer"
+      "transformer",
+      "positional-encoding"
     ],
     "uses": [
-      "attention-mechanism"
+      "seq2seq",
+      "attention-mechanism",
+      "conv-seq2seq",
+      "residual-connection",
+      "dilated-conv-seq",
+      "lstm"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-sequence-models",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 6,
-      "descendants": 54
+      "descendants": 52
     }
   },
   {
@@ -1444,8 +1666,19 @@
     "comment": "ICCV 2017 camera ready",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "data-scaling-vision"
+    ],
+    "uses": [
+      "weak-supervision",
+      "residual-connection",
+      "batch-normalization"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-convnets",
+      "theme-training-optimization"
+    ],
     "stats": {
       "ancestors": 6,
       "descendants": 7
@@ -1470,8 +1703,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "pdf",
-    "introduces": [],
+    "introduces": [
+      "ppo"
+    ],
     "uses": [],
+    "themes": [
+      "theme-instruction-alignment"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 4
@@ -1495,8 +1733,13 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "neural-architecture-search"
+    ],
     "uses": [],
+    "themes": [
+      "theme-efficient-architectures"
+    ],
     "stats": {
       "ancestors": 8,
       "descendants": 3
@@ -1528,7 +1771,17 @@
     ],
     "uses": [
       "attention-mechanism",
-      "visual-question-answering"
+      "consensus-caption-metric",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 6,
@@ -1553,10 +1806,18 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "contextual-embeddings"
+    ],
     "uses": [
-      "contextual-embeddings",
-      "text-to-text"
+      "lstm",
+      "word-embeddings",
+      "extractive-reading-comprehension"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-sequence-models",
+      "theme-evaluation"
     ],
     "stats": {
       "ancestors": 0,
@@ -1583,7 +1844,13 @@
     "introduces": [
       "discrete-visual-tokens"
     ],
-    "uses": [],
+    "uses": [
+      "autoregressive-lm"
+    ],
+    "themes": [
+      "theme-generative-image",
+      "theme-large-language-models"
+    ],
     "stats": {
       "ancestors": 0,
       "descendants": 5
@@ -1609,8 +1876,11 @@
       "decoupled-weight-decay"
     ],
     "uses": [],
+    "themes": [
+      "theme-training-optimization"
+    ],
     "stats": {
-      "ancestors": 1,
+      "ancestors": 0,
       "descendants": 11
     }
   },
@@ -1633,8 +1903,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "inverted-residual"
+    ],
+    "uses": [
+      "residual-connection"
+    ],
+    "themes": [
+      "theme-efficient-architectures",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 5,
       "descendants": 3
@@ -1662,9 +1940,15 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [
+      "bilm-features"
+    ],
+    "uses": [
+      "word-embeddings",
       "contextual-embeddings"
     ],
-    "uses": [],
+    "themes": [
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 15
@@ -1688,8 +1972,19 @@
     "comment": "12 pages, 7 figures, CVPR 2018",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "grounded-slot-captioning"
+    ],
+    "uses": [
+      "novel-object-captioning",
+      "image-captioning-objective",
+      "balanced-vqa",
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-vqa"
+    ],
     "stats": {
       "ancestors": 9,
       "descendants": 3
@@ -1718,12 +2013,25 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [
-      "weak-supervision"
+      "hashtag-supervision"
     ],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "weak-supervision",
+      "cardinality",
+      "data-scaling-vision",
+      "large-batch-training",
+      "batch-normalization"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-lm-pretraining",
+      "theme-convnets",
+      "theme-training-optimization"
+    ],
     "stats": {
       "ancestors": 8,
-      "descendants": 10
+      "descendants": 9
     }
   },
   {
@@ -1744,8 +2052,18 @@
     "comment": "CVPR 2018 spotlight paper. Code: https://github.com/zhirongw/lemniscate.pytorch",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "instance-discrimination"
+    ],
+    "uses": [
+      "pretrain-finetune",
+      "self-training"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-lm-pretraining",
+      "theme-transfer-weak-supervision"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 7
@@ -1768,10 +2086,22 @@
     "comment": "Accepted by NIPS 2018; Figure 1 was updated",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "bilinear-attention"
+    ],
     "uses": [
       "cross-attention-fusion",
-      "visual-question-answering"
+      "x-linear-attention",
+      "visual-question-answering",
+      "phrase-grounding",
+      "region-features",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-vqa",
+      "theme-region-vlp",
+      "theme-captioning",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 5,
@@ -1795,8 +2125,16 @@
     "comment": "CVPR 2019 Oral",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "transfer-correlation"
+    ],
+    "uses": [
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 6,
       "descendants": 7
@@ -1820,8 +2158,18 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "multitask-as-qa"
+    ],
+    "uses": [
+      "pretrain-finetune",
+      "zero-shot-transfer"
+    ],
+    "themes": [
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-contrastive-vl"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 3
@@ -1845,9 +2193,17 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "box-attention"
+    ],
     "uses": [
-      "attention-mechanism"
+      "attention-mechanism",
+      "residual-connection"
+    ],
+    "themes": [
+      "theme-detection-grounding",
+      "theme-attention-transformers",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 2,
@@ -1871,8 +2227,18 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "infonce"
+    ],
+    "uses": [
+      "autoregressive-lm",
+      "word-embeddings"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-large-language-models",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 9
@@ -1899,8 +2265,16 @@
     "comment": "Published in CVPR 2019",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "latency-aware-nas"
+    ],
+    "uses": [
+      "inverted-residual",
+      "neural-architecture-search"
+    ],
+    "themes": [
+      "theme-efficient-architectures"
+    ],
     "stats": {
       "ancestors": 7,
       "descendants": 1
@@ -1922,8 +2296,15 @@
     "comment": "Accepted as a demo paper at EMNLP2018",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "sentencepiece"
+    ],
+    "uses": [
+      "wordpiece"
+    ],
+    "themes": [
+      "theme-sequence-models"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 6
@@ -1950,8 +2331,15 @@
     "comment": "Accepted as an oral presentation at the International Conference for Learning Representations (ICLR), 2019",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "mutual-information-max"
+    ],
+    "uses": [
+      "infonce"
+    ],
+    "themes": [
+      "theme-self-supervised-vision"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 3
@@ -1975,7 +2363,13 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "extractive-reading-comprehension",
+      "retriever-reader-qa"
+    ],
+    "themes": [
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 4
@@ -1999,9 +2393,20 @@
     "comment": "ECCV 2018",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "relation-graph-captioning"
+    ],
     "uses": [
-      "attention-mechanism"
+      "lstm",
+      "seq2seq",
+      "attention-mechanism",
+      "consensus-caption-metric",
+      "image-captioning-objective"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-sequence-models",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 0,
@@ -2028,10 +2433,22 @@
     "comment": "ICML 2019",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "inducing-point-attention"
+    ],
     "uses": [
       "self-attention",
-      "transformer"
+      "transformer",
+      "permutation-lm",
+      "in-context-learning",
+      "word-detectors-captioning",
+      "positional-encoding"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-captioning"
     ],
     "stats": {
       "ancestors": 1,
@@ -2059,7 +2476,17 @@
     "introduces": [
       "masked-language-modeling"
     ],
-    "uses": [],
+    "uses": [
+      "extractive-reading-comprehension",
+      "bilm-features",
+      "self-attention",
+      "transformer"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-evaluation",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 60
@@ -2069,7 +2496,7 @@
     "arxivId": "1810.12885",
     "title": "ReCoRD: Bridging the Gap between Human and Machine Commonsense Reading Comprehension",
     "shortName": "ReCoRD",
-    "kind": "method",
+    "kind": "benchmark",
     "slug": "record",
     "publishedAt": "2018-10-30",
     "authors": [
@@ -2086,7 +2513,14 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "extractive-reading-comprehension",
+      "bilm-features"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 4
@@ -2112,8 +2546,15 @@
     "comment": "ACL 2019 Long Paper",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "grounded-visual-reasoning"
+    ],
+    "uses": [
+      "visual-question-answering"
+    ],
+    "themes": [
+      "theme-vqa"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 11
@@ -2146,37 +2587,19 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "relation-graph-captioning",
+      "box-attention",
+      "attention-mechanism"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-detection-grounding",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 5
-    }
-  },
-  {
-    "arxivId": "1811.01241",
-    "title": "Wizard of Wikipedia: Knowledge-Powered Conversational agents",
-    "shortName": "Wizard of Wikipedia",
-    "kind": "method",
-    "slug": "wizard-of-wikipedia",
-    "publishedAt": "2018-11-03",
-    "authors": [
-      "Emily Dinan",
-      "Stephen Roller",
-      "Kurt Shuster",
-      "Angela Fan",
-      "Michael Auli",
-      "Jason Weston"
-    ],
-    "abstract": "In open-domain dialogue intelligent agents should exhibit the use of knowledge, however there are few convincing demonstrations of this to date. The most popular sequence to sequence models typically \"generate and hope\" generic utterances that can be memorized in the weights of the model when mapping from input utterance(s) to output, rather than employing recalled knowledge as context. Use of knowledge has so far proved difficult, in part because of the lack of a supervised learning benchmark task which exhibits knowledgeable open dialogue with clear grounding. To that end we collect and release a large dataset with conversations directly grounded with knowledge retrieved from Wikipedia. We then design architectures capable of retrieving knowledge, reading and conditioning on it, and finally generating natural responses. Our best performing dialogue models are able to conduct knowledgeable discussions on open-domain topics as evaluated by automatic metrics and human evaluations, while our new benchmark allows for measuring further improvements in this important research direction.",
-    "primaryCategory": "cs.CL",
-    "comment": null,
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 2,
-      "descendants": 1
     }
   },
   {
@@ -2199,8 +2622,16 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "domain-adaptive-transfer"
+    ],
+    "uses": [
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 1
@@ -2231,10 +2662,15 @@
     "comment": "11 pages. Work in progress. Copyright 2018 by the authors",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "pipeline-parallelism"
+    ],
     "uses": [
-      "transformer",
-      "model-parallelism"
+      "transformer"
+    ],
+    "themes": [
+      "theme-systems-scaling",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 2,
@@ -2261,9 +2697,19 @@
     "comment": "Accepted at ICLR 2019 (oral)",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "texture-bias"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "emergent-abilities",
+      "deep-convnet",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-convnets",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 3,
@@ -2286,9 +2732,17 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "multitask-vl-learning"
+    ],
     "uses": [
-      "visual-question-answering"
+      "visual-question-answering",
+      "phrase-grounding"
+    ],
+    "themes": [
+      "theme-multitask-unification",
+      "theme-vqa",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 5,
@@ -2299,7 +2753,7 @@
     "arxivId": "1812.08658",
     "title": "nocaps: novel object captioning at scale",
     "shortName": "nocaps",
-    "kind": "method",
+    "kind": "benchmark",
     "slug": "nocaps",
     "publishedAt": "2018-12-20",
     "authors": [
@@ -2320,7 +2774,20 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "novel-object-captioning",
+      "image-captioning-objective",
+      "constrained-beam-search",
+      "grounded-slot-captioning",
+      "bilm-features",
+      "region-proposal-network",
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-lm-pretraining",
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 7,
       "descendants": 5
@@ -2346,9 +2813,17 @@
     "comment": "ACL 2019 long paper. Code and pretrained models are available at https://github.com/kimiyoung/transformer-xl",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "segment-recurrence"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "positional-encoding",
+      "large-rnn-lm"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 3,
@@ -2377,9 +2852,19 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "adapter-modules"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "pretrain-finetune",
+      "diverse-text-corpus"
+    ],
+    "themes": [
+      "theme-parameter-efficient",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-datasets"
     ],
     "stats": {
       "ancestors": 2,
@@ -2404,8 +2889,17 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "distribution-shift"
+    ],
+    "uses": [
+      "residual-connection",
+      "deep-convnet"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 6
@@ -2427,9 +2921,17 @@
     "comment": "ICLR 2019 camera-ready; datasets available at https://github.com/hendrycks/robustness ; this article supersedes arXiv:1807.01697",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "corruption-robustness"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "adversarial-embedding-training"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-convnets",
+      "theme-training-optimization"
     ],
     "stats": {
       "ancestors": 1,
@@ -2456,6 +2958,7 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [],
+    "themes": [],
     "stats": {
       "ancestors": 2,
       "descendants": 1
@@ -2480,9 +2983,21 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "self-training"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "cardinality",
+      "batch-normalization",
+      "hashtag-supervision",
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-convnets",
+      "theme-training-optimization",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 5,
@@ -2518,10 +3033,20 @@
     "uses": [
       "self-attention",
       "transformer",
-      "text-to-text"
+      "qa-from-captions",
+      "extractive-reading-comprehension",
+      "bilm-features",
+      "wordpiece"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-attention-transformers",
+      "theme-vqa",
+      "theme-evaluation",
+      "theme-sequence-models"
     ],
     "stats": {
-      "ancestors": 8,
+      "ancestors": 7,
       "descendants": 7
     }
   },
@@ -2547,7 +3072,17 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "infonce",
+      "mutual-information-max",
+      "residual-connection"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-self-supervised-vision",
+      "theme-convnets"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 5
@@ -2574,7 +3109,16 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "extractive-reading-comprehension",
+      "masked-language-modeling",
+      "bilm-features"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 3
@@ -2596,9 +3140,21 @@
     "comment": "ICML 2019",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "compound-scaling"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "neural-architecture-search",
+      "pretrain-finetune",
+      "batch-normalization",
+      "inception-module"
+    ],
+    "themes": [
+      "theme-efficient-architectures",
+      "theme-convnets",
+      "theme-lm-pretraining",
+      "theme-training-optimization"
     ],
     "stats": {
       "ancestors": 10,
@@ -2623,7 +3179,17 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "mutual-information-max",
+      "residual-connection",
+      "infonce",
+      "autoregressive-lm"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-convnets",
+      "theme-large-language-models"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 4
@@ -2649,9 +3215,20 @@
     "comment": "Pretrained models and code are available at https://github.com/zihangdai/xlnet",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "permutation-lm"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "segment-recurrence",
+      "autoregressive-lm",
+      "extractive-reading-comprehension"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-attention-transformers",
+      "theme-large-language-models",
+      "theme-evaluation"
     ],
     "stats": {
       "ancestors": 4,
@@ -2682,8 +3259,20 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "robust-pretraining-recipe"
+    ],
+    "uses": [
+      "extractive-reading-comprehension",
+      "bilm-features",
+      "transformer",
+      "permutation-lm"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-evaluation",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 6,
       "descendants": 17
@@ -2708,12 +3297,27 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [
-      "cross-attention-fusion"
+      "cross-attention-fusion",
+      "masked-region-modeling"
     ],
     "uses": [
       "transformer",
+      "visual-question-answering",
+      "phrase-grounding",
       "web-scale-image-text-data",
-      "visual-question-answering"
+      "residual-connection",
+      "bilm-features",
+      "region-features",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-vqa",
+      "theme-detection-grounding",
+      "theme-datasets",
+      "theme-convnets",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 10,
@@ -2739,6 +3343,7 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [],
+    "themes": [],
     "stats": {
       "ancestors": 1,
       "descendants": 2
@@ -2763,11 +3368,23 @@
     "comment": "Work in Progress",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "single-stream-vlp"
+    ],
     "uses": [
       "self-attention",
       "transformer",
-      "visual-question-answering"
+      "noisy-alt-text-scaling",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "phrase-grounding"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-contrastive-vl",
+      "theme-vqa",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 9,
@@ -2797,7 +3414,21 @@
     "introduces": [],
     "uses": [
       "transformer",
-      "masked-language-modeling"
+      "masked-language-modeling",
+      "masked-region-modeling",
+      "image-text-matching",
+      "word-region-alignment",
+      "extractive-reading-comprehension",
+      "robust-pretraining-recipe",
+      "wordpiece"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-region-vlp",
+      "theme-end-to-end-vlp",
+      "theme-evaluation",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 5,
@@ -2820,10 +3451,29 @@
     "comment": "EMNLP 2019 (14 pages; with new attention visualizations)",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vqa-pretraining-task"
+    ],
     "uses": [
       "transformer",
-      "visual-question-answering"
+      "pretrain-finetune",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "region-features",
+      "region-proposal-network",
+      "balanced-vqa",
+      "bilinear-attention",
+      "bilm-features",
+      "self-attention",
+      "wordpiece"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-vqa",
+      "theme-detection-grounding",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 13,
@@ -2854,8 +3504,24 @@
     "introduces": [],
     "uses": [
       "transformer",
+      "noisy-alt-text-scaling",
+      "visual-question-answering",
       "web-scale-image-text-data",
-      "visual-question-answering"
+      "region-proposal-network",
+      "masked-language-modeling",
+      "balanced-vqa",
+      "vqa-pretraining-task",
+      "wordpiece"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-contrastive-vl",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-detection-grounding",
+      "theme-lm-pretraining",
+      "theme-region-vlp",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 11,
@@ -2880,9 +3546,22 @@
     "comment": "The 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP 2019)",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "decoupled-box-proposal"
+    ],
     "uses": [
-      "visual-question-answering"
+      "pretrain-finetune",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "region-proposal-network",
+      "residual-connection"
+    ],
+    "themes": [
+      "theme-detection-grounding",
+      "theme-lm-pretraining",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 6,
@@ -2913,7 +3592,12 @@
       "model-parallelism"
     ],
     "uses": [
-      "transformer"
+      "transformer",
+      "pipeline-parallelism"
+    ],
+    "themes": [
+      "theme-systems-scaling",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 12,
@@ -2945,7 +3629,16 @@
     "introduces": [
       "rlhf"
     ],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "ppo",
+      "transformer"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-lm-pretraining",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 3
@@ -2971,13 +3664,30 @@
     "comment": "AAAI 2020 camera-ready version. The code and the pre-trained models are available at https://github.com/LuoweiZhou/VLP",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "shared-encoder-decoder-vlp"
+    ],
     "uses": [
       "self-attention",
       "transformer",
-      "text-to-text",
+      "unified-lm-masks",
+      "masked-vl-modeling",
+      "image-captioning-objective",
       "visual-question-answering",
-      "dense-image-annotation"
+      "web-scale-image-text-data",
+      "robust-pretraining-recipe",
+      "cross-attention-fusion",
+      "masked-region-modeling",
+      "vqa-pretraining-task"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-end-to-end-vlp",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-datasets"
     ],
     "stats": {
       "ancestors": 6,
@@ -3007,13 +3717,24 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [
-      "single-stream-vlp"
+      "word-region-alignment"
     ],
     "uses": [
       "masked-language-modeling",
-      "web-scale-image-text-data",
+      "masked-region-modeling",
       "image-text-matching",
-      "visual-question-answering"
+      "visual-question-answering",
+      "web-scale-image-text-data",
+      "single-stream-vlp",
+      "transformer"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-lm-pretraining",
+      "theme-end-to-end-vlp",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 1,
@@ -3040,9 +3761,19 @@
     "comment": "Adding results with ALBERT",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "adversarial-embedding-training"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "word-embeddings",
+      "robust-pretraining-recipe",
+      "parameter-sharing-lm"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-attention-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 3,
@@ -3069,8 +3800,22 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "parameter-sharing-lm"
+    ],
+    "uses": [
+      "extractive-reading-comprehension",
+      "robust-pretraining-recipe",
+      "transformer",
+      "seq2seq",
+      "permutation-lm"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-evaluation",
+      "theme-attention-transformers",
+      "theme-sequence-models"
+    ],
     "stats": {
       "ancestors": 5,
       "descendants": 8
@@ -3100,14 +3845,29 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [
-      "text-to-text"
+      "text-to-text",
+      "span-corruption"
     ],
     "uses": [
-      "transformer"
+      "transformer",
+      "pretrain-finetune",
+      "residual-connection",
+      "parameter-sharing-lm",
+      "extractive-reading-comprehension",
+      "seq2seq",
+      "positional-encoding"
+    ],
+    "themes": [
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-evaluation",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 18,
-      "descendants": 40
+      "descendants": 38
     }
   },
   {
@@ -3132,40 +3892,26 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "denoising-seq2seq"
+    ],
     "uses": [
-      "text-to-text"
+      "robust-pretraining-recipe",
+      "extractive-reading-comprehension",
+      "unified-lm-masks",
+      "self-attention",
+      "bilm-features",
+      "transformer",
+      "permutation-lm"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-evaluation",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 7,
-      "descendants": 6
-    }
-  },
-  {
-    "arxivId": "1911.03768",
-    "title": "The Dialogue Dodecathlon: Open-Domain Knowledge and Image Grounded Conversational Agents",
-    "shortName": "The Dialogue Dodecathlon",
-    "kind": "method",
-    "slug": "the-dialogue-dodecathlon",
-    "publishedAt": "2019-11-09",
-    "authors": [
-      "Kurt Shuster",
-      "Da Ju",
-      "Stephen Roller",
-      "Emily Dinan",
-      "Y-Lan Boureau",
-      "Jason Weston"
-    ],
-    "abstract": "We introduce dodecaDialogue: a set of 12 tasks that measures if a conversational agent can communicate engagingly with personality and empathy, ask questions, answer questions by utilizing knowledge resources, discuss topics and situations, and perceive and converse about images. By multi-tasking on such a broad large-scale set of data, we hope to both move towards and measure progress in producing a single unified agent that can perceive, reason and converse with humans in an open-domain setting. We show that such multi-tasking improves over a BERT pre-trained baseline, largely due to multi-tasking with very large dialogue datasets in a similar domain, and that the multi-tasking in general provides gains to both text and image-based tasks using several metrics in both the fine-tune and task transfer settings. We obtain state-of-the-art results on many of the tasks, providing a strong baseline for this challenge.",
-    "primaryCategory": "cs.CL",
-    "comment": "ACL 2020",
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 6,
-      "descendants": 1
+      "descendants": 5
     }
   },
   {
@@ -3186,8 +3932,22 @@
     "comment": "CVPR 2020",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "noisy-student"
+    ],
+    "uses": [
+      "compound-scaling",
+      "hashtag-supervision",
+      "self-training",
+      "knowledge-distillation",
+      "corruption-robustness"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-efficient-architectures",
+      "theme-training-optimization",
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 8,
       "descendants": 5
@@ -3215,7 +3975,21 @@
     "introduces": [
       "contrastive-visual-ssl"
     ],
-    "uses": [],
+    "uses": [
+      "residual-connection",
+      "batch-normalization",
+      "hashtag-supervision",
+      "infonce",
+      "region-proposal-network",
+      "instance-discrimination"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-convnets",
+      "theme-training-optimization",
+      "theme-transfer-weak-supervision",
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 12,
       "descendants": 6
@@ -3239,8 +4013,13 @@
     "comment": "TACL 2020",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "prompt-mining"
+    ],
     "uses": [],
+    "themes": [
+      "theme-large-language-models"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 3
@@ -3267,10 +4046,17 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "visual-question-answering"
+      "multitask-vl-learning",
+      "visual-question-answering",
+      "phrase-grounding"
+    ],
+    "themes": [
+      "theme-multitask-unification",
+      "theme-vqa",
+      "theme-detection-grounding"
     ],
     "stats": {
-      "ancestors": 15,
+      "ancestors": 14,
       "descendants": 2
     }
   },
@@ -3294,7 +4080,15 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "image-captioning-objective",
+      "phrase-grounding",
+      "box-attention"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-detection-grounding"
+    ],
     "stats": {
       "ancestors": 1,
       "descendants": 1
@@ -3318,9 +4112,16 @@
     "comment": "CVPR 2020",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "memory-captioning-transformer"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "image-captioning-objective"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 8,
@@ -3348,8 +4149,16 @@
     "comment": "The first three authors contributed equally. Results on ObjectNet are reported in v3",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "big-transfer"
+    ],
+    "uses": [
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 7
@@ -3374,10 +4183,19 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "grid-features"
+    ],
     "uses": [
       "region-features",
+      "image-captioning-objective",
       "visual-question-answering"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-region-vlp",
+      "theme-captioning",
+      "theme-vqa"
     ],
     "stats": {
       "ancestors": 12,
@@ -3412,6 +4230,9 @@
       "scaling-laws"
     ],
     "uses": [],
+    "themes": [
+      "theme-large-language-models"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 13
@@ -3434,9 +4255,22 @@
     "comment": "Camera-ready version for EMNLP",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "closed-book-qa"
+    ],
     "uses": [
-      "text-to-text"
+      "pretrain-finetune",
+      "text-to-text",
+      "knowledge-grounded-dialog",
+      "extractive-reading-comprehension",
+      "transformer"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-lm-pretraining",
+      "theme-multitask-unification",
+      "theme-evaluation",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 11,
@@ -3458,10 +4292,22 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "glu-variants"
+    ],
     "uses": [
+      "conv-seq2seq",
       "transformer",
-      "text-to-text"
+      "text-to-text",
+      "span-corruption",
+      "self-attention",
+      "seq2seq"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-sequence-models",
+      "theme-multitask-unification",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 2,
@@ -3486,41 +4332,24 @@
     "comment": "ICML'2020. Code and pretrained models at https://github.com/google-research/simclr",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "simclr-recipe"
+    ],
     "uses": [
       "residual-connection",
-      "contrastive-visual-ssl"
+      "self-training",
+      "mutual-information-max",
+      "batch-normalization"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-convnets",
+      "theme-transfer-weak-supervision",
+      "theme-training-optimization"
     ],
     "stats": {
       "ancestors": 11,
       "descendants": 9
-    }
-  },
-  {
-    "arxivId": "2003.08934",
-    "title": "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis",
-    "shortName": "NeRF",
-    "kind": "method",
-    "slug": "nerf",
-    "publishedAt": "2020-03-19",
-    "authors": [
-      "Ben Mildenhall",
-      "Pratul P. Srinivasan",
-      "Matthew Tancik",
-      "Jonathan T. Barron",
-      "Ravi Ramamoorthi",
-      "Ren Ng"
-    ],
-    "abstract": "We present a method that achieves state-of-the-art results for synthesizing novel views of complex scenes by optimizing an underlying continuous volumetric scene function using a sparse set of input views. Our algorithm represents a scene using a fully-connected (non-convolutional) deep network, whose input is a single continuous 5D coordinate (spatial location $(x,y,z)$ and viewing direction $(θ, φ)$) and whose output is the volume density and view-dependent emitted radiance at that spatial location. We synthesize views by querying 5D coordinates along camera rays and use classic volume rendering techniques to project the output colors and densities into an image. Because volume rendering is naturally differentiable, the only input required to optimize our representation is a set of images with known camera poses. We describe how to effectively optimize neural radiance fields to render photorealistic novel views of scenes with complicated geometry and appearance, and demonstrate results that outperform prior work on neural rendering and view synthesis. View synthesis results are best viewed as videos, so we urge readers to view our supplementary video for convincing comparisons.",
-    "primaryCategory": "cs.CV",
-    "comment": "ECCV 2020 (oral). Project page with videos and code: http://tancik.com/nerf",
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 0,
-      "descendants": 1
     }
   },
   {
@@ -3541,11 +4370,21 @@
     "comment": "CVPR 2020; The source code and model are publicly available at: https://github.com/Panda-Peter/image-captioning",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "x-linear-attention"
+    ],
     "uses": [
       "attention-mechanism",
       "transformer",
-      "visual-question-answering"
+      "consensus-caption-metric",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "bilinear-attention"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-attention-transformers",
+      "theme-vqa"
     ],
     "stats": {
       "ancestors": 3,
@@ -3578,10 +4417,19 @@
     "comment": "ECCV 2020, Code and pre-trained models are released: https://github.com/microsoft/Oscar",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "object-tags-anchors"
+    ],
     "uses": [
       "self-attention",
-      "region-features"
+      "region-features",
+      "web-scale-image-text-data",
+      "word-region-alignment"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-datasets"
     ],
     "stats": {
       "ancestors": 4,
@@ -3636,7 +4484,23 @@
     "introduces": [
       "in-context-learning"
     ],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "masked-language-modeling",
+      "autoregressive-lm",
+      "knowledge-distillation",
+      "scaling-laws",
+      "parameter-sharing-lm",
+      "extractive-reading-comprehension",
+      "transformer"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-lm-pretraining",
+      "theme-training-optimization",
+      "theme-evaluation",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 11,
       "descendants": 40
@@ -3664,7 +4528,21 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "visual-question-answering"
+      "adversarial-embedding-training",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "word-region-alignment",
+      "masked-region-modeling",
+      "transformer",
+      "vqa-pretraining-task",
+      "word-embeddings"
+    ],
+    "themes": [
+      "theme-training-optimization",
+      "theme-vqa",
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 8,
@@ -3687,9 +4565,15 @@
     "comment": "CVPR 2021. [v3: better captioning results on fixing beam search bug]",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "captioning-pretraining"
+    ],
     "uses": [
-      "dense-image-annotation"
+      "transformer"
+    ],
+    "themes": [
+      "theme-transfer-weak-supervision",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 8,
@@ -3699,9 +4583,9 @@
   {
     "arxivId": "2006.07733",
     "title": "Bootstrap your own latent: A new approach to self-supervised Learning",
-    "shortName": "Bootstrap your own latent",
+    "shortName": "BYOL",
     "kind": "method",
-    "slug": "bootstrap-your-own-latent",
+    "slug": "byol",
     "publishedAt": "2020-06-13",
     "authors": [
       "Jean-Bastien Grill",
@@ -3724,9 +4608,22 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "byol"
+    ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "self-training",
+      "contrastive-visual-ssl",
+      "batch-normalization",
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-convnets",
+      "theme-transfer-weak-supervision",
+      "theme-training-optimization",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 10,
@@ -3756,9 +4653,17 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "automatic-sharding",
+      "sparse-moe"
+    ],
     "uses": [
       "transformer"
+    ],
+    "themes": [
+      "theme-systems-scaling",
+      "theme-sparse-models",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 6,
@@ -3786,54 +4691,19 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "distribution-shift",
+      "hashtag-supervision",
+      "data-scaling-vision",
+      "compound-scaling"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-transfer-weak-supervision",
+      "theme-efficient-architectures"
+    ],
     "stats": {
       "ancestors": 12,
-      "descendants": 1
-    }
-  },
-  {
-    "arxivId": "2007.02871",
-    "title": "DART: Open-Domain Structured Data Record to Text Generation",
-    "shortName": "DART",
-    "kind": "method",
-    "slug": "dart",
-    "publishedAt": "2020-07-06",
-    "authors": [
-      "Linyong Nan",
-      "Dragomir Radev",
-      "Rui Zhang",
-      "Amrit Rau",
-      "Abhinand Sivaprasad",
-      "Chiachun Hsieh",
-      "Xiangru Tang",
-      "Aadit Vyas",
-      "Neha Verma",
-      "Pranav Krishna",
-      "Yangxiaokang Liu",
-      "Nadia Irwanto",
-      "Jessica Pan",
-      "Faiaz Rahman",
-      "Ahmad Zaidi",
-      "Mutethia Mutuma",
-      "Yasin Tarabar",
-      "Ankit Gupta",
-      "Tao Yu",
-      "Yi Chern Tan",
-      "Xi Victoria Lin",
-      "Caiming Xiong",
-      "Richard Socher",
-      "Nazneen Fatema Rajani"
-    ],
-    "abstract": "We present DART, an open domain structured DAta Record to Text generation dataset with over 82k instances (DARTs). Data-to-Text annotations can be a costly process, especially when dealing with tables which are the major source of structured data and contain nontrivial structures. To this end, we propose a procedure of extracting semantic triples from tables that encodes their structures by exploiting the semantic dependencies among table headers and the table title. Our dataset construction framework effectively merged heterogeneous sources from open domain semantic parsing and dialogue-act-based meaning representation tasks by utilizing techniques such as: tree ontology annotation, question-answer pair to declarative sentence conversion, and predicate unification, all with minimum post-editing. We present systematic evaluation on DART as well as new state-of-the-art results on WebNLG 2017 to show that DART (1) poses new challenges to existing data-to-text datasets and (2) facilitates out-of-domain generalization. Our data and code can be found at https://github.com/Yale-LILY/dart.",
-    "primaryCategory": "cs.CL",
-    "comment": "NAACL 2021",
-    "depth": 3,
-    "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
-    "stats": {
-      "ancestors": 2,
       "descendants": 1
     }
   },
@@ -3862,7 +4732,17 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "rlhf"
+      "pretrain-finetune",
+      "rlhf",
+      "text-to-text",
+      "ppo",
+      "transformer"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-instruction-alignment",
+      "theme-multitask-unification",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 5,
@@ -3890,8 +4770,20 @@
     "comment": "ICLR 2021; the test and code is available at https://github.com/hendrycks/test",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "multitask-knowledge-benchmark"
+    ],
+    "uses": [
+      "in-context-learning",
+      "pretrain-finetune",
+      "text-to-text"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-large-language-models",
+      "theme-lm-pretraining",
+      "theme-multitask-unification"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 4
@@ -3916,8 +4808,20 @@
     "comment": "First published in 2020. Accepted at Machine Learning for Healthcare (MLHC) 2022",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "contrastive-image-text"
+    ],
+    "uses": [
+      "pretrain-finetune",
+      "zero-shot-transfer",
+      "simclr-recipe",
+      "infonce"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-lm-pretraining",
+      "theme-self-supervised-vision"
+    ],
     "stats": {
       "ancestors": 9,
       "descendants": 2
@@ -3953,7 +4857,22 @@
       "vision-transformer"
     ],
     "uses": [
-      "transformer"
+      "transformer",
+      "residual-connection",
+      "pretrain-finetune",
+      "data-scaling-vision",
+      "self-attention",
+      "noisy-student",
+      "compound-scaling",
+      "self-training"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-lm-pretraining",
+      "theme-transfer-weak-supervision",
+      "theme-efficient-architectures"
     ],
     "stats": {
       "ancestors": 8,
@@ -3979,7 +4898,27 @@
     "depth": 3,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "pretrain-finetune",
+      "single-stream-vlp",
+      "region-proposal-network",
+      "visual-question-answering",
+      "image-text-matching",
+      "residual-connection",
+      "vqa-pretraining-task",
+      "self-attention",
+      "transformer",
+      "cardinality"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-region-vlp",
+      "theme-detection-grounding",
+      "theme-vqa",
+      "theme-end-to-end-vlp",
+      "theme-convnets",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 19,
       "descendants": 1
@@ -4005,9 +4944,21 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "distillation-token"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "vision-transformer",
+      "knowledge-distillation",
+      "pretrain-finetune",
+      "positional-encoding"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-training-optimization",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 5,
@@ -4040,8 +4991,16 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "diverse-text-corpus"
+    ],
+    "uses": [
+      "scaling-laws"
+    ],
+    "themes": [
+      "theme-datasets",
+      "theme-large-language-models"
+    ],
     "stats": {
       "ancestors": 7,
       "descendants": 6
@@ -4063,10 +5022,30 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "prefix-tuning"
+    ],
+    "uses": [
+      "pretrain-finetune",
+      "denoising-seq2seq",
+      "visual-prefix",
+      "in-context-learning",
+      "adapter-modules",
+      "decoupled-weight-decay",
+      "text-to-text",
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-parameter-efficient",
+      "theme-lm-pretraining",
+      "theme-vlm-llm",
+      "theme-large-language-models",
+      "theme-training-optimization",
+      "theme-multitask-unification",
+      "theme-captioning"
+    ],
     "stats": {
-      "ancestors": 8,
+      "ancestors": 7,
       "descendants": 4
     }
   },
@@ -4092,9 +5071,22 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vl-object-detector"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "region-features",
+      "object-tags-anchors",
+      "balanced-vqa",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "self-attention"
+    ],
+    "themes": [
+      "theme-region-vlp",
+      "theme-attention-transformers",
+      "theme-vqa"
     ],
     "stats": {
       "ancestors": 12,
@@ -4104,9 +5096,9 @@
   {
     "arxivId": "2101.03961",
     "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
-    "shortName": "Switch Transformers",
+    "shortName": "Switch Transformer",
     "kind": "method",
-    "slug": "switch-transformers",
+    "slug": "switch-transformer",
     "publishedAt": "2021-01-11",
     "authors": [
       "William Fedus",
@@ -4118,11 +5110,25 @@
     "comment": "JMLR",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "switch-routing"
+    ],
     "uses": [
       "transformer",
       "text-to-text",
-      "mixture-of-modality-experts"
+      "sparse-moe",
+      "automatic-sharding",
+      "span-corruption",
+      "closed-book-qa",
+      "pretrain-finetune"
+    ],
+    "themes": [
+      "theme-sparse-models",
+      "theme-attention-transformers",
+      "theme-multitask-unification",
+      "theme-systems-scaling",
+      "theme-lm-pretraining",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 8,
@@ -4147,10 +5153,30 @@
     "comment": "ICML 2021 (15 pages, 4 figures, 14 tables)",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vl-as-generation"
+    ],
     "uses": [
       "text-to-text",
-      "visual-question-answering"
+      "multitask-vl-learning",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "region-proposal-network",
+      "denoising-seq2seq",
+      "decoupled-weight-decay",
+      "transformer",
+      "grounded-visual-reasoning",
+      "seq2seq"
+    ],
+    "themes": [
+      "theme-multitask-unification",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-detection-grounding",
+      "theme-lm-pretraining",
+      "theme-training-optimization",
+      "theme-attention-transformers",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 18,
@@ -4174,10 +5200,34 @@
     "comment": "ICML 2021 Long Presentation",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "patch-vlp"
+    ],
     "uses": [
       "transformer",
-      "residual-connection"
+      "residual-connection",
+      "region-features",
+      "single-stream-vlp",
+      "word-region-alignment",
+      "masked-region-modeling",
+      "vision-transformer",
+      "grid-features",
+      "visual-question-answering",
+      "object-tags-anchors",
+      "region-proposal-network",
+      "grounded-visual-reasoning",
+      "vqa-pretraining-task",
+      "distillation-token",
+      "vl-object-detector"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-region-vlp",
+      "theme-vision-transformers",
+      "theme-vqa",
+      "theme-detection-grounding"
     ],
     "stats": {
       "ancestors": 20,
@@ -4208,9 +5258,29 @@
     "comment": "ICML 2021",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "noisy-alt-text-scaling"
+    ],
     "uses": [
-      "web-scale-image-text-data"
+      "zero-shot-transfer",
+      "cross-attention-fusion",
+      "web-scale-image-text-data",
+      "self-training",
+      "word-region-alignment",
+      "image-text-matching",
+      "vision-transformer",
+      "big-transfer",
+      "pretrain-finetune",
+      "object-tags-anchors"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-region-vlp",
+      "theme-datasets",
+      "theme-transfer-weak-supervision",
+      "theme-end-to-end-vlp",
+      "theme-vision-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 13,
@@ -4237,8 +5307,22 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
+      "novel-object-captioning",
+      "image-captioning-objective",
+      "visual-question-answering",
       "web-scale-image-text-data",
-      "visual-question-answering"
+      "text-to-text",
+      "span-corruption",
+      "self-attention",
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 29,
@@ -4267,9 +5351,19 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "text-to-image-transformer"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "zero-shot-transfer",
+      "data-scaling-vision"
+    ],
+    "themes": [
+      "theme-generative-image",
+      "theme-attention-transformers",
+      "theme-contrastive-vl",
+      "theme-transfer-weak-supervision"
     ],
     "stats": {
       "ancestors": 6,
@@ -4303,11 +5397,38 @@
     "depth": 1,
     "fullTextSource": "html",
     "introduces": [
-      "contrastive-image-text",
       "zero-shot-transfer"
     ],
     "uses": [
-      "residual-connection"
+      "residual-connection",
+      "in-context-learning",
+      "captioning-pretraining",
+      "vision-transformer",
+      "transformer",
+      "texture-bias",
+      "weak-supervision",
+      "pretrain-finetune",
+      "natural-language-supervision",
+      "decoupled-weight-decay",
+      "hashtag-supervision",
+      "infonce",
+      "distribution-shift",
+      "noisy-student",
+      "compound-scaling",
+      "contrastive-image-text"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-convnets",
+      "theme-large-language-models",
+      "theme-transfer-weak-supervision",
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-evaluation",
+      "theme-lm-pretraining",
+      "theme-training-optimization",
+      "theme-self-supervised-vision",
+      "theme-efficient-architectures"
     ],
     "stats": {
       "ancestors": 27,
@@ -4334,14 +5455,25 @@
     "comment": "ICML 2021",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "latent-cross-attention"
+    ],
     "uses": [
       "attention-mechanism",
       "residual-connection",
-      "vision-transformer"
+      "vision-transformer",
+      "transformer",
+      "inducing-point-attention",
+      "permutation-lm"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-vision-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
-      "ancestors": 9,
+      "ancestors": 8,
       "descendants": 1
     }
   },
@@ -4372,7 +5504,18 @@
     ],
     "uses": [
       "self-attention",
-      "transformer"
+      "transformer",
+      "vision-transformer",
+      "residual-connection",
+      "deep-convnet",
+      "compound-scaling",
+      "distillation-token"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-efficient-architectures"
     ],
     "stats": {
       "ancestors": 8,
@@ -4396,9 +5539,24 @@
     "comment": "Accepted to EMNLP 2021",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "prompt-tuning"
+    ],
     "uses": [
-      "text-to-text"
+      "text-to-text",
+      "in-context-learning",
+      "prefix-tuning",
+      "visual-prefix",
+      "adapter-modules",
+      "denoising-seq2seq",
+      "span-corruption"
+    ],
+    "themes": [
+      "theme-parameter-efficient",
+      "theme-multitask-unification",
+      "theme-large-language-models",
+      "theme-vlm-llm",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 5,
@@ -4423,8 +5581,20 @@
     "comment": "ACL 2022",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "instruction-datasets"
+    ],
+    "uses": [
+      "in-context-learning",
+      "pretrain-finetune",
+      "autoregressive-lm",
+      "denoising-seq2seq"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-large-language-models",
+      "theme-lm-pretraining"
+    ],
     "stats": {
       "ancestors": 2,
       "descendants": 2
@@ -4433,9 +5603,9 @@
   {
     "arxivId": "2104.09864",
     "title": "RoFormer: Enhanced Transformer with Rotary Position Embedding",
-    "shortName": "RoFormer",
+    "shortName": "RoFormer (RoPE)",
     "kind": "method",
-    "slug": "roformer",
+    "slug": "roformer-rope",
     "publishedAt": "2021-04-20",
     "authors": [
       "Jianlin Su",
@@ -4450,10 +5620,16 @@
     "comment": "fixed some typos",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "rotary-position-embedding"
+    ],
     "uses": [
       "self-attention",
-      "transformer"
+      "transformer",
+      "positional-encoding"
+    ],
+    "themes": [
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 6,
@@ -4477,8 +5653,19 @@
     "comment": "Code at https://github.com/ethanjperez/true_few_shot",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "true-few-shot"
+    ],
+    "uses": [
+      "in-context-learning",
+      "prompt-mining",
+      "zero-shot-transfer"
+    ],
+    "themes": [
+      "theme-evaluation",
+      "theme-large-language-models",
+      "theme-contrastive-vl"
+    ],
     "stats": {
       "ancestors": 3,
       "descendants": 1
@@ -4502,10 +5689,18 @@
     "comment": "Xiaohua, Alex, and Lucas contributed equally; CVPR 2022",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vit-scaling"
+    ],
     "uses": [
       "transformer",
-      "vision-transformer"
+      "vision-transformer",
+      "in-context-learning"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 8,
@@ -4530,10 +5725,22 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "conv-attention-hybrid"
+    ],
     "uses": [
       "self-attention",
-      "vision-transformer"
+      "vision-transformer",
+      "data-scaling-vision",
+      "residual-connection",
+      "transformer",
+      "vit-scaling"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-transfer-weak-supervision",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 7,
@@ -4563,7 +5770,16 @@
     ],
     "uses": [
       "transformer",
-      "vision-transformer"
+      "vision-transformer",
+      "distillation-token",
+      "discrete-visual-tokens",
+      "text-to-image-transformer"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-attention-transformers",
+      "theme-vision-transformers",
+      "theme-generative-image"
     ],
     "stats": {
       "ancestors": 12,
@@ -4591,10 +5807,19 @@
     "comment": "CVPR 2021 camera ready with extensions",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "attention-detection-head"
+    ],
     "uses": [
       "self-attention",
-      "transformer"
+      "transformer",
+      "cardinality",
+      "region-proposal-network"
+    ],
+    "themes": [
+      "theme-detection-grounding",
+      "theme-attention-transformers",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 3,
@@ -4622,11 +5847,18 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "video-transformer"
+    ],
     "uses": [
       "self-attention",
       "transformer",
-      "hierarchical-vision-transformer"
+      "hierarchical-vision-transformer",
+      "vision-transformer"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 3,
@@ -4657,7 +5889,23 @@
       "frozen-llm",
       "visual-prefix"
     ],
-    "uses": [],
+    "uses": [
+      "in-context-learning",
+      "interleaved-image-text",
+      "sentencepiece",
+      "prompt-tuning",
+      "prefix-tuning",
+      "span-corruption",
+      "transformer"
+    ],
+    "themes": [
+      "theme-vlm-llm",
+      "theme-large-language-models",
+      "theme-sequence-models",
+      "theme-parameter-efficient",
+      "theme-lm-pretraining",
+      "theme-attention-transformers"
+    ],
     "stats": {
       "ancestors": 7,
       "descendants": 2
@@ -4735,8 +5983,16 @@
     "comment": "corrected typos, added references, added authors, added acknowledgements",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "code-llm"
+    ],
+    "uses": [
+      "diverse-text-corpus"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-datasets"
+    ],
     "stats": {
       "ancestors": 5,
       "descendants": 3
@@ -4768,8 +6024,33 @@
     ],
     "uses": [
       "transformer",
-      "masked-image-modeling",
-      "visual-question-answering"
+      "mutual-information-max",
+      "noisy-alt-text-scaling",
+      "cross-attention-fusion",
+      "visual-question-answering",
+      "web-scale-image-text-data",
+      "knowledge-distillation",
+      "discrete-visual-tokens",
+      "vqa-pretraining-task",
+      "word-region-alignment",
+      "object-tags-anchors",
+      "adversarial-embedding-training",
+      "grounded-visual-reasoning",
+      "contrastive-visual-ssl",
+      "vision-transformer",
+      "decoupled-weight-decay"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-attention-transformers",
+      "theme-self-supervised-vision",
+      "theme-contrastive-vl",
+      "theme-region-vlp",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-training-optimization",
+      "theme-generative-image",
+      "theme-vision-transformers"
     ],
     "stats": {
       "ancestors": 20,
@@ -4796,9 +6077,48 @@
     "comment": "Published at ICLR 2022",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "prefix-lm-vlp"
+    ],
     "uses": [
-      "visual-question-answering"
+      "zero-shot-transfer",
+      "visual-prefix",
+      "consensus-caption-metric",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "in-context-learning",
+      "word-region-alignment",
+      "masked-region-modeling",
+      "image-text-matching",
+      "vl-as-generation",
+      "text-to-text",
+      "conv-attention-hybrid",
+      "vision-transformer",
+      "transformer",
+      "adversarial-embedding-training",
+      "balanced-vqa",
+      "noisy-alt-text-scaling",
+      "web-scale-image-text-data",
+      "object-tags-anchors",
+      "span-corruption",
+      "vqa-pretraining-task",
+      "vl-object-detector"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-contrastive-vl",
+      "theme-vlm-llm",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-large-language-models",
+      "theme-region-vlp",
+      "theme-multitask-unification",
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-training-optimization",
+      "theme-datasets",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 19,
@@ -4831,7 +6151,17 @@
     "introduces": [
       "instruction-tuning"
     ],
-    "uses": [],
+    "uses": [
+      "in-context-learning",
+      "zero-shot-transfer",
+      "prompt-tuning"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-large-language-models",
+      "theme-contrastive-vl",
+      "theme-parameter-efficient"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 11
@@ -4858,8 +6188,19 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "recursive-decomposition"
+    ],
+    "uses": [
+      "rlhf",
+      "zero-shot-transfer",
+      "text-to-text"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-contrastive-vl",
+      "theme-multitask-unification"
+    ],
     "stats": {
       "ancestors": 4,
       "descendants": 1
@@ -4889,11 +6230,29 @@
     "comment": "Accepted in ICLR 2022",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vit-vqgan"
+    ],
     "uses": [
       "transformer",
+      "inception-module",
       "vision-transformer",
-      "autoregressive-lm"
+      "pretrain-finetune",
+      "autoregressive-lm",
+      "in-context-learning",
+      "zero-shot-transfer",
+      "byol",
+      "text-to-image-transformer"
+    ],
+    "themes": [
+      "theme-generative-image",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-vision-transformers",
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-contrastive-vl",
+      "theme-self-supervised-vision"
     ],
     "stats": {
       "ancestors": 5,
@@ -4955,9 +6314,25 @@
     "comment": "ICLR 2022 Spotlight (with extended discussion)",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "prompted-multitask"
+    ],
     "uses": [
-      "instruction-tuning"
+      "seq2seq",
+      "zero-shot-transfer",
+      "multitask-knowledge-benchmark",
+      "text-to-text",
+      "span-corruption",
+      "transformer"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-sequence-models",
+      "theme-contrastive-vl",
+      "theme-evaluation",
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 5,
@@ -4990,9 +6365,15 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "verifier-reranking"
+    ],
     "uses": [
       "transformer"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 1,
@@ -5022,9 +6403,18 @@
     "comment": "Short version. Accepted at Data Centric AI NeurIPS Workshop 2021",
     "depth": 1,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "clip-filtered-data"
+    ],
     "uses": [
-      "web-scale-image-text-data"
+      "in-context-learning",
+      "web-scale-image-text-data",
+      "text-to-image-transformer"
+    ],
+    "themes": [
+      "theme-datasets",
+      "theme-large-language-models",
+      "theme-generative-image"
     ],
     "stats": {
       "ancestors": 3,
@@ -5053,12 +6443,39 @@
     "comment": "Work in progress",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "mixture-of-modality-experts"
+    ],
     "uses": [
       "self-attention",
       "transformer",
-      "mixture-of-modality-experts",
-      "visual-question-answering"
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "web-scale-image-text-data",
+      "masked-image-modeling",
+      "unified-lm-masks",
+      "vision-transformer",
+      "noisy-alt-text-scaling",
+      "patch-vlp",
+      "cross-attention-fusion",
+      "object-tags-anchors",
+      "prefix-lm-vlp",
+      "wordpiece",
+      "vision-foundation-model",
+      "vl-object-detector",
+      "region-features"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-attention-transformers",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-self-supervised-vision",
+      "theme-lm-pretraining",
+      "theme-vision-transformers",
+      "theme-contrastive-vl",
+      "theme-region-vlp",
+      "theme-sequence-models"
     ],
     "stats": {
       "ancestors": 24,
@@ -5093,11 +6510,23 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
+      "seq2seq",
       "transformer",
       "vision-transformer",
       "hierarchical-vision-transformer",
+      "robust-pretraining-recipe",
+      "masked-image-modeling",
       "cross-attention-fusion",
       "visual-question-answering"
+    ],
+    "themes": [
+      "theme-sequence-models",
+      "theme-attention-transformers",
+      "theme-vision-transformers",
+      "theme-lm-pretraining",
+      "theme-self-supervised-vision",
+      "theme-region-vlp",
+      "theme-vqa"
     ],
     "stats": {
       "ancestors": 28,
@@ -5124,9 +6553,21 @@
     "comment": "Tech report. arXiv v2: add more transfer learning results; v3: add robustness evaluation",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "masked-autoencoder"
+    ],
     "uses": [
-      "vision-transformer"
+      "seq2seq",
+      "vision-transformer",
+      "autoregressive-lm",
+      "residual-connection"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-sequence-models",
+      "theme-vision-transformers",
+      "theme-large-language-models",
+      "theme-convnets"
     ],
     "stats": {
       "ancestors": 11,
@@ -5160,7 +6601,16 @@
     "uses": [
       "transformer",
       "residual-connection",
-      "vision-transformer"
+      "vision-transformer",
+      "vit-scaling",
+      "zero-shot-transfer",
+      "noisy-alt-text-scaling"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-vision-transformers"
     ],
     "stats": {
       "ancestors": 12,
@@ -5170,9 +6620,9 @@
   {
     "arxivId": "2111.09883",
     "title": "Swin Transformer V2: Scaling Up Capacity and Resolution",
-    "shortName": "Swin Transformer V2",
+    "shortName": "Swin V2",
     "kind": "method",
-    "slug": "swin-transformer-v2",
+    "slug": "swin-v2",
     "publishedAt": "2021-11-18",
     "authors": [
       "Ze Liu",
@@ -5193,10 +6643,20 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "post-norm-cosine-attention"
+    ],
     "uses": [
       "transformer",
-      "hierarchical-vision-transformer"
+      "hierarchical-vision-transformer",
+      "pretrain-finetune",
+      "in-context-learning"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 13,
@@ -5240,10 +6700,35 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "vision-foundation-model"
+    ],
     "uses": [
+      "pretrain-finetune",
+      "in-context-learning",
       "zero-shot-transfer",
-      "visual-question-answering"
+      "noisy-alt-text-scaling",
+      "visual-question-answering",
+      "attention-detection-head",
+      "robust-pretraining-recipe",
+      "web-scale-image-text-data",
+      "hierarchical-vision-transformer",
+      "transformer",
+      "vision-transformer",
+      "prefix-lm-vlp",
+      "noisy-student"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-vqa",
+      "theme-detection-grounding",
+      "theme-datasets",
+      "theme-vision-transformers",
+      "theme-attention-transformers",
+      "theme-end-to-end-vlp",
+      "theme-transfer-weak-supervision"
     ],
     "stats": {
       "ancestors": 20,
@@ -5346,7 +6831,31 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "transformer"
+      "transformer",
+      "extractive-reading-comprehension",
+      "segment-recurrence",
+      "positional-encoding",
+      "sparse-moe",
+      "diverse-text-corpus",
+      "sentencepiece",
+      "text-to-text",
+      "pretrain-finetune",
+      "span-corruption",
+      "prompted-multitask",
+      "model-parallelism",
+      "autoregressive-lm"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-evaluation",
+      "theme-sparse-models",
+      "theme-datasets",
+      "theme-sequence-models",
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-instruction-alignment",
+      "theme-systems-scaling",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 15,
@@ -5375,9 +6884,20 @@
     "comment": null,
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "concept-token-captioning"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "vision-transformer",
+      "consensus-caption-metric",
+      "novel-object-captioning",
+      "image-captioning-objective"
+    ],
+    "themes": [
+      "theme-captioning",
+      "theme-attention-transformers",
+      "theme-vision-transformers"
     ],
     "stats": {
       "ancestors": 17,
@@ -5427,7 +6947,22 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "in-context-learning"
+      "in-context-learning",
+      "zero-shot-transfer",
+      "sparse-moe",
+      "sentencepiece",
+      "automatic-sharding",
+      "transformer",
+      "word-embeddings"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-contrastive-vl",
+      "theme-sparse-models",
+      "theme-sequence-models",
+      "theme-systems-scaling",
+      "theme-attention-transformers",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 10,
@@ -5474,7 +7009,20 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "mixture-of-modality-experts"
+      "pretrain-finetune",
+      "autoregressive-lm",
+      "in-context-learning",
+      "sparse-moe",
+      "transformer",
+      "diverse-text-corpus",
+      "robust-pretraining-recipe"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-sparse-models",
+      "theme-attention-transformers",
+      "theme-datasets"
     ],
     "stats": {
       "ancestors": 17,
@@ -5555,9 +7103,22 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "knowledge-grounded-dialog"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "pretrain-finetune",
+      "phrase-grounding",
+      "text-to-text",
+      "scaling-laws"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-detection-grounding",
+      "theme-multitask-unification"
     ],
     "stats": {
       "ancestors": 6,
@@ -5587,7 +7148,25 @@
       "multimodal-mixture-encoder-decoder"
     ],
     "uses": [
-      "visual-question-answering"
+      "zero-shot-transfer",
+      "consensus-caption-metric",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "web-scale-image-text-data",
+      "vision-transformer",
+      "transformer",
+      "align-before-fuse",
+      "noisy-alt-text-scaling",
+      "prefix-lm-vlp"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-contrastive-vl",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-vision-transformers",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 12,
@@ -5628,10 +7207,24 @@
     "comment": "Shaden Smith and Mostofa Patwary contributed equally",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "3d-parallelism"
+    ],
     "uses": [
       "transformer",
-      "model-parallelism"
+      "pretrain-finetune",
+      "in-context-learning",
+      "zero-shot-transfer",
+      "model-parallelism",
+      "autoregressive-lm",
+      "pipeline-parallelism"
+    ],
+    "themes": [
+      "theme-systems-scaling",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-contrastive-vl"
     ],
     "stats": {
       "ancestors": 8,
@@ -5658,7 +7251,27 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "vision-transformer"
+      "vision-transformer",
+      "cross-attention-fusion",
+      "novel-object-captioning",
+      "image-captioning-objective",
+      "transformer",
+      "memory-captioning-transformer",
+      "robust-pretraining-recipe",
+      "concept-token-captioning",
+      "residual-connection",
+      "object-tags-anchors",
+      "decoupled-weight-decay",
+      "consensus-caption-metric"
+    ],
+    "themes": [
+      "theme-vision-transformers",
+      "theme-region-vlp",
+      "theme-captioning",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-convnets",
+      "theme-training-optimization"
     ],
     "stats": {
       "ancestors": 20,
@@ -5699,9 +7312,18 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "sft-rlhf-pipeline"
+    ],
     "uses": [
-      "rlhf"
+      "pretrain-finetune",
+      "rlhf",
+      "prompted-multitask",
+      "ppo"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 11,
@@ -5744,10 +7366,25 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "compute-optimal-scaling"
+    ],
     "uses": [
       "transformer",
-      "model-parallelism"
+      "pretrain-finetune",
+      "model-parallelism",
+      "multitask-knowledge-benchmark",
+      "sparse-moe",
+      "switch-routing",
+      "scaling-laws"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-attention-transformers",
+      "theme-lm-pretraining",
+      "theme-systems-scaling",
+      "theme-evaluation",
+      "theme-sparse-models"
     ],
     "stats": {
       "ancestors": 9,
@@ -5835,9 +7472,37 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "pathways"
+    ],
     "uses": [
-      "transformer"
+      "transformer",
+      "in-context-learning",
+      "multitask-knowledge-benchmark",
+      "autoregressive-lm",
+      "code-llm",
+      "verifier-reranking",
+      "compute-optimal-scaling",
+      "model-parallelism",
+      "pipeline-parallelism",
+      "scaling-laws",
+      "sentencepiece",
+      "text-to-text",
+      "span-corruption",
+      "glu-variants",
+      "rotary-position-embedding",
+      "knowledge-grounded-dialog",
+      "instruction-tuning"
+    ],
+    "themes": [
+      "theme-systems-scaling",
+      "theme-attention-transformers",
+      "theme-large-language-models",
+      "theme-evaluation",
+      "theme-sequence-models",
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-instruction-alignment"
     ],
     "stats": {
       "ancestors": 21,
@@ -5865,11 +7530,24 @@
     "comment": "CVPR 2022",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "image-text-label-contrastive"
+    ],
     "uses": [
       "transformer",
       "residual-connection",
-      "hierarchical-vision-transformer"
+      "hierarchical-vision-transformer",
+      "pretrain-finetune",
+      "zero-shot-transfer",
+      "web-scale-image-text-data"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-attention-transformers",
+      "theme-convnets",
+      "theme-vision-transformers",
+      "theme-lm-pretraining",
+      "theme-datasets"
     ],
     "stats": {
       "ancestors": 7,
@@ -5908,7 +7586,24 @@
     "depth": 2,
     "fullTextSource": "html",
     "introduces": [],
-    "uses": [],
+    "uses": [
+      "autoregressive-lm",
+      "in-context-learning",
+      "open-llm",
+      "diverse-text-corpus",
+      "transformer",
+      "scaling-laws",
+      "text-to-text",
+      "model-parallelism",
+      "rotary-position-embedding"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-datasets",
+      "theme-attention-transformers",
+      "theme-multitask-unification",
+      "theme-systems-scaling"
+    ],
     "stats": {
       "ancestors": 10,
       "descendants": 2
@@ -5918,7 +7613,7 @@
     "arxivId": "2204.07705",
     "title": "Super-NaturalInstructions: Generalization via Declarative Instructions on 1600+ NLP Tasks",
     "shortName": "Super-NaturalInstructions",
-    "kind": "method",
+    "kind": "dataset",
     "slug": "super-naturalinstructions",
     "publishedAt": "2022-04-16",
     "authors": [
@@ -5970,7 +7665,19 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "transformer"
+      "transformer",
+      "instruction-datasets",
+      "sft-rlhf-pipeline",
+      "autoregressive-lm",
+      "rlhf",
+      "text-to-text",
+      "prompted-multitask"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-instruction-alignment",
+      "theme-large-language-models",
+      "theme-multitask-unification"
     ],
     "stats": {
       "ancestors": 6,
@@ -6020,9 +7727,25 @@
     "fullTextSource": "html",
     "introduces": [
       "perceiver-resampler",
-      "gated-cross-attention"
+      "gated-cross-attention",
+      "interleaved-image-text"
     ],
-    "uses": [],
+    "uses": [
+      "in-context-learning",
+      "compute-optimal-scaling",
+      "latent-cross-attention",
+      "noisy-alt-text-scaling",
+      "zero-shot-transfer",
+      "cross-attention-fusion",
+      "transformer"
+    ],
+    "themes": [
+      "theme-vlm-llm",
+      "theme-large-language-models",
+      "theme-attention-transformers",
+      "theme-contrastive-vl",
+      "theme-region-vlp"
+    ],
     "stats": {
       "ancestors": 13,
       "descendants": 2
@@ -6065,7 +7788,24 @@
       "open-llm"
     ],
     "uses": [
-      "transformer"
+      "transformer",
+      "autoregressive-lm",
+      "in-context-learning",
+      "diverse-text-corpus",
+      "compute-optimal-scaling",
+      "robust-pretraining-recipe",
+      "sft-rlhf-pipeline",
+      "pretrain-finetune",
+      "model-parallelism",
+      "knowledge-grounded-dialog"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-attention-transformers",
+      "theme-datasets",
+      "theme-lm-pretraining",
+      "theme-instruction-alignment",
+      "theme-systems-scaling"
     ],
     "stats": {
       "ancestors": 14,
@@ -6096,8 +7836,40 @@
       "contrastive-captioner"
     ],
     "uses": [
+      "seq2seq",
+      "zero-shot-transfer",
+      "noisy-alt-text-scaling",
+      "vision-foundation-model",
+      "cross-attention-fusion",
+      "prefix-lm-vlp",
+      "novel-object-captioning",
       "image-captioning-objective",
-      "visual-question-answering"
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "text-to-text",
+      "pretrain-finetune",
+      "web-scale-image-text-data",
+      "hashtag-supervision",
+      "masked-autoencoder",
+      "mixture-of-modality-experts",
+      "transformer",
+      "frozen-image-encoder",
+      "vision-transformer"
+    ],
+    "themes": [
+      "theme-contrastive-vl",
+      "theme-sequence-models",
+      "theme-region-vlp",
+      "theme-end-to-end-vlp",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-multitask-unification",
+      "theme-lm-pretraining",
+      "theme-datasets",
+      "theme-transfer-weak-supervision",
+      "theme-self-supervised-vision",
+      "theme-attention-transformers",
+      "theme-vision-transformers"
     ],
     "stats": {
       "ancestors": 16,
@@ -6122,11 +7894,36 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "masked-vl-modeling"
+    ],
     "uses": [
       "transformer",
       "masked-image-modeling",
-      "visual-question-answering"
+      "vision-foundation-model",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "web-scale-image-text-data",
+      "vision-transformer",
+      "patch-vlp",
+      "align-before-fuse",
+      "object-tags-anchors",
+      "region-features",
+      "mixture-of-modality-experts",
+      "prefix-lm-vlp",
+      "visual-prefix",
+      "vl-object-detector"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-attention-transformers",
+      "theme-self-supervised-vision",
+      "theme-contrastive-vl",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-vision-transformers",
+      "theme-region-vlp",
+      "theme-vlm-llm"
     ],
     "stats": {
       "ancestors": 19,
@@ -6136,9 +7933,9 @@
   {
     "arxivId": "2206.04615",
     "title": "Beyond the Imitation Game: Quantifying and extrapolating the capabilities of language models",
-    "shortName": "Beyond the Imitation Game",
-    "kind": "method",
-    "slug": "beyond-the-imitation-game",
+    "shortName": "BIG-bench",
+    "kind": "benchmark",
+    "slug": "big-bench",
     "publishedAt": "2022-06-09",
     "authors": [
       "Aarohi Srivastava",
@@ -6600,7 +8397,22 @@
     "fullTextSource": "html",
     "introduces": [],
     "uses": [
-      "transformer"
+      "transformer",
+      "multitask-knowledge-benchmark",
+      "in-context-learning",
+      "pathways",
+      "compute-optimal-scaling",
+      "scaling-laws",
+      "instruction-datasets",
+      "prompted-multitask",
+      "knowledge-grounded-dialog"
+    ],
+    "themes": [
+      "theme-attention-transformers",
+      "theme-evaluation",
+      "theme-large-language-models",
+      "theme-systems-scaling",
+      "theme-instruction-alignment"
     ],
     "stats": {
       "ancestors": 18,
@@ -6637,8 +8449,19 @@
     "comment": "Transactions on Machine Learning Research (TMLR), 2022",
     "depth": 3,
     "fullTextSource": "html",
-    "introduces": [],
-    "uses": [],
+    "introduces": [
+      "emergent-abilities"
+    ],
+    "uses": [
+      "autoregressive-lm",
+      "multitask-knowledge-benchmark",
+      "compute-optimal-scaling",
+      "scaling-laws"
+    ],
+    "themes": [
+      "theme-large-language-models",
+      "theme-evaluation"
+    ],
     "stats": {
       "ancestors": 12,
       "descendants": 2
@@ -6663,9 +8486,27 @@
     "comment": null,
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "semantic-visual-tokenizer"
+    ],
     "uses": [
-      "masked-image-modeling"
+      "vision-transformer",
+      "pretrain-finetune",
+      "masked-image-modeling",
+      "knowledge-distillation",
+      "discrete-visual-tokens",
+      "masked-autoencoder",
+      "text-to-image-transformer",
+      "vit-vqgan",
+      "transformer"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-vision-transformers",
+      "theme-lm-pretraining",
+      "theme-training-optimization",
+      "theme-generative-image",
+      "theme-attention-transformers"
     ],
     "stats": {
       "ancestors": 9,
@@ -6697,10 +8538,35 @@
     "comment": "18 pages",
     "depth": 1,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "multiway-transformer"
+    ],
     "uses": [
-      "masked-image-modeling",
-      "visual-question-answering"
+      "vision-foundation-model",
+      "image-captioning-objective",
+      "visual-question-answering",
+      "grounded-visual-reasoning",
+      "web-scale-image-text-data",
+      "unified-lm-masks",
+      "balanced-vqa",
+      "sentencepiece",
+      "decoupled-weight-decay",
+      "semantic-visual-tokenizer",
+      "discrete-visual-tokens",
+      "vision-transformer"
+    ],
+    "themes": [
+      "theme-end-to-end-vlp",
+      "theme-contrastive-vl",
+      "theme-captioning",
+      "theme-vqa",
+      "theme-datasets",
+      "theme-lm-pretraining",
+      "theme-sequence-models",
+      "theme-training-optimization",
+      "theme-self-supervised-vision",
+      "theme-generative-image",
+      "theme-vision-transformers"
     ],
     "stats": {
       "ancestors": 29,
@@ -6756,10 +8622,27 @@
     "comment": "Public checkpoints: https://huggingface.co/docs/transformers/model_doc/flan-t5",
     "depth": 1,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "chain-of-thought-finetuning"
+    ],
     "uses": [
       "text-to-text",
-      "instruction-tuning"
+      "in-context-learning",
+      "instruction-tuning",
+      "zero-shot-transfer",
+      "multitask-knowledge-benchmark",
+      "verifier-reranking",
+      "sft-rlhf-pipeline",
+      "rlhf",
+      "mixture-of-denoisers"
+    ],
+    "themes": [
+      "theme-instruction-alignment",
+      "theme-multitask-unification",
+      "theme-large-language-models",
+      "theme-contrastive-vl",
+      "theme-evaluation",
+      "theme-lm-pretraining"
     ],
     "stats": {
       "ancestors": 12,
@@ -6796,9 +8679,24 @@
     "comment": "V2 has updated references/related work",
     "depth": 2,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "mixture-of-denoisers"
+    ],
     "uses": [
-      "scaling-laws"
+      "in-context-learning",
+      "scaling-laws",
+      "emergent-abilities",
+      "verifier-reranking",
+      "chain-of-thought-finetuning",
+      "multitask-knowledge-benchmark",
+      "compute-optimal-scaling",
+      "span-corruption"
+    ],
+    "themes": [
+      "theme-lm-pretraining",
+      "theme-large-language-models",
+      "theme-instruction-alignment",
+      "theme-evaluation"
     ],
     "stats": {
       "ancestors": 13,
@@ -6828,9 +8726,19 @@
     "comment": "v2: (i) fix / update EVA IN-1K variants results. (ii) add / update EVA-CLIP results. (iii) add Appendix. (iv) release all the code and models at https://github.com/baaivision/EVA",
     "depth": 1,
     "fullTextSource": "html",
-    "introduces": [],
+    "introduces": [
+      "clip-feature-mim"
+    ],
     "uses": [
-      "vision-transformer"
+      "vision-transformer",
+      "pretrain-finetune",
+      "vision-foundation-model"
+    ],
+    "themes": [
+      "theme-self-supervised-vision",
+      "theme-vision-transformers",
+      "theme-lm-pretraining",
+      "theme-contrastive-vl"
     ],
     "stats": {
       "ancestors": 16,
@@ -6862,7 +8770,24 @@
     "uses": [
       "transformer",
       "frozen-llm",
-      "frozen-image-encoder"
+      "zero-shot-transfer",
+      "frozen-image-encoder",
+      "unified-lm-masks",
+      "self-attention",
+      "clip-feature-mim",
+      "vision-transformer",
+      "decoupled-weight-decay",
+      "open-llm"
+    ],
+    "themes": [
+      "theme-vlm-llm",
+      "theme-attention-transformers",
+      "theme-contrastive-vl",
+      "theme-lm-pretraining",
+      "theme-self-supervised-vision",
+      "theme-vision-transformers",
+      "theme-training-optimization",
+      "theme-large-language-models"
     ],
     "stats": {
       "ancestors": 16,

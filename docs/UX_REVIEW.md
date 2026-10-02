@@ -11,8 +11,8 @@ The spec was written for 9 hand-picked papers. The real dataset traced back from
 
 | Property | Spec assumption | Real data | Consequence |
 |---|---|---|---|
-| Papers | 9 | **205** (harvested 229, 24 excluded as off-topic) across 2013–2023 | Showing the whole graph on the homepage would be unreadable |
-| Lineage edges | ~10, hand-written | **1,369**, mined from citation text | One-by-one review won't scale; a bulk triage UX is needed |
+| Papers | 9 | **197** (harvested 229, 32 excluded as off-topic) across 2013–2023 | Showing the whole graph on the homepage would be unreadable |
+| Lineage edges | ~10, hand-written | **1,347**, mined from citation text | One-by-one review won't scale; a bulk triage UX is needed |
 | Node types | all "methods" | methods **plus datasets** (COCO, Visual Genome, LAION, CC12M) and benchmarks (VQA) | Datasets need their own look and filter |
 | Edge certainty | all verified | citation facts are certain, but the *relation label* is a guess | Facts and interpretations must be modelled separately (see §2) |
 | Edge text | hand-written explanation | the citing sentence plus mention counts per section | The evidence quote comes free on every edge |
@@ -77,7 +77,7 @@ Checked against *App SDK best practices*, *Editing documents*, *React hooks* and
 | D1 | "useDocuments for draft influence…" plus big queries | Fetch **document handles** with `useDocuments`, then render each card in its own component using `useDocumentProjection`. **One Suspense-ful hook per component**, with Suspense around every card | `EdgeList` uses `useDocuments({documentType:'influence', filter:'to._ref == $paper && provenance.reviewDecision == "proposed"'})`. Each `EdgeCard` uses `useDocumentProjection` and is wrapped in `<Suspense>` with a **fixed-height skeleton** so the layout doesn't jump |
 | D2 | Inline edit, then save | **No save, submit or lock buttons.** Read with `useDocument` and write with `useEditDocument`, without copying into local state | The explanation and relation pickers write straight to the document. Undo is a toast that writes the previous value back |
 | D3 | Accept = set `reviewDecision` | `useEditDocument` writes to the **draft**. Seeded edges are *published*, so accepting has to publish too | **Accept** = a single `useApplyDocumentActions` call doing `[editDocument(reviewDecision='accepted'), publishDocument(handle)]` in one transaction. **Reject** = edit and publish as well (the rejection is kept as data, so the edge stays hidden). Pipeline-created AI edges are still drafts until the workflow's `publish-bundle` |
-| D4 | One edge at a time | There are 1,369 mined edges, and the SDK supports batchable document actions | **Triage mode**: group by citing paper, with "Accept all high-confidence" (confidence ≥ 0.8 **and** cited in Method) as **one batched `apply()`**. It shows the count before applying |
+| D4 | One edge at a time | There are 1,347 mined edges, and the SDK supports batchable document actions | **Triage mode**: group by citing paper, with "Accept all high-confidence" (confidence ≥ 0.8 **and** cited in Method) as **one batched `apply()`**. It shows the count before applying |
 | D5 | (missing) | `useAgentPatch` makes schema-validated Agent Action edits from the app | **✨ Rewrite** on a card: Agent Action *patch* rewrites `explanation` from the evidence quote and the chosen relation. It shows the AI-credit cost, and the result appears live like any other edit |
 | D6 | (missing) | `useNavigateToStudioDocument`, `useDocumentEvent`, `useProjectMembers` | **Open in Studio** link on every card. **Live activity feed** ("Akash accepted ALBEF → BLIP") from `useDocumentEvent`. Assignee avatars from the Workflows `AssigneePicker` and `useProjectMembers` |
 | D7 | Review only | Pages built with the App SDK should do things you can't do in the Studio | **Storyline Composer** tab: pick a verified path in the graph to create a `storyline` with ordered steps. The narrative is edited with **`SDKPortableTextEditable`**, which shows other people's cursors live. This is real collaborative authoring, not a CRUD form |
@@ -99,7 +99,7 @@ Checked against *App SDK best practices*, *Editing documents*, *React hooks* and
   - papers with 0 accepted ancestors
   - `kind=dataset` papers with no `dataset` doc
   - edges whose only quote is from Related Work (weak evidence)
-- **Concept tagging** (49 concepts): a "Concept coverage" list shows concepts used by fewer than 2 papers, which are candidates to merge.
+- **Concept taxonomy** (25 themes → 180 concepts, `concept.broader`): a "Concept coverage" list shows concepts used by only 1 paper (merge candidates) and papers with no introduced concept.
 - The Lineage view tab and validation rules are unchanged.
 
 ---

@@ -1,6 +1,6 @@
 # Paper Lineage — Product & Technical Spec
 
-Status: **Draft v2** · 2026-10-02 (v2 adds the [UX review](UX_REVIEW.md) changes after harvesting real data: 205 papers, 1,369 edges) · Submission deadline **2026-10-04 23:59 PDT**
+Status: **Draft v2** · 2026-10-02 (v2 adds the [UX review](UX_REVIEW.md) changes after harvesting real data: 197 papers, 1,347 edges, 25 themes → 180 concepts) · Submission deadline **2026-10-04 23:59 PDT**
 Architecture: see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -115,8 +115,9 @@ Preview: `title · year`, with the key figure as media.
 Preview: `Transformer → ViT`, subtitle `applies-to-new-domain · self-attention`.
 
 ### 4.3 `concept`
-`name` (required), `slug`, `aliases[]` (string), `category` enum (`architecture` · `objective` · `optimization` · `training-technique` · `data` · `evaluation`), `summary` (string, max 200), `color` (derived from category in code, not stored).
-Introduced-by and used-by are **derived** with `references()` queries and never stored twice.
+`name` (required), `slug`, `level` (`theme` · `concept`), ⭐ `broader` → `concept` (required for concepts, filtered to `level == "theme"`, absent on themes), `aliases[]` (string), `category` enum (`architecture` · `objective` · `optimization` · `training-technique` · `data` · `evaluation`), `summary` (string, max 200), `color` (derived from category in code, not stored).
+Two levels: **25 themes → 180 concepts** (seed: `data/curated/concepts.json`, written by the agent from all 197 abstracts, `origin: 'ai'`). Concept pages show the theme breadcrumb, and theme pages aggregate their concepts' papers.
+Introduced-by and used-by are **derived** with `references()` queries and never stored twice. A paper's *uses* combines its abstract and the concepts inherited along its incoming edges.
 
 ### 4.4 `dataset`
 `name`, `slug`, `modality` enum (`text` · `image` · `image-text` · `audio` · `multimodal`), `size` (string, e.g. "1.2M images"), `url`.

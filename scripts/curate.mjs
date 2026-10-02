@@ -17,6 +17,8 @@ import {readFile, writeFile} from 'node:fs/promises'
 const graph = JSON.parse(await readFile('data/raw/graph.json', 'utf8'))
 const concepts = JSON.parse(await readFile('data/curated/concepts.json', 'utf8'))
 const overrides = JSON.parse(await readFile('data/curated/overrides.json', 'utf8'))
+const themes = concepts.filter((c) => c.level === 'theme')
+const leafConcepts = concepts.filter((c) => c.level !== 'theme')
 const kindOf = (id) => Object.entries(overrides.kinds).find(([, ids]) => ids.includes(id))?.[0] ?? 'method'
 
 // Well-known short names; everything else falls back to the text before a colon in the title.
@@ -62,7 +64,7 @@ const shortName = (p) => {
   return head.length <= 28 && head !== p.title ? head : p.title.split(/\s+/).slice(0, 5).join(' ')
 }
 const slugify = (s) => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60)
-const hasAlias = (text, c) => [c.name, ...c.aliases].some((a) => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text))
+const hasAlias = (text, c) => [c.name, ...(c.aliases ?? [])].some((a) => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text))
 
 // 1. Influence filter + reachability back to the root.
 const isStrong = (e) => e.mentions >= 2 || e.methodMentions >= 1
@@ -82,9 +84,10 @@ const conceptBySlug = new Map(concepts.map((c) => [c.slug, c]))
 const paperConcepts = new Map()
 for (const p of papers) {
   const text = `${p.title}. ${p.abstract ?? ''}`
-  const introduces = concepts.filter((c) => c.introducedBy === p.arxivId).map((c) => c.slug)
-  const uses = concepts.filter((c) => !introduces.includes(c.slug) && hasAlias(text, c)).map((c) => c.slug)
-  paperConcepts.set(p.arxivId, {introduces, uses})
+  const introduces = leafConcepts.filter((c) => c.introducedBy === p.arxivId).map((c) => c.slug)
+  const uses = leafConcepts.filter((c) => !introduces.includes(c.slug) && hasAlias(text, c)).map((c) => c.slug)
+  const themesOf = [...new Set([...introduces, ...uses].map((slug) => conceptBySlug.get(slug).broader))]
+  paperConcepts.set(p.arxivId, {introduces, uses, themes: themesOf})
 }
 
 // 2 + 4. Edges with proposed relation, inherited concepts and evidence.
@@ -155,6 +158,28 @@ function explain(relation, from, to, e, inherited) {
   return `${shortName(to)} ${verbs[relation]} ${shortName(from)}${what}${where}.`.slice(0, 280)
 }
 
+// Abstracts under-report what a paper uses; its own citation sentences fill the gap.
+// Whatever a paper inherits along an incoming edge, it uses.
+for (const i of influences) {
+  const pc = paperConcepts.get(i.to)
+  for (const slug of i.inherited) {
+    if (!pc.introduces.includes(slug) && !pc.uses.includes(slug)) pc.uses.push(slug)
+  }
+  pc.themes = [...new Set([...pc.introduces, ...pc.uses].map((slug) => conceptBySlug.get(slug).broader))]
+}
+
+// Integrity: every broader link and introducedBy must resolve, or the taxonomy has a typo.
+const problems = []
+for (const c of leafConcepts) {
+  if (!themes.some((t) => t.slug === c.broader)) problems.push(`${c.slug}: unknown broader "${c.broader}"`)
+  if (c.introducedBy && !keptIds.has(c.introducedBy)) problems.push(`${c.slug}: introducedBy ${c.introducedBy} is not in the dataset`)
+}
+if (new Set(concepts.map((c) => c.slug)).size !== concepts.length) problems.push('duplicate concept slugs')
+if (problems.length) {
+  console.error('Taxonomy problems:\n  ' + problems.join('\n  '))
+  process.exit(1)
+}
+
 // Output in a CMS-agnostic shape; the seed script maps it onto Sanity documents.
 const outPapers = papers
   .sort((a, b) => a.published.localeCompare(b.published))
@@ -192,4 +217,7 @@ await writeFile('data/curated/influences.json', JSON.stringify(influences, null,
 const relCounts = Object.fromEntries(Object.entries(Object.groupBy(influences, (i) => i.relation ?? '(unlabelled)')).map(([k, v]) => [k, v.length]))
 console.log(`papers: ${outPapers.length} (dropped ${Object.keys(graph.papers).length - outPapers.length}: excluded or unreachable)`, Object.fromEntries(Object.entries(Object.groupBy(outPapers, (p) => p.kind)).map(([k, v]) => [k, v.length])))
 console.log(`influences: ${influences.length}`, relCounts)
-console.log(`concepts used: ${new Set(outPapers.flatMap((p) => [...p.introduces, ...p.uses])).size}/${concepts.length}`)
+const used = new Set(outPapers.flatMap((p) => [...p.introduces, ...p.uses]))
+console.log(`concepts: ${themes.length} themes, ${leafConcepts.length} concepts (${used.size} used by ≥1 paper)`)
+console.log(`papers introducing ≥1 concept: ${outPapers.filter((p) => p.introduces.length).length}/${outPapers.length}; with no concept at all: ${outPapers.filter((p) => !p.introduces.length && !p.uses.length).length}`)
+console.log(`edges with inherited concepts: ${influences.filter((i) => i.inherited.length).length}/${influences.length}`)

@@ -56,3 +56,13 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Design change this caused:** facts vs interpretations (see `UX_REVIEW.md`). Citation facts are public; relation labels need human acceptance.
 
 **Time:** about 3 h, mostly waiting on rate limits.
+
+## 2026-10-02 · Session 2b: the concept list was too thin (human caught it)
+
+**Prompt:** "In 205 papers, there are only 48 concepts."
+
+**What was wrong:** the agent wrote the 48-concept vocabulary *before* the data existed, so it only covered ideas the agent expected (Q-Former, CLIP, BERT…). Most papers' own contributions (MAE's masking, DeiT's distillation token, Swin's shifted windows, GPipe, RoPE…) had no concept at all. The agent also had two attributions wrong: the **single-stream VL Transformer** came from VisualBERT, not UNITER, and **image–text contrastive learning** came from ConVIRT (2020), *before* CLIP.
+
+**Fix:** the agent read all 197 abstracts and rebuilt the vocabulary as a **two-level taxonomy**: 25 themes → 180 concepts, each concept with a `broader` theme and an `introducedBy` paper. `curate.mjs` now fails if any `broader` or `introducedBy` doesn't resolve. "Uses" now also comes from the paper's own citation sentences (whatever it inherits along an incoming edge), because abstracts under-report methods. While reading, it found 8 more off-topic papers (NeRF, dialogue platforms…) and excluded them with reasons.
+
+**Result:** 163/197 papers introduce at least one concept, there are 5.4 concepts per paper on average, and every concept is used. Inherited concepts on edges went from 382 to 701. Nice side-effect for the story: the taxonomy shows *Set Transformer → Perceiver → Flamingo's resampler → BLIP-2's Q-Former* as one idea evolving.
