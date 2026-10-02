@@ -1,8 +1,8 @@
 # Paper Lineage
 
-**Every idea has ancestors.** An evidence-backed family tree of landmark AI papers. AI agents propose the links and human curators approve them, both acting through the same Sanity Workflow.
+**Every idea has ancestors.** Ask a question about AI papers and get an answer from an evidence-backed family tree of 197 papers traced back from BLIP-2. Citation facts are mined from full text; relation labels appear only after a curator accepts them.
 
-Built for the [DEV × Sanity Challenge](https://dev.to/devteam/join-the-sanity-challenge-2500-in-prizes-for-five-winners-514m), Path Two (vibe-coded app). It uses the bonus features **Sanity Workflows** and the **App SDK**.
+Built for the [DEV × Sanity Challenge](): Path Two (vibe-coded app) with the **Workflows** and **App SDK** bonuses; the Ask agent runs on **Sanity Context** (GROQ endpoint + Knowledge Base).
 
 - 📐 [Architecture](docs/ARCHITECTURE.md)
 - 🎨 [Design spec](docs/DESIGN_SPEC.md)
@@ -10,6 +10,6 @@ Built for the [DEV × Sanity Challenge](https://dev.to/devteam/join-the-sanity-c
 - 📋 [Spec](docs/SPEC.md)
 - 📓 [Build log](docs/BUILD_LOG.md)
 
-Stack: Sanity (Content Lake, Studio, Functions, Agent Actions, Workflows, App SDK, Live Content API, Visual Editing) · Next.js · React Flow · Vercel. Uses Sanity Free plan features only.
+Stack: Sanity (Content Lake, Context MCP + Knowledge Base, Studio, App SDK, Functions, Agent Actions, Workflows, Live Content API, Visual Editing) · Next.js · React Flow · Vercel. Uses Sanity Free plan features only.
 
-> Status: spec complete, implementation not started.
+> Status: schema deployed and `production` seeded (1,950 docs); Knowledge Base package ready; Context endpoints pending setup ([steps](docs/CONTEXT_SETUP.md)); site and Desk not built yet.
