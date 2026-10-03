@@ -11,6 +11,7 @@ export type Turn = {
   sources?: {verified: number; unreviewed: number; papers: number}
   outcome?: 'answered' | 'partial' | 'unanswered'
   status: 'streaming' | 'done' | 'error' | 'stopped'
+  activity?: string // the agent's current step, while streaming
   error?: {code: string; message: string; retryAfterSeconds?: number}
 }
 
@@ -22,6 +23,8 @@ export function applyEvent(turn: Turn, e: AskEvent): Turn {
       if (last?.kind === 'text') return {...turn, parts: [...turn.parts.slice(0, -1), {kind: 'text', text: last.text + e.delta}]}
       return {...turn, parts: [...turn.parts, {kind: 'text', text: e.delta}]}
     }
+    case 'status':
+      return {...turn, activity: e.text}
     case 'card-start':
       return turn.parts.some((p) => p.kind === 'card' && p.id === e.id) ? turn : {...turn, parts: [...turn.parts, {kind: 'card', id: e.id, tool: e.tool}]}
     case 'card': {
@@ -38,9 +41,9 @@ export function applyEvent(turn: Turn, e: AskEvent): Turn {
     case 'outcome':
       return {...turn, outcome: e.outcome}
     case 'done':
-      return {...turn, status: 'done', parts: turn.parts.filter((p) => p.kind === 'text' || p.card)}
+      return {...turn, status: 'done', activity: undefined, parts: turn.parts.filter((p) => p.kind === 'text' || p.card)}
     case 'error':
-      return {...turn, status: 'error', error: {code: e.code, message: e.message, retryAfterSeconds: e.retryAfterSeconds}, parts: turn.parts.filter((p) => p.kind === 'text' || p.card)}
+      return {...turn, status: 'error', activity: undefined, error: {code: e.code, message: e.message, retryAfterSeconds: e.retryAfterSeconds}, parts: turn.parts.filter((p) => p.kind === 'text' || p.card)}
   }
 }
 

@@ -26,6 +26,7 @@ export type Card =
 /** Events on the NDJSON stream. */
 export type AskEvent =
   | {type: 'text'; delta: string; lead?: boolean} // lead: the answer's prose, placed above the cards
+  | {type: 'status'; text: string} // what the agent is doing right now (a lookup), shown while it works
   | {type: 'card-start'; id: string; tool: string}
   | {type: 'card'; id: string; card: Card}
   | {type: 'card-error'; id: string; message: string}

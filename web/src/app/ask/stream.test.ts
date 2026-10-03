@@ -55,3 +55,10 @@ test('the lead arrives last but is placed above the cards, replacing any earlier
   assert.deepEqual(t.parts.map((p) => p.kind), ['text', 'card'])
   assert.equal(t.parts[0].kind === 'text' && t.parts[0].text, 'The Q-Former is BLIP-2’s own module.')
 })
+
+test('status events show the current step and clear when the answer is done', () => {
+  let t = applyEvent(start, {type: 'status', text: 'Searching the lineage graph…'})
+  assert.equal(t.activity, 'Searching the lineage graph…')
+  t = applyEvent(t, {type: 'done'})
+  assert.equal(t.activity, undefined)
+})

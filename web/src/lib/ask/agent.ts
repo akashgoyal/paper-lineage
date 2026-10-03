@@ -71,6 +71,8 @@ async function contextPrimer(graph: McpSession, papers?: McpSession) {
 }
 
 const NARRATION = /^(let me|let's|i'll|i will|i'm going to|now,? (i|let)|next,? (i|let)|first,? (i|let))\b/i
+// Sentences about the machinery rather than the papers ("The quote tool couldn't match that verbatim…").
+const META = /\b(tool|tools|verbatim|display|card|cards)\b/i
 const wordsOf = (s: string) =>
   new Set(
     s
@@ -100,7 +102,7 @@ export function forReader(text: string, seen: Set<string>[] = [], cutOff = false
     sentences
       .filter((sentence) => {
         const plain = sentence.replace(/^[-*]\s+/, '')
-        if (NARRATION.test(plain)) return false
+        if (NARRATION.test(plain) || META.test(plain)) return false
         const words = wordsOf(plain)
         if (words.size >= 4 && seen.some((w) => similar(w, words))) return false
         seen.push(words)
@@ -108,7 +110,18 @@ export function forReader(text: string, seen: Set<string>[] = [], cutOff = false
       })
       .join(' '),
   )
-  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim()
+  // A lead-in left with nothing to introduce ("In short:") goes too.
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim().replace(/(^|(?<=[.!?])\s+|\n)[^.!?\n]{0,30}:\s*$/, '').trim()
+}
+
+/** A visitor-facing description of each step, so a 20–40 s answer shows progress. */
+function activityLabel(name: string, args: unknown): string | null {
+  const a = (args ?? {}) as {paths?: string[]; query?: string}
+  if (name === 'groq_query') return 'Searching the lineage graph…'
+  if (name === 'knowledge_base_search') return 'Searching the papers…'
+  if (name === 'knowledge_base_read') return `Reading ${(a.paths ?? []).slice(0, 2).join(' and ') || 'the papers'} in the Knowledge Base…`
+  if (name === 'showChain' || name === 'showQuote' || name === 'showPapers' || name === 'showComparison') return 'Checking the evidence…'
+  return null
 }
 
 const asFunction = (t: McpTool | (typeof DISPLAY_TOOLS)[number]): FunctionTool => ({
@@ -170,6 +183,7 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
     finish: '',
   }
 
+  o.send({type: 'status', text: 'Reading the question…'})
   const maxTurns = o.maxTurns ?? 8
   let wrote = false
   let nudged = false
@@ -261,10 +275,9 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
     const made = calls.filter(Boolean)
     const lookup = made.some((c) => !DISPLAY.has(c.function.name))
     const prose = lookup ? '' : forReader(text, [], made.length > 0)
-    if (prose) {
-      lead = prose
-      wrote = true
-    }
+    // Keep the most complete version (models' last words are often a short reaction to a tool result).
+    if (prose && prose.length >= lead.length) lead = prose
+    if (prose) wrote = true
     if (!made.length) {
       // Cut off with nothing usable (often all reasoning): ask once for a short answer instead of ending blank.
       if (run.finish === 'length' && !prose && !nudged) {
@@ -301,6 +314,8 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
         continue
       }
       o.onToolCall?.(name, args)
+      const step = activityLabel(name, args)
+      if (step) o.send({type: 'status', text: step})
       if (DISPLAY.has(name)) {
         const key = `${name}:${JSON.stringify(args)}`
         const isCard = !SILENT_CARDS.has(name)
@@ -359,7 +374,13 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
     if (o.ctx.outcome || run.toolCalls.includes('suggestFollowUps')) break
   }
   // Models sometimes stop without reporting. Infer it the way rule 7 defines it: unverified evidence is "partial".
-  if (lead) o.send({type: 'text', delta: lead, lead: true})
+  if (lead) {
+    const blocks = lead.split(/\n\s*\n/)
+    const take = blocks[0].trim().endsWith(':') && blocks.length > 1 ? 2 : 1
+    o.send({type: 'text', delta: blocks.slice(0, take).join('\n\n'), lead: true})
+    const detail = blocks.slice(take).join('\n\n').trim()
+    if (detail) o.send({type: 'text', delta: detail})
+  }
   if (!wrote && !counts.total && !o.signal?.aborted) {
     o.send({type: 'text', delta: 'I couldn’t put an answer together this time. Try rephrasing the question, or open the paper pages directly.'})
   }

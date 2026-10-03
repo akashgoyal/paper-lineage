@@ -104,7 +104,16 @@ function Answer({turn, onOpen, onAsk, streaming}: {turn: Turn; onOpen: (i: OpenI
           <CardSkeleton key={p.id} />
         ),
       )}
-      {turn.status === 'streaming' && turn.parts.length === 0 && <div className="h-6 w-32 animate-pulse rounded bg-line" aria-label="Thinking" />}
+      {turn.status === 'streaming' && (
+        <p role="status" aria-live="polite" className="m-0 flex items-center gap-2 text-sm text-ink-2">
+          <span aria-hidden className="relative flex size-2.5">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-select/50" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-select" />
+          </span>
+          {turn.activity ?? 'Reading the question…'}
+          <span className="text-muted">· answers take 15–40 s</span>
+        </p>
+      )}
       {turn.outcome === 'partial' && turn.status === 'done' && (
         <p className="m-0 text-[13px] text-ink-2">These links haven’t been reviewed yet, so they show what the papers cite, not how they’re related.</p>
       )}

@@ -265,9 +265,10 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
             <Legend />
           </section>
 
-          <MobileList focus={focus} result={result} />
+          <MobileList focus={focus} result={result} links={links} />
 
-          <aside aria-label="Inspector" className="flex flex-col gap-4">
+          {/* desktop only: on phones the list above links straight to each paper */}
+          <aside aria-label="Inspector" className="hidden flex-col gap-4 sm:flex">
             {selectedLink ? (
               <LinkInspector link={selectedLink} from={byId.get(selectedLink.from)!} to={byId.get(selectedLink.to)!} />
             ) : selectedPaper ? (
@@ -409,7 +410,7 @@ function PaperInspector(props: {paper: GraphPaper; links: GraphLink[]; isFocus: 
 }
 
 // < 640 px: list mode grouped by generation (DESIGN_SPEC §8, board 8).
-function MobileList({focus, result}: {focus: GraphPaper; result: ReturnType<typeof budgetGraph>}) {
+function MobileList({focus, result, links}: {focus: GraphPaper; result: ReturnType<typeof budgetGraph>; links: GraphLink[]}) {
   const gens = [1, 2, 3].map((g) => result.nodes.filter((n) => n.generation === g).sort((a, b) => b.strength - a.strength)).filter((g) => g.length)
   return (
     <section aria-label="Built on, by generation" className="sm:hidden">
@@ -418,7 +419,13 @@ function MobileList({focus, result}: {focus: GraphPaper; result: ReturnType<type
           <h2 className="overline m-0 mb-1">{i === 0 ? `Built on · ${nodes.length}` : `${i + 1} generations back · ${nodes.length}`}</h2>
           <ul className="m-0 list-none p-0">
             {nodes.map((n) => {
-              const link = result.edges.find((e) => e.from === n._id && (i === 0 ? e.to === focus._id : true))
+              // From all links, not just the simplified graph's: Simplify hides direct links that are also
+              // reachable indirectly (BLIP → BLIP-2), which left those rows without their citation count.
+              const inView = new Set(result.nodes.map((x) => x._id))
+              const link =
+                i === 0
+                  ? links.find((e) => e.from === n._id && e.to === focus._id)
+                  : links.filter((e) => e.from === n._id && inView.has(e.to)).sort((a, b) => b.methodMentions - a.methodMentions || b.mentions - a.mentions)[0]
               return (
                 <li key={n._id} className="flex flex-col gap-1 border-t border-line py-3">
                   <span className="flex items-center gap-2">

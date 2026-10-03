@@ -23,3 +23,8 @@ test('paragraphs and bullets survive filtering', () => {
   assert.equal(forReader('The queries do three things:\n- **Cross-attention** to image features.\n- Self-attention among queries.'), 'The queries do three things:\n- **Cross-attention** to image features.\n- Self-attention among queries.')
   assert.equal(forReader('BLIP-2 freezes both models. It trains only the Q-Former. Then from BLIP (', [], true), 'BLIP-2 freezes both models. It trains only the Q-Former.')
 })
+
+test('sentences about the tools, and a dangling lead-in, are dropped', () => {
+  assert.equal(forReader("The quote tool couldn't match that text verbatim, so I'll leave it as a paraphrase. In short:"), '')
+  assert.equal(forReader('CLIP cites ConVIRT 5 times. In short:'), 'CLIP cites ConVIRT 5 times.')
+})

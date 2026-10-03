@@ -36,18 +36,20 @@ export function MiniGraph({focus, rows}: {focus: PaperCard; rows: Row[]}) {
         <Link
           key={row._id}
           href={`/paper/${row.paper.slug}`}
-          className="absolute flex h-6 w-24 items-center justify-center truncate rounded-md border border-line-strong bg-surface px-1 text-xs font-semibold text-ink no-underline"
+          className="absolute flex h-6 w-24 items-center justify-center rounded-md border border-line-strong bg-surface px-1.5 text-xs font-semibold text-ink no-underline"
           style={{left: 10, top: 18 + i * rowH - 12}}
           title={`${row.paper.shortName} (${row.paper.publishedAt.slice(0, 4)})`}
         >
-          {row.paper.shortName}
+          {/* truncate needs its own box: on a centred flex item it clips both ends */}
+          <span className="truncate">{row.paper.shortName}</span>
         </Link>
       ))}
       <span
-        className="absolute flex h-8 w-[70px] items-center justify-center truncate rounded-md bg-ink px-1 text-xs font-semibold text-white"
+        className="absolute flex h-8 w-[70px] items-center justify-center rounded-md bg-ink px-1.5 text-xs font-semibold text-white"
         style={{left: fx, top: fy - 16}}
+        title={focus.shortName}
       >
-        {focus.shortName}
+        <span className="truncate">{focus.shortName}</span>
       </span>
     </div>
   )

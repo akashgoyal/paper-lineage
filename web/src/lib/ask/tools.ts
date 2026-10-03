@@ -237,6 +237,10 @@ export async function resolveTool(name: DisplayToolName, raw: unknown, ctx: AskC
         ? await client.fetch<{name: string; slug: string}[]>(`*[_type == "concept" && slug.current in $s]{name, "slug": slug.current}`, {s: conceptSlugs})
         : []
       const links = await linkStatuses(paperIds.slice(1).map((to, i) => [paperIds[i], to]), ctx)
+      // A chain is a path: every hop must be a link in the dataset, or it implies lineage that isn't there.
+      const gap = links.findIndex((l) => l.status === 'none')
+      if (gap >= 0)
+        throw new ToolInputError(`No link from ${papers[gap].shortName} to ${papers[gap + 1].shortName} in this dataset. A chain needs a link at every hop: show separate chains (e.g. each ancestor → ${papers.at(-1)!.shortName}) or use showPapers.`)
       paperIds.forEach((id) => ctx.papers.add(id))
       const describe = links.map((l, i) => `${papers[i].shortName}→${papers[i + 1].shortName}: ${l.status === 'verified' ? l.relation : l.status === 'cites' ? `cites ${l.mentions}× (unreviewed)` : 'no link'}`)
       return {
