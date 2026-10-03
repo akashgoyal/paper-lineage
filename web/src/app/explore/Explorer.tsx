@@ -9,6 +9,7 @@ import {budgetGraph, layout, linkStrength, type Placed} from '@/lib/graph-budget
 import {LINK_QUERY} from '@/lib/sanity/queries'
 import {useClientQuery} from '@/lib/sanity/useClientQuery'
 import type {GraphLink, GraphPaper, LinkFields, Relation} from '@/lib/sanity/types'
+import {useFocus} from '@/lib/focus-store'
 
 const NW = 104
 const NH = 44
@@ -42,7 +43,9 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
   const {params, set} = useParamState()
   const bySlug = useMemo(() => new Map(papers.map((p) => [p.slug, p])), [papers])
   const byId = useMemo(() => new Map(papers.map((p) => [p._id, p])), [papers])
-  const focus = bySlug.get(params.get('focus') ?? DEFAULT_FOCUS) ?? bySlug.get(DEFAULT_FOCUS)!
+  // No ?focus: the paper the visitor last asked about in Ask, else BLIP-2.
+  const asked = useFocus()
+  const focus = bySlug.get(params.get('focus') ?? asked?.slug ?? DEFAULT_FOCUS) ?? bySlug.get(DEFAULT_FOCUS)!
   const depth = (Number(params.get('depth')) || 2) as 1 | 2 | 3
   const verifiedOnly = params.get('verified') === '1'
   const hideDatasets = params.get('datasets') !== '1'

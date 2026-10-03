@@ -9,6 +9,7 @@ import {conversations as store, type Conversation} from './conversations'
 import {OpenedPanel} from './OpenedPanel'
 import {Prose} from './Prose'
 import {applyEvent, parseLines, toHistory, type Turn} from './stream'
+import {focusStore} from '@/lib/focus-store'
 
 const MAX_TURNS = 30
 const MAX_CHARS = 500
@@ -128,7 +129,7 @@ function Answer({turn, onOpen, onAsk, streaming}: {turn: Turn; onOpen: (i: OpenI
           )}
         </p>
       )}
-      {turn.sources && turn.status === 'done' && <SourcesLine sources={turn.sources} />}
+      {turn.sources && turn.status === 'done' && <SourcesLine sources={turn.sources} focus={turn.focus} />}
       {turn.followUps.length > 0 && turn.status !== 'streaming' && <FollowUps items={turn.followUps} onAsk={onAsk} disabled={streaming} />}
       {/* announce once complete, not per token */}
       <span className="sr-only" aria-live="polite">
@@ -212,6 +213,7 @@ export function AskApp({settings, stats}: {settings: SiteSettings | null; stats:
           buffer = rest
           for (const e of events) {
             update(applyEvent(turn, e))
+            if (e.type === 'focus') focusStore.set({slug: e.slug, name: e.name})
             if (e.type === 'error' && e.retryAfterSeconds) setBlockedUntil({until: Date.now() + e.retryAfterSeconds * 1000, cap: e.code === 'daily-cap'})
           }
         }

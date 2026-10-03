@@ -5,6 +5,8 @@ import {z} from 'zod'
 import {runAgent} from '@/lib/ask/agent'
 import type {AskEvent} from '@/lib/ask/cards'
 import {McpSession} from '@/lib/ask/context-mcp'
+import {answerSubject, type NamedPaper} from '@/lib/ask/focus'
+import {client} from '@/lib/sanity/client'
 import {AskContext, recordQuestion} from '@/lib/ask/tools'
 import {checkLimit, visitorKey} from '@/lib/ratelimit'
 
@@ -70,6 +72,14 @@ export async function POST(req: Request) {
           graph: new McpSession(graphUrl, orgToken, req.signal),
           papers: papersUrl ? new McpSession(papersUrl, orgToken, req.signal) : undefined,
         })
+        // The paper the answer is about: Explore opens on it ("Show in Explorer", the Explore tab).
+        try {
+          const all = await client.fetch<(NamedPaper & {_id: string})[]>(`*[_type == "paper"]{_id, shortName, "slug": slug.current, publishedAt}`)
+          const subject = answerSubject(question.content, all, all.filter((p) => ctx.papers.has(p._id)))
+          if (subject) send({type: 'focus', slug: subject.slug, name: subject.shortName})
+        } catch {
+          /* optional: Explore keeps its default */
+        }
         const sources = ctx.sources()
         if (sources.papers || sources.verified || sources.unreviewed) send({type: 'sources', ...sources})
         send({type: 'outcome', outcome: ctx.outcome ?? 'answered'})

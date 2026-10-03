@@ -12,6 +12,7 @@ export type Turn = {
   outcome?: 'answered' | 'partial' | 'unanswered'
   status: 'streaming' | 'done' | 'error' | 'stopped'
   activity?: string // the agent's current step, while streaming
+  focus?: {slug: string; name: string} // the paper this answer is about
   error?: {code: string; message: string; retryAfterSeconds?: number}
 }
 
@@ -23,6 +24,8 @@ export function applyEvent(turn: Turn, e: AskEvent): Turn {
       if (last?.kind === 'text') return {...turn, parts: [...turn.parts.slice(0, -1), {kind: 'text', text: last.text + e.delta}]}
       return {...turn, parts: [...turn.parts, {kind: 'text', text: e.delta}]}
     }
+    case 'focus':
+      return {...turn, focus: {slug: e.slug, name: e.name}}
     case 'status':
       return {...turn, activity: e.text}
     case 'card-start':

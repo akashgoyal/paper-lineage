@@ -190,7 +190,7 @@ export function FollowUps({items, onAsk, disabled}: {items: string[]; onAsk: (q:
   )
 }
 
-export function SourcesLine({sources}: {sources: {verified: number; unreviewed: number; papers: number}}) {
+export function SourcesLine({sources, focus}: {sources: {verified: number; unreviewed: number; papers: number}; focus?: {slug: string; name: string}}) {
   const links = sources.verified + sources.unreviewed
   return (
     <div className="flex flex-wrap items-center gap-2.5 text-[12.5px] text-muted">
@@ -199,8 +199,8 @@ export function SourcesLine({sources}: {sources: {verified: number; unreviewed: 
           ? `From ${links} link${links > 1 ? 's' : ''}: ${sources.verified} verified, ${sources.unreviewed} not yet reviewed`
           : `From ${sources.papers} paper${sources.papers === 1 ? '' : 's'} in this dataset`}
       </span>
-      <Link href="/explore" className="text-[12.5px]">
-        Show in Explorer
+      <Link href={focus ? `/explore?focus=${encodeURIComponent(focus.slug)}` : '/explore'} className="text-[12.5px]">
+        {focus ? `Show ${focus.name} in Explorer` : 'Show in Explorer'}
       </Link>
     </div>
   )

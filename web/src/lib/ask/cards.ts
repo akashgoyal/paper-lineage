@@ -31,6 +31,7 @@ export type AskEvent =
   | {type: 'card'; id: string; card: Card}
   | {type: 'card-error'; id: string; message: string}
   | {type: 'sources'; verified: number; unreviewed: number; papers: number}
+  | {type: 'focus'; slug: string; name: string} // the paper the answer is about (Explore opens on it)
   | {type: 'outcome'; outcome: 'answered' | 'partial' | 'unanswered'}
   | {type: 'done'}
   | {type: 'error'; code: 'rate-limited' | 'daily-cap' | 'unavailable' | 'failed' | 'too-long'; message: string; retryAfterSeconds?: number}

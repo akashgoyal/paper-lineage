@@ -2,12 +2,16 @@
 
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
+import {exploreHref, useFocus} from '@/lib/focus-store'
 
 const isActive = (pathname: string, href: string) =>
   href === '/' ? pathname === '/' : pathname.startsWith(href) || (href === '/concepts' && /^\/(concept|theme)\//.test(pathname)) || (href === '/explore' && pathname.startsWith('/paper/'))
 
-export function NavLinks({items}: {items: {href: string; label: string}[]}) {
+export function NavLinks({items: base}: {items: {href: string; label: string}[]}) {
   const pathname = usePathname()
+  // The Explore tab opens on the paper the visitor last asked about.
+  const focus = useFocus()
+  const items = base.map((i) => (i.href === '/explore' ? {...i, to: exploreHref(focus)} : {...i, to: i.href}))
   return (
     <>
       <nav aria-label="Main" className="hidden gap-5 text-sm md:flex">
@@ -16,7 +20,7 @@ export function NavLinks({items}: {items: {href: string; label: string}[]}) {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={item.to}
               aria-current={active ? 'page' : undefined}
               className={`border-b-2 pb-0.5 no-underline ${active ? 'border-ink font-semibold text-ink' : 'border-transparent text-ink-2'}`}
             >
@@ -35,7 +39,7 @@ export function NavLinks({items}: {items: {href: string; label: string}[]}) {
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.to}
                 aria-current={active ? 'page' : undefined}
                 className={`flex h-14 items-center justify-center text-[13px] no-underline ${active ? 'font-semibold text-ink' : 'text-ink-2'}`}
               >

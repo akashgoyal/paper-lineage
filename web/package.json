@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --conditions=react-server --import tsx --test src/lib/ask/verify.test.ts src/app/ask/stream.test.ts src/lib/sanity/queries.test.ts src/lib/graph-budget.test.ts src/lib/suggested.test.ts src/lib/ask/agent.test.mts",
+    "test": "node --conditions=react-server --import tsx --test src/lib/ask/verify.test.ts src/app/ask/stream.test.ts src/lib/sanity/queries.test.ts src/lib/graph-budget.test.ts src/lib/suggested.test.ts src/lib/ask/agent.test.mts src/lib/ask/focus.test.ts",
     "test:live": "node --conditions=react-server --import tsx --test src/lib/ask/tools.live.test.ts",
     "check": "npm run typecheck && npm test && npm run test:live && npm run lint",
     "probe:ask": "node --env-file=.env.local --conditions=react-server --import tsx src/lib/ask/agent.probe.mts"
