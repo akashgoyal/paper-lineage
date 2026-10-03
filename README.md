@@ -25,5 +25,6 @@ Stack: Sanity (Content Lake, Context MCP + Knowledge Base, Studio, App SDK, Work
 ## Status (2026-10-03)
 
 - Studio, Desk ([Dashboard app](https://www.sanity.io/@o2qzzix4g/application/fhpnvzp9ueyizs9oh9kmwmsu)) and the `paper-intake` workflow definition are **deployed**. One intake instance (BLIP-2) is waiting in curation as a demo.
-- The site builds (614 static pages) and passes its unit and live tests. **It isn't deployed yet**, and Ask needs the Context endpoints and keys listed in [CONTEXT_SETUP](docs/CONTEXT_SETUP.md).
+- Sanity Context is live: Knowledge Base `kbawj3190IH1` (built, 12 issues to review) and both MCP endpoints. Ask answers end to end locally on Together AI (≈1¢ per answer).
+- The site builds (614 static pages) and passes its tests. **It isn't deployed yet**; set the env vars from [CONTEXT_SETUP](docs/CONTEXT_SETUP.md) §4 on Vercel.
 - No lineage link is verified yet: 1,349 links are waiting in the Desk Review queue, so the site shows citation facts only.
