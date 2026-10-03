@@ -193,3 +193,29 @@ A small renderer handles the bold and bullets the prompt allows.
 - **Repeated leads:** the model rewrites its opening sentence every turn, and word-overlap filtering missed rewordings. Now only the final prose is sent, once, placed above the cards (stream reducer + test).
 - **Posts:** `docs/post/POST.md` (Path Two, 3 review iterations) and `POST_PATH1.md` (Path One, 2 iterations), each with a scored review log in `REVIEW.md`. The reviews caught a misleading opening chain, wrong schema-example values, run stats from a different run, and a trace that mixed two runs.
 - **Diagrams:** rendered locally with mermaid-cli and the installed Chrome (no diagram text sent to a web service). The first architecture render was unreadable (crossing edges, a cut-off label), and ELK made it worse. A two-lane layout (visitor on top, curator below, meeting at the Content Lake) fixed it.
+
+## 2026-10-03 · Session 9: UI/UX pass (screenshots first), demo script
+
+**Prompts:** "Make the UI UX better of app. The Explore tab output can have some unique color to show selected/active block."; then "Review for better UI UX improvements - and do implementation. Draft, review, refine a good demo script."
+
+**Method:** every screen captured with headless Chrome (desktop, phone, a real Ask answer), judged as a first-time visitor would, fixes ranked by impact, then re-captured.
+
+**Found and fixed:**
+- **Explore:**
+  - selection now uses a violet accent no relation uses; the selected paper's or link's neighbourhood lights up and everything else dims
+  - it opened scrolled to empty 2014–2016 columns with the focus paper off-screen
+  - "+n more" stacks for empty years made the canvas tall
+  - link lines were too thin to click
+- **Production bug found by screenshots:** browser-side Sanity reads (Explore evidence, ⌘K search, Ask side panel, live updates) all failed on the live site because the domain wasn't in Sanity's CORS list. The server-rendered pages hid it. Added the origin (no credentials).
+- **App-wide CSS bug:** unlayered base styles beat Tailwind v4 utilities, so `text-white` lost to the link colour on every dark link-button ("Open paper" was blue on black). Moved them into `@layer`.
+- **Ask:**
+  - a live progress line built from real tool calls (answers take 15–40 s)
+  - the first paragraph sits above the evidence, the rest after the cards
+  - the most complete prose wins over a last-turn reaction ("The quote tool couldn't match that text…")
+  - **chains must have a link at every hop**: one answer had drawn BLIP → Flamingo → BLIP-2, implying lineage the dataset doesn't have. The model recovers with separate chains.
+- **Mobile Explore and the mini-graph:**
+  - rows lacked citation counts because "Simplify" hides direct links
+  - the desktop-only inspector was showing on phones
+  - long names clipped at both ends
+
+**Demo script:** `docs/post/DEMO_SCRIPT.md`, two scored drafts in `docs/post/REVIEW.md`. The first draft relied on a live update nobody had tested on the deployed site, and on a count that only refreshes after Re-check.

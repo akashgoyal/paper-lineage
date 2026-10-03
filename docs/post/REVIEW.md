@@ -65,3 +65,24 @@ Rubric (Path One): meaningful use of Sanity Context and structured content · te
 | Concision | 4.5 | ~1,200 words; "How I Used Sanity" is the largest section, as the template asks. |
 
 **Open items for the author:** video, session link, Path Two link, repo public before submitting.
+
+---
+
+# Demo script (DEMO_SCRIPT.md)
+
+Rubric: covers both paths' judging criteria in ≤3:00 · every claim true on camera · survives slow or variable Ask answers · recordable by one person.
+
+## Draft 1 → judged
+| Criterion | Score | Findings |
+|---|---|---|
+| Coverage | 4 | Knowledge Base never shown explicitly (Path One judges score it). |
+| True on camera | 2.5 | Scene 5 depends on live updates never tested on the deployed site (and impossible until the CORS fix an hour earlier). Scene 6 would show 16, not 15: the count only refreshes after Re-check, which needs the runner. |
+| Robustness | 2.5 | No plan for a 40 s or thin Ask answer; narration referenced specifics the model may not produce. |
+
+**Refine:** verified the live-events stream on the deployed site (200, no errors); rehearsal with Undo; Re-check step; KB moment via the progress line; narration made run-independent; captions; fallbacks; cut list.
+
+## Draft 2 → judged
+| Criterion | Score | Findings |
+|---|---|---|
+| True on camera | 4.5 | Claims checked against code (paper page Verified section, Desk Re-check and count). Missing: how to find BLIP-2 in the Desk queue. Fixed. |
+| Robustness | 4.5 | Every risky step has a fallback; total 2:45 with a 16 s cut list. |
