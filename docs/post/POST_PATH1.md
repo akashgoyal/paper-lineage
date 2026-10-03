@@ -7,7 +7,20 @@ tags: sanitychallenge, devchallenge, ai, mcp
 
 ## What I Built
 
-An agent that answers lineage questions about AI research: *where did BLIP-2's Q-Former come from? What did CLIP build on? How does the Q-Former work?* It answers from two Sanity Context endpoints and shows its evidence as cards rebuilt from Sanity, not as model-written prose.
+### A known problem
+
+Ask an AI tool "where did BLIP-2's Q-Former come from?" and it answers from memory, with plausible verbs: *"it extends Flamingo's resampler…"*. Citation graphs say **that** one paper cites another, not **how** it built on it, and nothing tells you which verb is wrong.
+
+### What I built
+
+An agent that answers lineage questions about AI research from **Sanity Context**, and shows its evidence as cards rebuilt from Sanity, not as model-written prose. It covers 197 papers and 1,349 citation links.
+
+| Agent capability | Sanity product | Advantage |
+|---|---|---|
+| Structural answers: who built on whom, when, how often cited, verified or not | **Sanity Context MCP, GROQ mode** over the lineage graph | The model writes real GROQ against typed references; no vector database to build |
+| "How does it work / why / what results" | **Sanity Knowledge Base** via Context MCP, Knowledge Base mode (40 papers → 20 entries) | Upload PDFs, Sanity builds and serves the entries |
+| Evidence the visitor can trust | **Sanity Content Lake**: every card re-read by id, relations gated on review | A relation reaches the screen only if a curator accepted it |
+| Answers that get better | **Content Lake** (questions on a private id path, gaps) + the **App SDK** Desk | Weak answers become curation tasks |
 
 **Why this needs structured content.** "Where did the Q-Former come from?" isn't a keyword lookup. It's a walk over typed references:
 
@@ -15,13 +28,18 @@ An agent that answers lineage questions about AI research: *where did BLIP-2's Q
 
 Keyword search over the PDFs finds papers that *mention* the Perceiver. It can't return the chain, or whether a curator has verified each hop.
 
-**The rule the agent follows:** a citation is a *fact* (BLIP-2 cites Flamingo 5 times, here are the sentences); a relation such as "extends" is an *interpretation*, shown only after a curator accepts it. The agent may say "BLIP-2 cites Flamingo ×5". It can't put "extends" on screen for an unreviewed link, because the server strips it.
-
 ## Demo
 
 - **Live:** https://paper-lineage-xi.vercel.app (the home page is the agent)
-- **Video:** _(link)_
-- **Try:** "Where did BLIP-2's Q-Former come from?" · "How does the Q-Former use learnable queries?"
+- **Video:** _(link)_. It shows the agent answering, then the same Knowledge Base and MCP endpoints inside Sanity's Context dashboard.
+- **Try:** "Where did BLIP-2's Q-Former come from?" · "What did CLIP build on?" · "How does the Q-Former use learnable queries?"
+
+### Where to see it inside Sanity
+
+| What | Where | Screenshot |
+|---|---|---|
+| The Knowledge Base: 42 sources → 20 entries, 12 open issues | Sanity Dashboard → Context → Knowledge Bases → *Paper Lineage: papers* | _(screenshot)_ |
+| The two MCP endpoints (GROQ mode with a `groqFilter`; Knowledge Base mode) | Sanity Dashboard → Context → MCP | _(screenshot)_ |
 
 ## Code
 
