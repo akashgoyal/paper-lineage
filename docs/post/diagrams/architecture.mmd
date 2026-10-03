@@ -1,0 +1,24 @@
+flowchart LR
+  V([Visitor]):::person --> SITE["Next.js site<br/>Ask · Explore · pages"]:::ours
+  SITE --> AGENT["/api/ask<br/>agent loop +<br/>verified display tools"]:::ours
+  AGENT <--> LLM["Together AI<br/>DeepSeek-V4-Flash"]:::third
+  AGENT -- groq_query --> CTXA["Context MCP A<br/>GROQ mode"]:::sanity
+  AGENT -- "knowledge_base_*" --> CTXB["Context MCP B<br/>Knowledge Base · 40 papers"]:::sanity
+  CTXA --> PROD[("Content Lake<br/>production")]:::sanity
+  AGENT -- "rebuild + verify cards" --> PROD
+  SITE -. "Live Content API" .-> PROD
+
+  C([Curator]):::person --> DESK["Lineage Desk<br/>App SDK"]:::onsanity
+  C --> STUDIO["Studio"]:::onsanity
+  DESK -- "accept / reject + publish" --> PROD
+  STUDIO --> PROD
+  DESK -- "start · approve · send back" --> WF["paper-intake<br/>Workflows engine"]:::onsanity
+  WF --> WFDS[("Content Lake<br/>workflows")]:::sanity
+  WFDS -- "queued effects" --> RUNNER["intake runner"]:::ours
+  RUNNER --> PROD
+
+  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
+  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
+  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
+  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E

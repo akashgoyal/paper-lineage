@@ -1,0 +1,13 @@
+flowchart LR
+  ADD["Desk Inbox<br/>Add paper (arXiv id)"]:::onsanity --> F["fetching<br/>effect: arXiv metadata"]:::sanity
+  F --> CH["checks<br/>effect: count unreviewed links"]:::sanity
+  CH --> CU{"curation"}:::onsanity
+  CU -- "Approve<br/>(engine refuses while links are unreviewed)" --> P["publishing<br/>effect: publish paper"]:::sanity
+  CU -- "Send back + note" --> F
+  P --> DONE(["published"]):::sanity
+
+  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
+  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
+  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
+  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E

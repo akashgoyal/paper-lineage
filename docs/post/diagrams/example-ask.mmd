@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor V as Visitor
+  participant A as /api/ask (ours)
+  participant M as Model (Together)
+  participant G as Context A · GROQ
+  participant K as Context B · Knowledge Base
+  participant L as Content Lake
+
+  V->>A: Where did BLIP-2's Q-Former come from?
+  A->>M: question + tools (schema primer preloaded)
+  M->>G: groq_query: Q-Former → buildsOn chain + links
+  G-->>M: Perceiver resampler (Flamingo) ← latent cross-attention (Perceiver) …
+  M->>K: knowledge_base_read: blip2
+  K-->>M: how the Q-Former works
+  M->>A: showChain(ids) · showQuote(source, text)
+  A->>L: rebuild the card by _id: relation only if accepted, dates in order
+  A->>A: quote must appear verbatim in its source
+  A-->>V: short answer + chain card + quote + follow-ups
+  A->>L: save questions.{uuid} (private) → a weak answer becomes a gap

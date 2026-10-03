@@ -46,91 +46,25 @@ https://github.com/akashgoyal/paper-lineage. The repo has `web/` (site + Ask), `
 
 ## How it works
 
-### Architecture (🟥 Sanity · 🟦 our code · ⬜ third party)
+### Architecture
 
-```mermaid
-flowchart LR
-  V([Visitor]) --> SITE
-  C([Curator]) --> DESK & STUDIO
+Colours: **red** = Sanity service · **orange** = our code running on Sanity · **blue** = our code (Vercel, laptop) · **grey** = third party.
 
-  subgraph OURS[🟦 our code]
-    SITE[Next.js site<br/>Ask · Explore · pages]
-    AGENT[/api/ask<br/>tool loop + verified cards/]
-    RUNNER[intake runner<br/>drains workflow effects]
-  end
-
-  subgraph SANITY[🟥 Sanity]
-    LAKE[(Content Lake<br/>papers · links · concepts<br/>stories · gaps · questions)]
-    CTXA[Context MCP A<br/>GROQ over the graph]
-    CTXB[Context MCP B<br/>Knowledge Base · 40 papers]
-    LIVE[Live Content API]
-    WF[Workflows engine]
-    DESK[Lineage Desk · App SDK]
-    STUDIO[Studio]
-  end
-
-  LLM[⬜ Together AI<br/>DeepSeek-V4-Flash]
-
-  SITE --> AGENT
-  AGENT <--> LLM
-  AGENT -->|groq_query| CTXA --> LAKE
-  AGENT -->|knowledge_base_*| CTXB
-  AGENT -->|rebuild + verify cards| LAKE
-  SITE <-->|reads, live updates| LIVE --> LAKE
-  DESK -->|accept / reject + publish| LAKE
-  DESK -->|start · approve · send back| WF
-  STUDIO --> LAKE
-  WF -->|queued effects| RUNNER --> LAKE
-```
+![Architecture: the visitor lane (top) and the curator lane (bottom) meet at the Content Lake](diagrams/architecture.png)
 
 ### Example 1: a visitor asks a question
 
-```mermaid
-sequenceDiagram
-  actor V as Visitor
-  participant A as 🟦 /api/ask
-  participant M as ⬜ Model
-  participant G as 🟥 Context A (GROQ)
-  participant K as 🟥 Context B (Knowledge Base)
-  participant L as 🟥 Content Lake
-
-  V->>A: Where did BLIP-2's Q-Former come from?
-  A->>M: question + tools (schema primer preloaded)
-  M->>G: groq_query: Q-Former → buildsOn chain + links
-  G-->>M: Perceiver resampler (Flamingo) ← latent cross-attention (Perceiver) …
-  M->>K: knowledge_base_read: blip2
-  K-->>M: how the Q-Former works
-  M->>A: showChain(ids) · showQuote(source, text)
-  A->>L: rebuild the card by _id: relation only if accepted, dates in order
-  A->>A: quote must appear verbatim in its source
-  A-->>V: short answer + chain card + quote + follow-ups
-  A->>L: save questions.{uuid} (private) → a weak answer becomes a gap
-```
+![A visitor asks a question](diagrams/example-ask.png)
 
 The model never writes a card. It passes ids to a display tool, and the server rebuilds the card from Sanity. Anything unverifiable goes back to the model as an error instead of reaching the visitor: an unknown id, papers out of order, an inexact quote, or a relation on an unreviewed link.
 
 ### Example 2: a curator verifies a link
 
-```mermaid
-flowchart LR
-  Q[Visitor question,<br/>answer was 'partial'] -->|🟦 /api/ask| GAP[(🟥 gap)]
-  GAP --> INBOX[🟥 Desk · Inbox]
-  REVIEW[🟥 Desk · Review<br/>evidence sentence + relation] -->|one transaction:<br/>decision + publish| LINK[(🟥 link: accepted)]
-  LINK -->|🟥 Live Content API| SITE[Site shows the relation;<br/>graph line turns solid]
-  LINK --> ASK[Ask may now use<br/>the relation word]
-```
+![A curator verifies a link](diagrams/example-curation.png)
 
 ### Example 3: a new paper (Workflows)
 
-```mermaid
-flowchart LR
-  ADD[Desk Inbox:<br/>Add paper] --> F[fetching<br/>fetch arXiv metadata]
-  F --> CH[checks<br/>count unreviewed links]
-  CH --> CU{curation}
-  CU -->|Approve: the engine refuses<br/>while any link is unreviewed| P[publishing]
-  CU -->|Send back + note| F
-  P --> DONE[published]
-```
+![A new paper goes through the paper-intake workflow](diagrams/example-intake.png)
 
 The approval gate is in the workflow definition, not the UI. When the gate holds, the Desk shows the engine's reason ("16 links are still unreviewed").
 
