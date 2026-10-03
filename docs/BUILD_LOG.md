@@ -182,3 +182,14 @@ A small renderer handles the bold and bullets the prompt allows.
 **Verified end to end over HTTP** (production build, `POST /api/ask`):
 - "Where did BLIP-2's Q-Former come from?": chain card, verified quote, 4 follow-ups, outcome partial; saved as `questions.69e2…` (both endpoints, 3 papers, 2 links, no gap).
 - "How does BLIP-2 describe the Q-Former learnable queries?": a captioned Knowledge Base quote, outcome answered.
+
+## 2026-10-03 · Session 8: deploy, two Ask fixes found while writing the posts, diagrams
+
+**Prompts:** "push code in new private repo in github"; "Never used vercel - set that up for me"; "Never used upstash. set it up for me"; "start creating very to-the-point post content… Refine it in multiple iterations"; "render the diagrams as images and write the Path One post".
+
+- **Deploy:** private GitHub repo; Vercel project linked to `web/` (the human created the account and logged in). Secrets went in through a script the human ran (`web/scripts/vercel-env.sh`), never through the agent. Upstash came through the Vercel Marketplace (Free plan, `iad1`), and the rate limiter accepts its `KV_REST_API_*` names. Verified live: pages, Ask end to end, the intake board, and the Upstash counters written (read directly rather than by firing 11 paid questions).
+- **Two redeploys failed.** The first hung during upload (fixed with a `.vercelignore`). The second was **Blocked** by Vercel: the commit author was `akashgoyal@Akashs-MacBook-Air.local` (no git email configured), which Hobby can't match to the account. The repo now commits as the GitHub noreply address.
+- **A blank-answer bug found by capturing a trace for the Path One post:** the model sometimes spent its whole 2,000-token budget on hidden reasoning and returned no text or tool calls, so the visitor got an empty answer. Fixes: 6,000 tokens, one nudge on a cut-off turn, and plain fallback text if nothing comes back.
+- **Repeated leads:** the model rewrites its opening sentence every turn, and word-overlap filtering missed rewordings. Now only the final prose is sent, once, placed above the cards (stream reducer + test).
+- **Posts:** `docs/post/POST.md` (Path Two, 3 review iterations) and `POST_PATH1.md` (Path One, 2 iterations), each with a scored review log in `REVIEW.md`. The reviews caught a misleading opening chain, wrong schema-example values, run stats from a different run, and a trace that mixed two runs.
+- **Diagrams:** rendered locally with mermaid-cli and the installed Chrome (no diagram text sent to a web service). The first architecture render was unreadable (crossing edges, a cut-off label), and ELK made it worse. A two-lane layout (visitor on top, curator below, meeting at the Content Lake) fixed it.
