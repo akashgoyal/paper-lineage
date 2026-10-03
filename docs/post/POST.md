@@ -23,7 +23,18 @@ Ask an AI tool "where did BLIP-2's Q-Former come from?" and you get a confident 
 >
 > The Q-Former's ancestry as Paper Lineage shows it. Every hop is a citation, with the sentence the later paper used.
 
-### Six features, each built on Sanity
+### Architecture
+
+![Architecture: our code on the left, the Sanity platform (everything in red) on the right](diagrams/architecture.png)
+
+*Everything in solid red is a Sanity feature. Peach: our apps built on Sanity. Blue: our code. Grey: third party.*
+
+Three paths go through it:
+1. **A visitor asks:** the Next.js site → our `/api/ask` agent → **Sanity Context MCP** (GROQ over the graph, plus the **Knowledge Base**) → every card re-read from the **Content Lake**.
+2. **A curator reviews:** the **Lineage Desk (App SDK)** accepts a link → **Content Lake** → **Live Content API** → the site shows the relation at once.
+3. **A new paper arrives:** **Sanity Workflows** runs `paper-intake` (fetching → checks → curation → publishing); a small runner of ours executes each stage's effect.
+
+### Six features, each on Sanity
 
 | # | Feature | Sanity product | What it does here | Advantage |
 |---|---|---|---|---|
@@ -43,18 +54,9 @@ A vector database and a RAG pipeline (Context + Knowledge Base). A login system 
 ## Demo
 
 - **Live:** https://paper-lineage-xi.vercel.app
-- **Video:** _(link)_. It walks this post: the problem, each feature in the running app, then the same activity inside Sanity's dashboards.
+- **Video:** _(link)_. It follows this post's order: the problem, what I built, the architecture, the six features on Sanity, how Context is configured, one real question in real time, the features in the running app, then the same activity inside Sanity's dashboards.
 - **Try asking:** "Where did BLIP-2's Q-Former come from?" · "What did CLIP build on?" · "How does the Q-Former use learnable queries?"
 - **Status:** _N_ of 1,349 links verified so far. Curation is ongoing, and every unverified link shows as "cites ×n", by design.
-
-### Where to see it inside Sanity
-
-| What | Where | Screenshot |
-|---|---|---|
-| The Knowledge Base: 42 sources → 20 entries, 12 open issues | Sanity Dashboard → Context → Knowledge Bases → *Paper Lineage: papers* | _(screenshot)_ |
-| The two MCP endpoints (GROQ mode with a `groqFilter`; Knowledge Base mode) | Sanity Dashboard → Context → MCP | _(screenshot)_ |
-| Lineage Desk, reviewing BLIP-2's links | Sanity Dashboard → Lineage Desk | _(screenshot)_ |
-| The `paper-intake` instance waiting in curation | Lineage Desk → Pipeline | _(screenshot)_ |
 
 ## Code
 
@@ -62,11 +64,14 @@ https://github.com/akashgoyal/paper-lineage. The repo has `web/` (site + Ask age
 
 ## How it runs, in real time
 
-![Architecture: our code on the left, the Sanity platform (everything in red) on the right](diagrams/architecture.png)
+### Sanity Context: configured once, used on every question
 
-*Everything in solid red is a Sanity feature. Peach: our apps built on Sanity. Blue: our code. Grey: third party.*
+![Sources, the Knowledge Base and two MCP endpoints configured once, then used by the agent on every question](diagrams/kb-mcp.png)
 
-### One real question, through each Sanity product
+- **Configured once:** 42 files (40 core papers, a manifest, a concept glossary) go into a Knowledge Base with `sanity context create`, `imports create` and `build`, giving 20 entries. Two MCP endpoints serve Sanity Context: `paper-lineage-graph` in GROQ mode over the `production` dataset (with a `groqFilter` and instructions) and `paper-lineage-papers` in Knowledge Base mode. One endpoint serves one mode, hence two. A read-only organisation token authorises every call.
+- **Used on every question:** `initial_context` from both is preloaded into the system prompt; the agent then calls `groq_query` and `knowledge_base_search` / `knowledge_base_read`, and every card is re-checked against the Content Lake.
+
+### One real question, in real time
 
 "Where did BLIP-2's Q-Former come from?" (one run, every call in order; long projections trimmed):
 
@@ -97,13 +102,27 @@ The answer: the Q-Former is BLIP-2's own module, built on two earlier ideas, Fla
 - a quote that isn't word for word in its source
 - a relation on an unreviewed link
 
-### A curator verifies a link (App SDK → Content Lake → Live Content API)
+### In the app
+
+- **Every hop is a citation.** `/concept/q-former` shows the Q-Former's ancestry as a timeline: Bahdanau attention (2014) → Transformer → Set Transformer → Perceiver → Flamingo → BLIP-2 (2023), each step with its citing sentence and section.
+- **Explore the family tree.** The Explore tab opens on the paper the last answer was about. Select a paper and its neighbourhood lights up in violet; select a link and the citing sentence appears as evidence.
+
+### Curators: the Lineage Desk (App SDK → Content Lake → Live Content API)
 
 ![A curator verifies a link](diagrams/example-curation.png)
 
-### A new paper (Sanity Workflows)
+### New papers: Sanity Workflows
 
 ![A new paper goes through the paper-intake workflow](diagrams/example-intake.png)
+
+### Where to see it inside Sanity
+
+| What | Where | Screenshot |
+|---|---|---|
+| The Knowledge Base: 42 sources → 20 entries, 12 open issues | Sanity Dashboard → Context → Knowledge Bases → *Paper Lineage: papers* | _(screenshot)_ |
+| The two MCP endpoints (GROQ mode with a `groqFilter`; Knowledge Base mode) | Sanity Dashboard → Context → MCP | _(screenshot)_ |
+| Lineage Desk, reviewing BLIP-2's links | Sanity Dashboard → Lineage Desk | _(screenshot)_ |
+| The `paper-intake` instance waiting in curation | Lineage Desk → Pipeline | _(screenshot)_ |
 
 ### The schema: where facts and interpretation live
 

@@ -86,3 +86,28 @@ Rubric: covers both paths' judging criteria in ≤3:00 · every claim true on ca
 |---|---|---|
 | True on camera | 4.5 | Claims checked against code (paper page Verified section, Desk Re-check and count). Missing: how to find BLIP-2 in the Desk queue. Fixed. |
 | Robustness | 4.5 | Every risky step has a fallback; total 2:45 with a 16 s cut list. |
+
+---
+
+# Alignment: blog, deck and demo script
+
+Rubric: same parts in the same order under the same headings · deck speaker notes = script voice-over · every on-camera claim checked against the code · the KB/MCP configuration explained in all three.
+
+## Pass 1 → judged
+| Criterion | Score | Findings |
+|---|---|---|
+| Same order | 2.5 | The script was the old 7-scene app tour (Home → Ask → concept → Explore → Desk → Pipeline → architecture): architecture last, no features × Sanity, no Dashboard. The blog had the architecture after Code, and "Where to see it" in Demo. The deck had the server checks (verify) after Workflows. |
+| Same headings | 3 | Blog "Six features, each built on Sanity" vs deck "…each on Sanity"; "A curator verifies a link" vs "Curators: the Lineage Desk"; no blog section for the concept page or Explore. |
+| KB/MCP config | 3 | Deck slide 8 only; neither post had the diagram. |
+| Notes = lines | 1 | The deck notes were descriptive, not the spoken lines. |
+
+**Refine:** one nine-part spine (problem → built → architecture → six features → Context configured once → one real question → in the app → where to see it in Sanity → close). Rewrote the script around it with a part → slide → blog-section map. Moved the architecture into the blog's What I Built, and "Where to see it" after the app flows. Added `kb-mcp.png` to both posts. Moved verify to slide 10. Renamed headings to the slide titles. Deck notes generated from the script lines; footers numbered from the order.
+
+## Pass 2 → judged
+| Criterion | Score | Findings |
+|---|---|---|
+| True on camera | 4.5 | Checked: Explore opens on BLIP-2 for the Q-Former question (`answerSubject` prefers the longest named paper). Part 6 "cites, not extends" becomes false for BLIP after the 7c accept, so the order is in the checklist and there's a retake line. Part 8 assumed the agent read `blip2`, so a fallback was added. |
+| Same order | 5 | Blog (minus the template's Demo and Code), deck and script follow the same nine parts. Slide 16's Desk and Pipeline frames map to 7c and 7d. |
+| Timing | 4 | 3:00 with no slack. The cut list saves 21 s. |
+
+**Open for the author:** record part 6 before 7c; Dashboard screenshots for slide 16 and the blog table.

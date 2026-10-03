@@ -47,9 +47,9 @@ https://github.com/akashgoyal/paper-lineage. The agent is [`web/src/lib/ask/agen
 
 ## How I Used Sanity
 
-### What I pointed Sanity Context at
+### Sanity Context: configured once, used on every question
 
-![Two Context endpoints, one agent](diagrams/path1-routing.png)
+![Sources, the Knowledge Base and two MCP endpoints configured once, then used by the agent on every question](diagrams/kb-mcp.png)
 
 | Endpoint | Mode | Source | Answers |
 |---|---|---|---|
@@ -71,7 +71,7 @@ https://github.com/akashgoyal/paper-lineage. The agent is [`web/src/lib/ask/agen
 
 `schema_explorer` and `array_field_reader` aren't offered: the schema primer covers the first, and links are small enough not to need the second.
 
-### What the agent actually did (a real trace)
+### One real question, in real time
 
 "Where did BLIP-2's Q-Former come from?" (one run, unedited apart from line breaks):
 
