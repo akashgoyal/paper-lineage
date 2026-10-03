@@ -155,8 +155,9 @@ export function CardView({card, onOpen}: {card: Card; onOpen: (i: OpenItem) => v
         <figure className="m-0 rounded-xl border border-line bg-surface px-4 py-3">
           <blockquote className="m-0 font-serif text-base leading-snug">“{card.text}”</blockquote>
           <figcaption className="mt-1.5 text-xs text-muted">
-            From {card.paper}
-            {card.section ? ` · §${card.section}` : ''}
+            {/* Knowledge Base entries are summaries built from the papers, not the papers' own words. */}
+            {card.via === 'knowledge-base' ? `Knowledge Base summary of ${card.paper}` : `From ${card.paper}’s text`}
+            {card.section ? ` · ${card.section}` : ''}
             {card.mentions ? ` · cited ${card.mentions}×` : ''}
           </figcaption>
         </figure>

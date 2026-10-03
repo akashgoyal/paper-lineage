@@ -146,3 +146,39 @@ Updated **during** the build. Each entry: goal · prompt · what the AI produced
 **Not verified:** clicking through the Desk and Studio UI (needs a Sanity login in a browser), and Ask against the real Context endpoints (they need the human's organization token, Knowledge Base upload and Anthropic key).
 
 **Cut, honestly:** the AI `enriching` stage and `verify-evidence` (links come from the harvest), Functions (Free-plan schedules are daily, and hosted workflow runtimes await Blueprints support), `/connect`, Composer live cursors and drag-to-reorder.
+
+## 2026-10-03 · Session 7: Knowledge Base, MCP endpoints, Ask on Together AI
+
+**Prompts:** "upload the Knowledge Base"; "now create the two MCP endpoints"; "run the smoke test"; "Instead of anthropic I have credits in together-ai. Will using gemma from there work?"; "key added, go ahead with together. Ensure to use a low cost model first".
+
+**Knowledge Base:** the docs said there was no API, but the current CLI has `sanity context`. Created `kbawj3190IH1`, imported the 206 MB zip (42 sources) and built it in about 25 minutes. It is in review with 12 open issues.
+
+**MCP endpoints:** no API exists (the client types say "Manage MCP endpoints in the Context dashboard"). Writing the org documents directly would have been an undocumented hack, so the human created both endpoints in the Dashboard and the agent verified them read-only (`client.context.mcpEndpoints.list()`): sources, filter and instruction lengths all match the doc. The smoke test first failed with "Not a member of this organization": the token was quoted in `.env.local`, and the script (unlike Next.js) didn't unquote it. Known answers: 16 BLIP-2 ancestors, Q-Former → BLIP-2, `paperText` invisible through the filter.
+
+**Ask on Together:** Gemma isn't usable. Together's catalog doesn't mark it for tool calling, and `gemma-4-31B-it` (like `gpt-oss-20b`) is dedicated-endpoint only. The Anthropic MCP connector has no Together equivalent, so the route now runs its own loop (`lib/ask/agent.ts`): MCP sessions to both endpoints, `initial_context` preloaded, OpenAI-style streaming tool calls. Models were probed through the real loop, cheapest first:
+
+| Model ($/M in/out) | Result |
+|---|---|
+| gpt-oss-20b (0.05/0.20) | dedicated-only |
+| DeepSeek-V4-Flash (0.14/0.28) | correct facts, used both endpoints, valid cards; **chosen**, ≈1¢/answer |
+| Qwen3.5-9B (0.17/0.25) | two lookups, then an empty answer |
+| GLM-5.3-Flash (0.15/0.50) | looked things up until the length limit; no cards |
+| gpt-oss-120b (0.15/0.60) | leaked its reasoning channel as the answer |
+| gemma-4-31B-it (0.39/0.97) | dedicated-only |
+
+**What the probes caught, and the fixes:** narration ("Let me show…") leaked into answers; the model restated its lead after every tool call; labels overshot length limits and were rejected; 4 chains and 3 quotes appeared (prompt asked for at most 2 quotes); `reportOutcome` was rarely called; one stream dropped ("terminated"). Fixes, all enforced in code rather than by prompt:
+- text from lookup turns is held back
+- narration and repeated sentences are filtered, keeping bullets and paragraphs
+- labels are clamped (ids and quotes stay strict)
+- card budget (≤ 2 quotes, ≤ 2 chains, ≤ 5 cards) and duplicate cards refused
+- the answer stops after follow-ups, and the outcome is inferred by rule 7
+- the last turn offers display tools only
+- one retry on a dropped stream
+
+A small renderer handles the bold and bullets the prompt allows.
+
+**An honesty fix found by debugging a failing quote:** Knowledge Base quotes kept failing the verbatim check. The entry was markdown (`**32 learnable query embeddings**`), so the check now ignores emphasis marks. More importantly, the entry is Sanity's **summary** of BLIP-2, not BLIP-2's words (the paper says "a set number of learnable query embeddings"). Captions now read "Knowledge Base summary of BLIP-2". Only citation sentences mined from a paper are captioned as that paper's text.
+
+**Verified end to end over HTTP** (production build, `POST /api/ask`):
+- "Where did BLIP-2's Q-Former come from?": chain card, verified quote, 4 follow-ups, outcome partial; saved as `questions.69e2…` (both endpoints, 3 papers, 2 links, no gap).
+- "How does BLIP-2 describe the Q-Former learnable queries?": a captioned Knowledge Base quote, outcome answered.

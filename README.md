@@ -20,7 +20,7 @@ Built for the [DEV × Sanity Challenge](https://dev.to/devteam/join-the-sanity-c
 | `workflows/` | **paper-intake** on Sanity Workflows: definition, deploy config, effect runner | `npm run check` · `npm run deploy` · `npm run runner` |
 | `scripts/`, `data/` | Harvest → curate → seed pipeline and the Knowledge Base package | see [ARCHITECTURE §7](docs/ARCHITECTURE.md) |
 
-Stack: Sanity (Content Lake, Context MCP + Knowledge Base, Studio, App SDK, Workflows, Agent Actions, Live Content API) · Next.js · Anthropic API (MCP connector) · Upstash · Vercel. Sanity Free plan features only.
+Stack: Sanity (Content Lake, Context MCP + Knowledge Base, Studio, App SDK, Workflows, Agent Actions, Live Content API) · Next.js · Together AI (DeepSeek-V4-Flash, our own MCP tool loop) · Upstash · Vercel. Sanity Free plan features only.
 
 ## Status (2026-10-03)
 

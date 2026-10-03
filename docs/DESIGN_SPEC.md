@@ -7,7 +7,7 @@ This spec is the contract between the mockups and the code. Where the two differ
 
 **As built (v1.2)**, where the code differs from the sections below:
 - **Graph (§5.3, §12):** the budget, stacks and table view are as specified, but the layout is a custom deterministic year-column layout, not `@xyflow/react` + `elkjs`.
-- **Ask (§5.6, §12):** `@anthropic-ai/sdk` with the MCP connector replaces the Vercel AI SDK. Display tools, verbatim quote checks and the facts-vs-interpretation gate are as specified. `reportOutcome` also creates or bumps the gap.
+- **Ask (§5.6, §12):** our own tool loop (`lib/ask/agent.ts`) on Together AI (`DeepSeek-V4-Flash`) replaces the Vercel AI SDK; the server calls the Context MCP endpoints itself. A per-answer card budget (≤ 2 quotes, ≤ 2 chains, ≤ 5 cards) and outcome inference are enforced server-side. Knowledge Base quotes are captioned **"Knowledge Base summary of ‹paper›"** (entries are summaries built from the papers, not their words); citation quotes stay "From ‹paper›'s text". Display tools, verbatim quote checks and the facts-vs-interpretation gate are as specified. `reportOutcome` also creates or bumps the gap.
 - **VerifiedMeter (§4, §13):** a live `count()` query, not `datasetStats`.
 - **Loading (§11):** no `loading.tsx`. Every page is prerendered and refreshed by the Live Content API, and streaming broke 404s for unknown slugs.
 - **Desk (§10.2):** Review, Inbox, Composer and Pipeline are built. Accept and reject are published in one transaction with Undo. "Accept all high-confidence" is batched. "Write explanation" is an Agent Action. The **Pipeline** tab drives `paper-intake` instances via the Workflows SDK, and **Approve** is disabled with the engine's reason while links are unreviewed. Composer narrative is plain paragraphs (mentions are edited in Studio), and reordering uses ↑/↓ buttons, not drag. Live cursors are cut.
@@ -429,7 +429,7 @@ Built with **Sanity UI**, so it follows the Dashboard theme (light/dark) and sys
 ### 11.3 Rate limiting and cost guard
 - **Upstash Redis** (free tier) with `@upstash/ratelimit`, keyed by a hash of the IP:
   - Ask + storyline drafts + suggestions: **10 per 10 minutes** (sliding window) and **50 per day** per visitor.
-  - **Global daily cap: 400 questions** (protects the Anthropic and AI-credit budget), giving the "resting" composer state.
+  - **Global daily cap: 400 questions** (protects the chat-model and AI-credit budget), giving the "resting" composer state.
 - Env: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (server only). Without them (local dev), an in-memory limiter is used and the global cap is skipped, with a startup warning.
 - Requests over 500 characters are rejected before reaching the model.
 

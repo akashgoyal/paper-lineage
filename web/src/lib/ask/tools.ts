@@ -40,18 +40,20 @@ const strip = ({publishedAt: _p, ...rest}: CardPaper & {publishedAt?: string}): 
 // ---------------------------------------------------------------- schemas
 
 const ids = (min: number, max: number) => z.array(z.string().min(1)).min(min).max(max)
+/** Display labels are trimmed to fit rather than rejected (smaller models overshoot); ids and quotes stay strict. */
+const label = (max: number) => z.string().transform((v) => (v.length > max ? `${v.slice(0, max - 1).trimEnd()}…` : v))
 const sourceRef = z.union([
   z.object({kind: z.literal('doc'), id: z.string()}),
   z.object({kind: z.literal('kb'), kb: z.string(), path: z.string()}),
 ])
 
 export const inputSchemas = {
-  showPapers: z.object({ids: ids(1, 6), caption: z.string().max(80).optional()}),
+  showPapers: z.object({ids: ids(1, 6), caption: label(80).optional()}),
   showChain: z.object({paperIds: ids(2, 6), conceptSlugs: z.array(z.string()).max(6).optional()}),
   showComparison: z.object({
     a: z.string(),
     b: z.string(),
-    rows: z.array(z.object({label: z.string().max(24), a: z.string().max(140), b: z.string().max(140), sources: z.array(sourceRef).min(1)})).min(1).max(4),
+    rows: z.array(z.object({label: label(24), a: label(140), b: label(140), sources: z.array(sourceRef).min(1)})).min(1).max(4),
   }),
   showQuote: z.object({
     source: z.union([
@@ -60,19 +62,19 @@ export const inputSchemas = {
     ]),
     quote: z.string().max(600),
   }),
-  suggestFollowUps: z.object({items: z.array(z.string().min(3).max(90)).min(2).max(4)}),
+  suggestFollowUps: z.object({items: z.array(label(90).pipe(z.string().min(3))).min(2).max(4)}),
   reportOutcome: z.object({
     outcome: z.enum(['answered', 'partial', 'unanswered']),
     gap: z
       .object({
         kind: z.enum(['missing-link', 'missing-paper', 'unanswered', 'weak-evidence']),
-        title: z.string().max(90),
+        title: label(90),
         paperIds: z.array(z.string()).max(6).optional(),
         arxivIds: z.array(z.string()).max(6).optional(),
       })
       .optional(),
   }),
-  draftStoryline: z.object({title: z.string().min(3).max(80), paperIds: ids(2, 8)}),
+  draftStoryline: z.object({title: label(80).pipe(z.string().min(3)), paperIds: ids(2, 8)}),
 } as const
 
 export type DisplayToolName = keyof typeof inputSchemas

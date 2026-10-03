@@ -7,6 +7,7 @@ import type {Stats, SiteSettings} from '@/lib/sanity/types'
 import {CardSkeleton, CardView, FollowUps, SourcesLine, type OpenItem} from './AnswerCards'
 import {conversations as store, type Conversation} from './conversations'
 import {OpenedPanel} from './OpenedPanel'
+import {Prose} from './Prose'
 import {applyEvent, parseLines, toHistory, type Turn} from './stream'
 
 const MAX_TURNS = 30
@@ -94,8 +95,8 @@ function Answer({turn, onOpen, onAsk, streaming}: {turn: Turn; onOpen: (i: OpenI
     <div className="flex flex-col gap-3.5">
       {turn.parts.map((p, i) =>
         p.kind === 'text' ? (
-          <div key={i} aria-live={turn.status === 'streaming' ? 'off' : undefined} className="whitespace-pre-wrap font-serif text-[18px] leading-relaxed md:text-[19px]">
-            {p.text}
+          <div key={i} aria-live={turn.status === 'streaming' ? 'off' : undefined} className="flex flex-col gap-3 font-serif text-[18px] leading-relaxed md:text-[19px]">
+            <Prose text={p.text} />
           </div>
         ) : p.card ? (
           <CardView key={p.id} card={p.card} onOpen={onOpen} />

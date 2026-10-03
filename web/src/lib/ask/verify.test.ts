@@ -22,3 +22,9 @@ test('chains must be ordered oldest → newest', () => {
   assert.ok(inDateOrder(['2021-01-01', '2021-01-01']))
   assert.ok(!inDateOrder(['2023-01-30', '2022-04-29']))
 })
+
+test('markdown emphasis in a Knowledge Base entry does not break a verbatim match', () => {
+  const entry = 'A fixed set of **32 learnable query embeddings** (each 768-dimensional) serve as input to the image transformer.'
+  assert.ok(isVerbatim('A fixed set of 32 learnable query embeddings (each 768-dimensional) serve as input', entry))
+  assert.ok(!isVerbatim('A fixed set of 64 learnable query embeddings', entry))
+})

@@ -9,7 +9,7 @@ The sections below are the original plan. Where they disagree with this list, th
 
 | Area | Planned | Shipped | Why |
 |---|---|---|---|
-| Ask agent | Vercel AI SDK + `@ai-sdk/mcp` | `@anthropic-ai/sdk` beta messages with the **MCP connector** (both Context endpoints server-side) + 7 display tools, streamed as NDJSON | One SDK, no MCP client to host; tool calls and quotes are still validated on our server |
+| Ask agent | Vercel AI SDK + `@ai-sdk/mcp` | Own tool loop on **Together AI** (`deepseek-ai/DeepSeek-V4-Flash-0731`, chosen by probing low-cost models), calling both Context endpoints through our MCP client; 7 display tools; NDJSON stream | Credits were on Together; the loop keeps every server-side check, so the model can't show an unverified claim |
 | Question → gap | Function `question-to-gap` | `/api/ask` creates or bumps the gap in the same request (`reportOutcome`) | No extra moving part; same document |
 | Stats | `datasetStats` refreshed by a Function | Live `count()` queries | Always correct, no schedule |
 | Graph | React Flow + ELK in a Web Worker | Custom deterministic year-column layout (`web/src/lib/graph-budget.ts`, unit-tested) | 30-node budget makes a layout engine unnecessary; smaller bundle |

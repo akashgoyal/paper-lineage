@@ -29,7 +29,7 @@ v2 changes: chat-first front door (Ask), Sanity Context with two MCP endpoints (
 | 🟥 **Sanity: provided** | A managed Sanity product we configure but don't write (Content Lake, Context MCP, Knowledge Base, Live API, Agent Actions, Functions runtime, Dashboard) |
 | 🟧 **Ours: runs on Sanity** | Our code or configuration, executed or hosted by Sanity (schema, Studio customisations, App SDK app, Function handlers, workflow definition, MCP instructions, Knowledge Base sources) |
 | 🟦 **Ours: runs elsewhere** | Our code outside Sanity (Next.js site on Vercel, the Ask agent route, data-prep scripts on a laptop) |
-| ⬜ **Third party** | External services we call (Anthropic Claude, arXiv / ar5iv, OpenAlex, Vercel hosting) |
+| ⬜ **Third party** | External services we call (Together AI chat model, arXiv / ar5iv, OpenAlex, Vercel hosting) |
 
 ```mermaid
 flowchart LR
@@ -42,7 +42,7 @@ flowchart LR
     direction TB
     ASK["Ask page<br/>chat UI + cards"]
     PAGES["Explore · Paper · Concept<br/>Story · Pipeline pages"]
-    AGENT["/api/ask route<br/>agent loop (Anthropic SDK + MCP connector)<br/>+ display tools + rate limit"]
+    AGENT["/api/ask route<br/>agent loop + MCP client<br/>+ display tools + rate limit"]
     SUGGEST["Suggest-a-paper<br/>server action → gap"]
   end
 
@@ -60,7 +60,7 @@ flowchart LR
   end
 
   %% ---------- third party ----------
-  CLAUDE["Anthropic Claude API<br/>(chat model)"]
+  CLAUDE["Together AI<br/>DeepSeek-V4-Flash (chat model)"]
   REDIS["Upstash Redis<br/>(rate limits)"]
   ARXIV["arXiv API · ar5iv HTML · PDFs<br/>OpenAlex title lookup"]
 
@@ -160,10 +160,10 @@ flowchart LR
 | Lineage Desk | 🟧 ours on Sanity | Review, Inbox, Composer, Pipeline (§3) | App SDK v3, Sanity UI, Workflows SDK (`useWorkflowInstances`, `useWorkflowSession`) |
 | paper-intake runner + handlers | 🟦 ours | Drains queued effects (fetch metadata, count links, publish) | `createEngine` + `drainEffects`; a hosted Blueprints runtime isn't accepted by the backend yet, and Free-plan scheduled Functions run daily |
 | Next.js site | 🟦 ours | Ask + browse pages for visitors | Next.js 16, custom deterministic graph layout (no React Flow / ELK), `next/og` |
-| `/api/ask` agent route | 🟦 ours | Agent loop over Context A + B, **server-validated display tools** (DESIGN_SPEC §5.6), question + gap logging, rate limit | `@anthropic-ai/sdk` beta MCP connector, NDJSON stream |
+| `/api/ask` agent route | 🟦 ours | Our tool loop: Context A + B through MCP sessions (`groq_query`, `knowledge_base_search/read`), `initial_context` preloaded, **server-validated display tools** (DESIGN_SPEC §5.6), card budget, question + gap logging, rate limit | `lib/ask/agent.ts` over Together's OpenAI-compatible API, NDJSON stream |
 | Suggest-a-paper action | 🟦 ours | Validates an arXiv ID and creates or bumps a `missing-paper` gap (never a paper) | Next.js server action |
 | Data prep scripts | 🟦 ours | Harvest → curate → seed → KB zip | Node, ar5iv HTML, `pdftotext` |
-| Claude | ⬜ third party | The chat model | Anthropic API |
+| Chat model | ⬜ third party | Plans lookups, writes the answer, picks cards | Together AI, `deepseek-ai/DeepSeek-V4-Flash-0731` (OpenAI-compatible chat + tool calling), ≈1¢ per answer |
 | Upstash Redis | ⬜ third party | Per-visitor and global daily rate limits (free tier) | `@upstash/ratelimit` |
 | arXiv / ar5iv / OpenAlex | ⬜ third party | Metadata, full text, title → ID lookups | Public APIs |
 
@@ -185,7 +185,7 @@ flowchart LR
 | Upstash REST URL + token | `web/.env.local` on the server | Rate-limit counters only |
 | Curator login session (`sanity login`) or `SANITY_AUTH_TOKEN` | the machine running the paper-intake runner | Workflow + content writes for effect handlers |
 | Read token (optional, `SANITY_READ_TOKEN`) | `web/.env.local` on the server | Reads workflow instance summaries for /pipeline (falls back to the write token) |
-| Anthropic API key | `web/.env.local` on the server | Chat model |
+| Together API key | `web/.env.local` on the server | Chat model |
 
 Studio, Desk and Context are **builder and curator tools**. The website is the only end-user surface.
 

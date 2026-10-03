@@ -8,12 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --test src/lib/ask/verify.test.ts src/app/ask/stream.test.ts src/lib/sanity/queries.test.ts src/lib/graph-budget.test.ts src/lib/suggested.test.ts",
+    "test": "node --conditions=react-server --import tsx --test src/lib/ask/verify.test.ts src/app/ask/stream.test.ts src/lib/sanity/queries.test.ts src/lib/graph-budget.test.ts src/lib/suggested.test.ts src/lib/ask/agent.test.mts",
     "test:live": "node --conditions=react-server --import tsx --test src/lib/ask/tools.live.test.ts",
-    "check": "npm run typecheck && npm test && npm run test:live && npm run lint"
+    "check": "npm run typecheck && npm test && npm run test:live && npm run lint",
+    "probe:ask": "node --env-file=.env.local --conditions=react-server --import tsx src/lib/ask/agent.probe.mts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.131.0",
     "@portabletext/react": "^8.0.1",
     "@sanity/client": "^7.27.0",
     "@upstash/ratelimit": "^2.2.0",

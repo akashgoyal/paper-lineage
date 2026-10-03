@@ -115,8 +115,8 @@ If the papers do not cover the question, say so.
 SANITY_ORGANIZATION_TOKEN=          # step 0
 SANITY_CONTEXT_GRAPH_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-graph
 SANITY_CONTEXT_PAPERS_URL=https://api.sanity.io/v1/context/organizations/o2qzzix4g/mcp/paper-lineage-papers
-ANTHROPIC_API_KEY=                  # the chat model
-ASK_MODEL=                          # optional, defaults to claude-opus-5
+TOGETHER_API_KEY=                   # the chat model (Together AI)
+ASK_MODEL=                          # optional, defaults to deepseek-ai/DeepSeek-V4-Flash-0731 (must support tool calling, serverless)
 SANITY_WRITE_TOKEN=                 # project token, Editor: saves questions.*, creates/bumps gaps, storyline drafts
 SANITY_READ_TOKEN=                  # optional Viewer token for the /pipeline intake board (falls back to the write token)
 UPSTASH_REDIS_REST_URL=             # rate limits (free Upstash database; DESIGN_SPEC §11.3)
@@ -125,7 +125,7 @@ RATE_LIMIT_SALT=                    # optional, salts the hashed visitor key
 NEXT_PUBLIC_SITE_URL=               # optional on Vercel (VERCEL_PROJECT_PRODUCTION_URL is used); absolute URLs for OG/sitemap
 ```
 
-Without the Context, Anthropic or write variables, `/api/ask` answers 503 "Ask is unavailable right now" and the rest of the site works.
+Without the Context, Together or write variables, `/api/ask` answers 503 "Ask is unavailable right now" and the rest of the site works.
 
 ## 5. Run the paper-intake workflow (curators)
 

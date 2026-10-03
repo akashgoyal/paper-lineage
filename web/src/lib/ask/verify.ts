@@ -3,6 +3,7 @@
 export const normalize = (s: string) =>
   s
     .normalize('NFKC')
+    .replace(/\*\*|__|`/g, '') // Knowledge Base entries are markdown; a quote drops the emphasis marks
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/[‐-―−]/g, '-')
