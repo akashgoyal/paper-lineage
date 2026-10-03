@@ -17,6 +17,7 @@ export type Turn = {
 export function applyEvent(turn: Turn, e: AskEvent): Turn {
   switch (e.type) {
     case 'text': {
+      if (e.lead) return {...turn, parts: [{kind: 'text', text: e.delta}, ...turn.parts.filter((p) => p.kind !== 'text')]}
       const last = turn.parts.at(-1)
       if (last?.kind === 'text') return {...turn, parts: [...turn.parts.slice(0, -1), {kind: 'text', text: last.text + e.delta}]}
       return {...turn, parts: [...turn.parts, {kind: 'text', text: e.delta}]}

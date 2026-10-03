@@ -47,3 +47,11 @@ test('history sends questions with the text of answered turns only', () => {
     {role: 'assistant', content: 'It came from…'},
   ])
 })
+
+test('the lead arrives last but is placed above the cards, replacing any earlier text', () => {
+  let t = applyEvent(start, {type: 'card-start', id: 'c1', tool: 'showChain'})
+  t = applyEvent(t, {type: 'card', id: 'c1', card: chain})
+  t = applyEvent(t, {type: 'text', delta: 'The Q-Former is BLIP-2’s own module.', lead: true})
+  assert.deepEqual(t.parts.map((p) => p.kind), ['text', 'card'])
+  assert.equal(t.parts[0].kind === 'text' && t.parts[0].text, 'The Q-Former is BLIP-2’s own module.')
+})

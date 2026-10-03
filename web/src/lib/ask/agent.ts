@@ -172,7 +172,9 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
 
   const maxTurns = o.maxTurns ?? 8
   let wrote = false
-  const seen: Set<string>[] = []
+  let nudged = false
+  // Models rewrite their lead on every turn. Keep only the final version and send it once, as the lead.
+  let lead = ''
   const shown = new Set<string>() // tool + canonical args of cards already on screen
   const counts: Record<string, number> = {total: 0}
   for (; run.turns < maxTurns && !o.signal?.aborted; run.turns++) {
@@ -200,7 +202,8 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
           tool_choice: 'auto',
           stream: true,
           stream_options: {include_usage: true},
-          max_tokens: o.maxTokens ?? 2000,
+          // Reasoning models spend output tokens thinking before they answer; 2,000 was sometimes all used up.
+          max_tokens: o.maxTokens ?? 6000,
           temperature: 0.2,
         }),
         signal: o.signal,
@@ -257,12 +260,20 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
 
     const made = calls.filter(Boolean)
     const lookup = made.some((c) => !DISPLAY.has(c.function.name))
-    const prose = lookup ? '' : forReader(text, seen, made.length > 0)
+    const prose = lookup ? '' : forReader(text, [], made.length > 0)
     if (prose) {
-      o.send({type: 'text', delta: wrote ? `\n\n${prose}` : prose})
+      lead = prose
       wrote = true
     }
-    if (!made.length) break
+    if (!made.length) {
+      // Cut off with nothing usable (often all reasoning): ask once for a short answer instead of ending blank.
+      if (run.finish === 'length' && !prose && !nudged) {
+        nudged = true
+        messages.push({role: 'user', content: 'Your last reply was cut off. Answer briefly now: a 1–3 sentence lead, then the display tools.'})
+        continue
+      }
+      break
+    }
     messages.push({
       role: 'assistant',
       content: text || null,
@@ -348,6 +359,10 @@ export async function runAgent(history: {role: 'user' | 'assistant'; content: st
     if (o.ctx.outcome || run.toolCalls.includes('suggestFollowUps')) break
   }
   // Models sometimes stop without reporting. Infer it the way rule 7 defines it: unverified evidence is "partial".
+  if (lead) o.send({type: 'text', delta: lead, lead: true})
+  if (!wrote && !counts.total && !o.signal?.aborted) {
+    o.send({type: 'text', delta: 'I couldn’t put an answer together this time. Try rephrasing the question, or open the paper pages directly.'})
+  }
   if (!o.ctx.outcome) {
     const {verified, unreviewed, papers} = o.ctx.sources()
     o.ctx.outcome = !wrote && !counts.total && !papers ? 'unanswered' : verified === 0 && unreviewed > 0 ? 'partial' : 'answered'

@@ -4,7 +4,9 @@ import {runAgent} from './agent.ts'
 import {McpSession} from './context-mcp.ts'
 import {AskContext} from './tools.ts'
 
-const [model, question = "Where did BLIP-2's Q-Former come from?"] = process.argv.slice(2)
+const args = process.argv.slice(2).filter((a) => a !== '--trace')
+const trace = process.argv.includes('--trace') // print every tool call with its arguments
+const [model, question = "Where did BLIP-2's Q-Former come from?"] = args
 const PRICE: Record<string, [number, number]> = {
   'openai/gpt-oss-20b': [0.05, 0.2], 'deepseek-ai/DeepSeek-V4-Flash-0731': [0.14, 0.28], 'Qwen/Qwen3.5-9B': [0.17, 0.25],
   'zai-org/GLM-5.3-Flash': [0.15, 0.5], 'openai/gpt-oss-120b': [0.15, 0.6], 'google/gemma-4-31B-it': [0.39, 0.97],
@@ -19,6 +21,7 @@ try {
     apiKey: env.TOGETHER_API_KEY!, model, ctx,
     graph: new McpSession(env.SANITY_CONTEXT_GRAPH_URL!, env.SANITY_ORGANIZATION_TOKEN!),
     papers: new McpSession(env.SANITY_CONTEXT_PAPERS_URL!, env.SANITY_ORGANIZATION_TOKEN!),
+    onToolCall: (name, input) => trace && console.log(`→ ${name} ${JSON.stringify(input)}`),
     send: (e) => {
       if (e.type === 'text') text += e.delta
       if (e.type === 'card') cards.push(e.card.type)
