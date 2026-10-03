@@ -38,3 +38,30 @@ Rubric (from the challenge): Path Two judges "quality and honesty of the build p
 | Template | 5 | Path Two order: What I Built · Demo · Code · (How it works · How I Used Sanity) · My Build Process · Sanity Project Details · Agent Session. |
 
 **Open items for the author (not fixable in text):** verified-link count (_N_), video link, agent-session link, make the GitHub repo public (judges can't open a private repo), render mermaid to images (DEV doesn't render mermaid).
+
+---
+
+# Path One post (POST_PATH1.md)
+
+Rubric (Path One): meaningful use of Sanity Context and structured content · technical implementation and code quality · use of Knowledge Bases · usability. Plus accuracy and concision.
+
+## Iteration 1 → judged
+
+| Criterion | Score | Findings |
+|---|---|---|
+| Accuracy | 3.5 | Run stats wrong (traced run: 3 turns, 23 s, 0.6¢). "Paraphrased quote rejected" overstated (one failure was markdown). "What did CLIP build on?" untested. "~300 lines" wrong (371 + 71). |
+| Context use | 4.5 | Two endpoints, routing table, real trace with the model's own GROQ. |
+| KB use | 4 | Sources, 20 entries, search vs read, honest summary finding. |
+| Usability | 3 | Stated, not shown; latency only in limits. |
+
+**Refine:** fix stats/wording; test CLIP (works: 27 links, careful "none are reviewed" answer); add it as the usability example.
+
+## Iteration 2 → judged
+
+| Criterion | Score | Findings |
+|---|---|---|
+| Accuracy | 4.5 | Trace mixed two runs (showQuote came from a later 5-turn run). Now one run, unedited. |
+| Usability | 4.5 | Real CLIP answer shows the fact/interpretation rule from the visitor's side. |
+| Concision | 4.5 | ~1,200 words; "How I Used Sanity" is the largest section, as the template asks. |
+
+**Open items for the author:** video, session link, Path Two link, repo public before submitting.

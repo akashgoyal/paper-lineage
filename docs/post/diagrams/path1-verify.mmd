@@ -1,0 +1,15 @@
+flowchart TB
+  CALL["Model calls a display tool with ids<br/>showChain · showQuote · showPapers"]:::third
+  CALL --> C1["1 · every id exists in Sanity"]:::ours
+  C1 --> C2["2 · chain papers in date order"]:::ours
+  C2 --> C3["3 · quote appears verbatim in its source"]:::ours
+  C3 --> C4["4 · within the card budget"]:::ours
+  C4 --> CARD["Card rebuilt from Sanity documents<br/>relation shown only if the link is accepted"]:::sanity
+  C1 & C2 & C3 & C4 -. "fails" .-> ERR["Error returned to the model<br/>e.g. 'Unknown paper id'"]:::warn
+  ERR -. "model corrects the call" .-> CALL
+  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
+  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
+  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
+  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E
+  classDef warn fill:#FEF3C7,stroke:#A16207,color:#422006,stroke-dasharray:4 3
