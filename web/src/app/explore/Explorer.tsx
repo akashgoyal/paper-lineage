@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
-import {useEffect, useMemo, useState} from 'react'
+import {useEffect, useMemo, useRef, useState} from 'react'
 import {QuoteBlock, RelationChip, StatTile} from '@/components/ui'
 import {RELATION_COLOR, RELATION_LABEL, year} from '@/lib/format'
 import {budgetGraph, layout, linkStrength, type Placed} from '@/lib/graph-budget'
@@ -52,6 +52,8 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
   const [pinned, setPinned] = useState<Set<string>>(new Set())
   const [selected, setSelected] = useState<{kind: 'paper'; id: string} | {kind: 'link'; id: string} | null>(null)
   const [budget, setBudget] = useState(30)
+  const [hovered, setHovered] = useState<string | null>(null)
+  const scroller = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1279px)')
@@ -78,6 +80,28 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
 
   const selectedLink = selected?.kind === 'link' ? result.edges.find((e) => e._id === selected.id) : undefined
   const selectedPaper = selected?.kind === 'paper' ? byId.get(selected.id) : undefined
+
+  // Emphasis: the selected paper (or link) and its neighbourhood stand out, everything else dims.
+  // Hover previews the same, lighter, while nothing is selected.
+  const emphasis = useMemo(() => {
+    const paperId = selected?.kind === 'paper' ? selected.id : selected ? null : hovered
+    if (selectedLink) return {nodes: new Set([selectedLink.from, selectedLink.to]), edges: new Set([selectedLink._id]), strong: true}
+    if (!paperId) return null
+    const edges = result.edges.filter((e) => e.from === paperId || e.to === paperId)
+    return {nodes: new Set([paperId, ...edges.flatMap((e) => [e.from, e.to])]), edges: new Set(edges.map((e) => e._id)), strong: Boolean(selected)}
+  }, [selected, selectedLink, hovered, result.edges])
+
+  // The focus paper is the newest column: open the graph scrolled to it, not to the oldest year.
+  useEffect(() => {
+    const el = scroller.current
+    if (el) el.scrollLeft = el.scrollWidth
+  }, [focus._id, depth, geo.width])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setSelected(null)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <main className="mx-auto max-w-[1440px] px-4 pb-10 pt-6 md:px-8">
@@ -136,8 +160,12 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
                 {verifiedOnly ? 'No verified links lead to this paper yet. Turn off “Verified only” to see what it cites.' : `${focus.shortName} has no earlier papers in this dataset.`}
               </p>
             ) : (
-              <div className="overflow-x-auto">
-                <div className="relative" style={{width: geo.width, height: geo.height}}>
+              <div ref={scroller} className="overflow-x-auto">
+                <div
+                  className="relative"
+                  style={{width: geo.width, height: geo.height}}
+                  onClick={(e) => e.target === e.currentTarget && setSelected(null)}
+                >
                   {geo.years.map((y) => (
                     <div key={y} aria-hidden>
                       <div className="tabular absolute top-3.5 w-20 -translate-x-1/2 text-center font-mono text-xs text-muted" style={{left: geo.colX.get(y)}}>
@@ -146,47 +174,71 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
                       <div className="absolute top-10 border-l border-dashed border-line" style={{left: geo.colX.get(y), height: geo.height - 50}} />
                     </div>
                   ))}
-                  <svg width={geo.width} height={geo.height} className="absolute inset-0" aria-hidden>
+                  <svg width={geo.width} height={geo.height} className="pointer-events-none absolute inset-0" aria-hidden>
                     {result.edges.map((e) => {
                       const a = placedById.get(e.from)
                       const b = placedById.get(e.to)
                       if (!a || !b || a.x === b.x) return null
-                      const isSel = selected?.kind === 'link' && selected.id === e._id
+                      const lit = emphasis?.edges.has(e._id)
+                      const dim = emphasis && !lit
                       const ver = e.decision === 'accepted' && e.relation
+                      const d = edgePath(a, b)
                       return (
-                        <path
-                          key={e._id}
-                          d={edgePath(a, b)}
-                          fill="none"
-                          stroke={isSel ? 'var(--ink)' : ver ? RELATION_COLOR[e.relation as Relation] : 'var(--unreviewed)'}
-                          strokeWidth={isSel ? 2.5 : ver ? 2 : 1.25}
-                          strokeDasharray={ver ? undefined : '2 4'}
-                          strokeLinecap="round"
-                          className="cursor-pointer"
-                          style={{pointerEvents: 'stroke'}}
-                          onClick={() => setSelected({kind: 'link', id: e._id})}
-                        />
+                        <g key={e._id} className="pointer-events-auto cursor-pointer" onClick={() => setSelected({kind: 'link', id: e._id})}>
+                          {/* wide invisible stroke: a 1px dotted line is too thin to click */}
+                          <path d={d} fill="none" stroke="transparent" strokeWidth={12} style={{pointerEvents: 'stroke'}} />
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke={lit ? 'var(--select)' : ver ? RELATION_COLOR[e.relation as Relation] : 'var(--unreviewed)'}
+                            strokeWidth={lit ? 2.5 : ver ? 2 : 1.25}
+                            strokeDasharray={ver ? undefined : lit ? '3 4' : '2 4'}
+                            strokeLinecap="round"
+                            opacity={dim ? (emphasis?.strong ? 0.12 : 0.3) : 1}
+                            style={{transition: 'opacity 150ms, stroke 150ms'}}
+                          />
+                        </g>
                       )
                     })}
                   </svg>
                   {geo.placed.map((n) => {
                     const isFocus = n._id === focus._id
                     const isSel = selected?.kind === 'paper' && selected.id === n._id
-                    const isEnd = selectedLink && (selectedLink.from === n._id || selectedLink.to === n._id)
+                    const isEnd = Boolean(selectedLink && (selectedLink.from === n._id || selectedLink.to === n._id))
+                    const near = emphasis?.nodes.has(n._id)
+                    const dim = emphasis && !near && !isFocus
+                    const accent = isSel || isEnd
                     return (
                       <button
                         key={n._id}
                         type="button"
                         title={`${n.shortName} (${n.year}) · ${n.title}`}
-                        onClick={() => setSelected({kind: 'paper', id: n._id})}
+                        aria-pressed={isSel}
+                        onClick={() => setSelected(isSel ? null : {kind: 'paper', id: n._id})}
                         onDoubleClick={() => set({focus: n.slug})}
-                        className={`absolute flex flex-col justify-center rounded-lg px-2.5 text-left ${
-                          isFocus ? 'bg-ink text-white shadow-[0_4px_14px_rgb(23_25_30/.25)]' : 'bg-surface text-ink shadow-[0_1px_2px_rgb(23_25_30/.06)]'
-                        } ${isSel || isEnd ? 'border-2 border-ink' : `border ${n.kind === 'dataset' ? 'border-dashed' : ''} border-line-strong`}`}
+                        onMouseEnter={() => setHovered(n._id)}
+                        onMouseLeave={() => setHovered((h) => (h === n._id ? null : h))}
+                        onFocus={() => setHovered(n._id)}
+                        onBlur={() => setHovered((h) => (h === n._id ? null : h))}
+                        className={`absolute flex flex-col justify-center rounded-lg px-2.5 text-left transition-[opacity,box-shadow,background-color] duration-150 ${
+                          isFocus
+                            ? 'bg-ink text-white shadow-[0_4px_14px_rgb(23_25_30/.25)]'
+                            : accent
+                              ? 'bg-select-bg text-ink'
+                              : near
+                                ? 'bg-surface text-ink shadow-[0_2px_8px_rgb(124_58_237/.15)]'
+                                : 'bg-surface text-ink shadow-[0_1px_2px_rgb(23_25_30/.06)]'
+                        } ${
+                          accent
+                            ? 'border-2 border-select shadow-[0_0_0_4px_rgb(124_58_237/.18)]'
+                            : near && emphasis?.strong
+                              ? 'border border-select/60'
+                              : `border ${n.kind === 'dataset' ? 'border-dashed' : ''} border-line-strong`
+                        } ${dim ? (emphasis?.strong ? 'opacity-35' : 'opacity-60') : ''}`}
                         style={{left: n.x - NW / 2, top: n.y - NH / 2, width: NW, height: NH}}
                       >
                         <span className="truncate text-[13px] font-semibold">{n.shortName}</span>
-                        <span className={`font-mono text-[10.5px] ${isFocus ? 'text-[#C9CCD3]' : 'text-muted'}`}>
+                        <span className={`truncate whitespace-nowrap font-mono text-[10.5px] ${isFocus ? 'text-[#C9CCD3]' : 'text-muted'}`}>
                           {n.year}
                           {n.kind !== 'method' ? ` · ${n.kind}` : ''}
                           {pinned.has(n._id) ? ' · pinned' : ''}
@@ -237,7 +289,15 @@ export function Explorer({papers, links}: {papers: GraphPaper[]; links: GraphLin
               <ul className="m-0 mt-2 flex max-h-72 list-none flex-col gap-1 overflow-auto p-0">
                 {result.edges.map((e) => (
                   <li key={e._id}>
-                    <button type="button" onClick={() => setSelected({kind: 'link', id: e._id})} className="w-full rounded px-1.5 py-1 text-left text-[13px] hover:bg-ground">
+                    <button
+                      type="button"
+                      aria-current={selected?.kind === 'link' && selected.id === e._id ? 'true' : undefined}
+                      ref={(el) => {
+                        if (el && selected?.kind === 'link' && selected.id === e._id) el.scrollIntoView({block: 'nearest'})
+                      }}
+                      onClick={() => setSelected({kind: 'link', id: e._id})}
+                      className={`w-full rounded px-1.5 py-1 text-left text-[13px] ${selected?.kind === 'link' && selected.id === e._id ? 'bg-select-bg font-medium text-ink ring-1 ring-select/40' : 'hover:bg-ground'}`}
+                    >
                       {byId.get(e.from)?.shortName} → {byId.get(e.to)?.shortName}{' '}
                       <span className="text-muted">{e.decision === 'accepted' && e.relation ? RELATION_LABEL[e.relation] : `cites ${e.mentions}×`}</span>
                     </button>
@@ -260,16 +320,27 @@ function Legend() {
         <RelationChip key={r} relation={r} decision="accepted" />
       ))}
       <RelationChip relation={null} />
+      <span className="ml-auto flex items-center gap-4 text-xs text-muted">
+        <span className="flex items-center gap-1.5">
+          <span aria-hidden className="h-3 w-5 rounded-sm bg-ink" /> Focus paper
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span aria-hidden className="h-3 w-5 rounded-sm border-2 border-select bg-select-bg" /> Selected · Esc clears
+        </span>
+      </span>
     </div>
   )
 }
 
 function LinkInspector({link, from, to}: {link: GraphLink; from: GraphPaper; to: GraphPaper}) {
-  const full = useClientQuery<FullLink>(LINK_QUERY, {id: link._id}, link._id) ?? null
+  // undefined = loading, null = the read failed (shown, not an endless skeleton)
+  const full = useClientQuery<FullLink | null>(LINK_QUERY, {id: link._id}, link._id)
   const verified = link.decision === 'accepted' && link.relation
   return (
-    <div className="flex flex-col gap-3.5 rounded-xl border border-line bg-surface p-5">
-      <div className="overline">Selected link</div>
+    <div className="flex flex-col gap-3.5 rounded-xl border-2 border-select/50 bg-surface p-5">
+      <div className="overline flex items-center gap-1.5 text-select">
+        <span aria-hidden className="h-2 w-2 rounded-full bg-select" /> Selected link
+      </div>
       <div className="font-serif text-2xl font-medium">
         {from.shortName} <span className="text-muted">→</span> {to.shortName}
       </div>
@@ -279,8 +350,10 @@ function LinkInspector({link, from, to}: {link: GraphLink; from: GraphPaper; to:
         <StatTile value={link.methodMentions} label="in its Method section" />
       </div>
       <div className="min-h-[88px]">
-        {full === null ? (
+        {full === undefined ? (
           <div aria-hidden className="h-[88px] animate-pulse rounded-lg bg-line" />
+        ) : full === null ? (
+          <p className="m-0 rounded-lg bg-ground px-4 py-3 text-[13px] text-ink-2">The citing sentence couldn’t be loaded. Open {to.shortName} to read it.</p>
         ) : (
           <QuoteBlock text={full.evidence?.text} source={`${to.shortName} · §${full.evidence?.section || 'unknown section'}`} />
         )}
@@ -308,8 +381,10 @@ function PaperInspector(props: {paper: GraphPaper; links: GraphLink[]; isFocus: 
   const builtOn = links.filter((l) => l.to === paper._id && l.decision !== 'rejected').length
   const builtOnIt = links.filter((l) => l.from === paper._id && l.decision !== 'rejected').length
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-5">
-      <div className="overline">{paper.kind === 'method' ? 'Paper' : paper.kind}</div>
+    <div className="flex flex-col gap-3 rounded-xl border-2 border-select/50 bg-surface p-5">
+      <div className="overline flex items-center gap-1.5 text-select">
+        <span aria-hidden className="h-2 w-2 rounded-full bg-select" /> Selected {paper.kind === 'method' ? 'paper' : paper.kind}
+      </div>
       <div className="font-serif text-2xl font-medium leading-tight">{paper.shortName}</div>
       <div className="text-sm text-ink-2">{paper.title}</div>
       <div className="grid grid-cols-2 gap-2.5">

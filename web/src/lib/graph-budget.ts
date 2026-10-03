@@ -129,7 +129,8 @@ export function layout(result: BudgetResult, dims = {colW: 136, rowH: 60, top: 5
   const placed: Placed[] = result.nodes.map((n) => ({...n, x: colX.get(n.year)!, y: yOf.get(n._id)!}))
   const stacks = result.stacks.map((s) => {
     const inCol = placed.filter((p) => p.year === s.year)
-    const y = inCol.length ? Math.max(...inCol.map((p) => p.y)) + dims.rowH : height - 40 - dims.rowH / 2
+    // A year with no visible paper keeps its stack mid-height, so the canvas doesn't grow downwards.
+    const y = inCol.length ? Math.max(...inCol.map((p) => p.y)) + dims.rowH : (height - 40 + dims.top) / 2
     return {...s, x: colX.get(s.year)!, y}
   })
   const finalHeight = Math.max(height, ...stacks.map((s) => s.y + dims.rowH))
