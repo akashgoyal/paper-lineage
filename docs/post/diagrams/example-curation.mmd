@@ -1,13 +1,16 @@
 flowchart LR
-  Q["Visitor question<br/>answered 'partial'"]:::person -- "/api/ask" --> GAP[("gap<br/>'BLIP-2 links unreviewed'")]:::sanity
-  GAP --> INBOX["Desk · Inbox<br/>most-asked gaps first"]:::onsanity
-  INBOX --> REVIEW["Desk · Review<br/>evidence sentence + relation"]:::onsanity
-  REVIEW -- "Accept: decision + publish<br/>in one transaction" --> LINK[("link<br/>reviewDecision = accepted")]:::sanity
-  LINK -- "Live Content API" --> SITE["Site: relation label appears,<br/>graph line turns solid"]:::ours
-  LINK --> ASK["Next answer may use<br/>the relation word"]:::ours
-
-  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
-  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
-  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
-  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  Q(["Visitor question<br/>answered 'partial'"]):::person -- "/api/ask" --> GAP[("Sanity Content Lake<br/>gap document")]:::sanity
+  GAP --> INBOX["Lineage Desk · Inbox<br/>(Sanity App SDK)"]:::onsanity
+  INBOX --> REVIEW["Lineage Desk · Review<br/>evidence + relation"]:::onsanity
+  REVIEW -- "Accept: decision + publish,<br/>one transaction" --> LINK[("Sanity Content Lake<br/>link: accepted")]:::sanity
+  LINK --> LIVE["Sanity Live Content API"]:::sanity
+  LIVE --> SITE["Site: relation label appears,<br/>graph line turns solid"]:::ours
+  LINK --> ASK["Agent may now use<br/>the relation word"]:::ours
+  LEG["Red = Sanity feature · peach = our app on Sanity · blue = our code · grey = third party"]:::legend
+  classDef sanity fill:#E8412E,stroke:#9F2414,color:#FFFFFF,stroke-width:2px,font-weight:bold
+  classDef onsanity fill:#FDE3D0,stroke:#E8412E,color:#3D1408,stroke-width:2px
+  classDef ours fill:#EEF2FB,stroke:#8A9AC9,color:#1E2A4A,stroke-width:1px
+  classDef third fill:#F6F6F7,stroke:#A1A1AA,color:#3F3F46,stroke-dasharray:4 3
   classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E
+  classDef warn fill:#FEF3C7,stroke:#A16207,color:#422006,stroke-dasharray:4 3
+  classDef legend fill:#FFFFFF,stroke:#D4D4D8,color:#3F3F46,font-size:12px

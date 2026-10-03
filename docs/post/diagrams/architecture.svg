@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="830" viewBox="0 0 1400 830" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52525B"/></marker></defs>
+<rect width="1400" height="830" fill="#ffffff"/>
+<rect x="250" y="30" width="310" height="780" rx="12" fill="#FAFAFB" stroke="#C7CCDA" stroke-width="1.5"/>
+<text x="405" y="56" font-size="13" font-weight="700" fill="#5B6585" text-anchor="middle">OUR CODE</text>
+<rect x="600" y="30" width="770" height="780" rx="12" fill="#FFF5F3" stroke="#E8412E" stroke-width="3"/>
+<text x="622" y="56" font-size="14" font-weight="700" fill="#9F2414" text-anchor="start">SANITY PLATFORM  ·  free plan</text>
+<text x="632" y="96" font-size="12.5" font-weight="400" fill="#9F2414" text-anchor="start" font-style="italic">Read by the agent and the site</text>
+<text x="632" y="516" font-size="12.5" font-weight="400" fill="#9F2414" text-anchor="start" font-style="italic">Curator tools</text>
+<rect x="40" y="110" width="180" height="70" rx="8" fill="#F6F6F7" stroke="#A1A1AA" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="130" y="141" font-size="15.5" font-weight="500" fill="#3F3F46" text-anchor="middle">Together AI</text>
+<text x="130" y="160" font-size="13" font-weight="400" fill="#3F3F46" text-anchor="middle">DeepSeek-V4-Flash</text>
+<rect x="70" y="282" width="120" height="40" rx="20" fill="#fff" stroke="#17191E" stroke-width="1.5"/>
+<text x="130" y="307" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Visitor</text>
+<rect x="70" y="542" width="120" height="40" rx="20" fill="#fff" stroke="#17191E" stroke-width="1.5"/>
+<text x="130" y="567" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Curator</text>
+<rect x="280" y="110" width="250" height="80" rx="8" fill="#EEF2FB" stroke="#8A9AC9" stroke-width="2"/>
+<text x="405" y="146" font-size="15.5" font-weight="600" fill="#1E2A4A" text-anchor="middle">/api/ask</text>
+<text x="405" y="165" font-size="13" font-weight="400" fill="#1E2A4A" text-anchor="middle">agent loop + card checks</text>
+<rect x="280" y="270" width="250" height="64" rx="8" fill="#EEF2FB" stroke="#8A9AC9" stroke-width="2"/>
+<text x="405" y="298" font-size="15.5" font-weight="600" fill="#1E2A4A" text-anchor="middle">Next.js site</text>
+<text x="405" y="317" font-size="13" font-weight="400" fill="#1E2A4A" text-anchor="middle">Ask · Explore · pages</text>
+<rect x="280" y="732" width="250" height="56" rx="8" fill="#EEF2FB" stroke="#8A9AC9" stroke-width="2"/>
+<text x="405" y="756" font-size="15.5" font-weight="600" fill="#1E2A4A" text-anchor="middle">intake runner</text>
+<text x="405" y="775" font-size="13" font-weight="400" fill="#1E2A4A" text-anchor="middle">drains workflow effects</text>
+<rect x="630" y="105" width="240" height="64" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="750" y="133" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Context</text>
+<text x="750" y="152" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="middle">MCP · GROQ mode</text>
+<rect x="630" y="190" width="240" height="64" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="750" y="218" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Context</text>
+<text x="750" y="237" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="middle">MCP · Knowledge Base mode</text>
+<rect x="910" y="190" width="210" height="64" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="1015" y="218" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Knowledge Base</text>
+<text x="1015" y="237" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="middle">40 papers → 20 entries</text>
+<rect x="630" y="275" width="240" height="56" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="750" y="308" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Live Content API</text>
+<path d="M 1160 264 A 95 14 0 0 1 1350 264 L 1350 396 A 95 14 0 0 1 1160 396 Z" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<path d="M 1160 264 A 95 14 0 0 0 1350 264" fill="none" stroke="#9F2414" stroke-width="2"/>
+<text x="1255" y="324" font-size="15.5" font-weight="700" fill="#fff" text-anchor="middle">Sanity Content Lake</text>
+<text x="1255" y="344" font-size="12.5" font-weight="400" fill="#fff" text-anchor="middle">papers · links · concepts</text>
+<text x="1255" y="361" font-size="12.5" font-weight="400" fill="#fff" text-anchor="middle">gaps · stories · workflows</text>
+<rect x="630" y="530" width="240" height="64" rx="8" fill="#FDE3D0" stroke="#E8412E" stroke-width="2"/>
+<text x="750" y="558" font-size="15.5" font-weight="600" fill="#3D1408" text-anchor="middle">Lineage Desk</text>
+<text x="750" y="577" font-size="13" font-weight="400" fill="#3D1408" text-anchor="middle">built with Sanity App SDK</text>
+<rect x="630" y="640" width="240" height="64" rx="8" fill="#FDE3D0" stroke="#E8412E" stroke-width="2"/>
+<text x="750" y="668" font-size="15.5" font-weight="600" fill="#3D1408" text-anchor="middle">Sanity Studio</text>
+<text x="750" y="687" font-size="13" font-weight="400" fill="#3D1408" text-anchor="middle">custom inputs + actions</text>
+<rect x="910" y="530" width="210" height="64" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="1015" y="558" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Workflows</text>
+<text x="1015" y="577" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="middle">paper-intake · approve / send back</text>
+<rect x="910" y="640" width="210" height="64" rx="8" fill="#E8412E" stroke="#9F2414" stroke-width="2"/>
+<text x="1015" y="668" font-size="15.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sanity Agent Actions</text>
+<text x="1015" y="687" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="middle">drafts link explanations</text>
+<polyline points="220,145 280,145" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<polyline points="190,302 280,302" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="405,270 405,190" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="530,135 630,137" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="580" y="127" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">groq_query</text>
+<polyline points="530,172 630,222" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="556" y="236" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">knowledge_base_*</text>
+<polyline points="870,222 910,222" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="870,137 1255,137 1255,250" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="405,110 405,76 1310,76 1310,250" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="900" y="70" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">every card re-read by _id and checked</text>
+<polyline points="530,302 630,303" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="580" y="294" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">live updates</text>
+<polyline points="870,303 1160,303" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="190,562 630,562" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="130,582 130,672 630,672" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="820,530 820,470 1255,470 1255,410" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="1040" y="462" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">accept / reject + publish</text>
+<polyline points="870,562 910,562" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<polyline points="870,590 910,650" fill="none" stroke="#52525B" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+<polyline points="1120,562 1140,562 1140,760 530,760" fill="none" stroke="#52525B" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="840" y="752" font-size="11.5" font-weight="400" fill="#3F3F46" text-anchor="middle" font-style="italic">workflow effects</text>
+<text x="34" y="712" font-size="13" font-weight="700" fill="#27272A" text-anchor="start">Legend</text>
+<rect x="34" y="722" width="26" height="16" rx="3" fill="#E8412E" stroke="#9F2414" stroke-width="1.5"/>
+<text x="70" y="735" font-size="13" font-weight="400" fill="#27272A" text-anchor="start">Sanity feature</text>
+<rect x="34" y="746" width="26" height="16" rx="3" fill="#FDE3D0" stroke="#E8412E" stroke-width="1.5"/>
+<text x="70" y="759" font-size="13" font-weight="400" fill="#27272A" text-anchor="start">our app, built on Sanity</text>
+<rect x="34" y="770" width="26" height="16" rx="3" fill="#EEF2FB" stroke="#8A9AC9" stroke-width="1.5"/>
+<text x="70" y="783" font-size="13" font-weight="400" fill="#27272A" text-anchor="start">our code (Vercel / laptop)</text>
+<rect x="34" y="794" width="26" height="16" rx="3" fill="#F6F6F7" stroke="#A1A1AA" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="70" y="807" font-size="13" font-weight="400" fill="#27272A" text-anchor="start">third party</text>
+</svg>

@@ -1,13 +1,16 @@
 flowchart LR
-  ADD["Desk Inbox<br/>Add paper (arXiv id)"]:::onsanity --> F["fetching<br/>effect: arXiv metadata"]:::sanity
-  F --> CH["checks<br/>effect: count unreviewed links"]:::sanity
-  CH --> CU{"curation"}:::onsanity
-  CU -- "Approve<br/>(engine refuses while links are unreviewed)" --> P["publishing<br/>effect: publish paper"]:::sanity
+  ADD["Lineage Desk · Inbox<br/>Add paper (Sanity App SDK)"]:::onsanity --> F["Sanity Workflows<br/>fetching"]:::sanity
+  F --> CH["Sanity Workflows<br/>checks"]:::sanity
+  CH --> CU{"Sanity Workflows<br/>curation"}:::sanity
+  CU -- "Approve<br/>(engine refuses while links are unreviewed)" --> P["Sanity Workflows<br/>publishing"]:::sanity
   CU -- "Send back + note" --> F
-  P --> DONE(["published"]):::sanity
-
-  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
-  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
-  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
-  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  P --> DONE[("Sanity Content Lake<br/>paper published")]:::sanity
+  CH -. "each stage's effect is run by" .- R["intake runner<br/>(our code)"]:::ours
+  LEG["Red = Sanity feature · peach = our app on Sanity · blue = our code · grey = third party"]:::legend
+  classDef sanity fill:#E8412E,stroke:#9F2414,color:#FFFFFF,stroke-width:2px,font-weight:bold
+  classDef onsanity fill:#FDE3D0,stroke:#E8412E,color:#3D1408,stroke-width:2px
+  classDef ours fill:#EEF2FB,stroke:#8A9AC9,color:#1E2A4A,stroke-width:1px
+  classDef third fill:#F6F6F7,stroke:#A1A1AA,color:#3F3F46,stroke-dasharray:4 3
   classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E
+  classDef warn fill:#FEF3C7,stroke:#A16207,color:#422006,stroke-dasharray:4 3
+  classDef legend fill:#FFFFFF,stroke:#D4D4D8,color:#3F3F46,font-size:12px

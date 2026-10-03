@@ -1,14 +1,17 @@
 flowchart LR
-  Q([Visitor question]):::person --> AG["Agent loop<br/>/api/ask"]:::ours
+  Q([Visitor question]):::person --> AG["Agent loop<br/>/api/ask (our code)"]:::ours
   AG <--> M["Model<br/>DeepSeek-V4-Flash"]:::third
-  AG -- "who / when / which /<br/>how often / verified?" --> A["Context MCP A<br/>groq_query"]:::sanity
-  A --> G[("Lineage graph<br/>papers · links · concepts<br/>(groqFilter: no full text,<br/>no visitor data)")]:::sanity
-  AG -- "how / why /<br/>what results?" --> B["Context MCP B<br/>knowledge_base_search · _read"]:::sanity
-  B --> KB[["Knowledge Base<br/>20 entries from 40 papers"]]:::sanity
-  AG -- "display tools<br/>(ids only)" --> V{{"Server verification"}}:::ours
-  V --> ANS["Answer:<br/>lead + verified cards<br/>+ follow-ups"]:::ours
-  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
-  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
-  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
-  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  AG -- "who / when / which /<br/>how often / verified?" --> A["Sanity Context MCP<br/>GROQ mode · groq_query"]:::sanity
+  A --> G[("Sanity Content Lake<br/>papers · links · concepts")]:::sanity
+  AG -- "how / why /<br/>what results?" --> B["Sanity Context MCP<br/>Knowledge Base mode"]:::sanity
+  B --> KB[["Sanity Knowledge Base<br/>20 entries from 40 papers"]]:::sanity
+  AG -- "display tools (ids only)" --> V{{"Server checks<br/>(re-read from Sanity)"}}:::ours
+  V --> ANS["Answer: lead +<br/>verified cards + follow-ups"]:::ours
+  LEG["Red = Sanity feature · peach = our app on Sanity · blue = our code · grey = third party"]:::legend
+  classDef sanity fill:#E8412E,stroke:#9F2414,color:#FFFFFF,stroke-width:2px,font-weight:bold
+  classDef onsanity fill:#FDE3D0,stroke:#E8412E,color:#3D1408,stroke-width:2px
+  classDef ours fill:#EEF2FB,stroke:#8A9AC9,color:#1E2A4A,stroke-width:1px
+  classDef third fill:#F6F6F7,stroke:#A1A1AA,color:#3F3F46,stroke-dasharray:4 3
   classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E
+  classDef warn fill:#FEF3C7,stroke:#A16207,color:#422006,stroke-dasharray:4 3
+  classDef legend fill:#FFFFFF,stroke:#D4D4D8,color:#3F3F46,font-size:12px

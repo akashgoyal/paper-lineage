@@ -1,24 +1,47 @@
 flowchart LR
-  V([Visitor]):::person --> SITE["Next.js site<br/>Ask · Explore · pages"]:::ours
-  SITE --> AGENT["/api/ask<br/>agent loop +<br/>verified display tools"]:::ours
-  AGENT <--> LLM["Together AI<br/>DeepSeek-V4-Flash"]:::third
-  AGENT -- groq_query --> CTXA["Context MCP A<br/>GROQ mode"]:::sanity
-  AGENT -- "knowledge_base_*" --> CTXB["Context MCP B<br/>Knowledge Base · 40 papers"]:::sanity
-  CTXA --> PROD[("Content Lake<br/>production")]:::sanity
-  AGENT -- "rebuild + verify cards" --> PROD
-  SITE -. "Live Content API" .-> PROD
+  V([Visitor]):::person
+  C([Curator]):::person
 
-  C([Curator]):::person --> DESK["Lineage Desk<br/>App SDK"]:::onsanity
-  C --> STUDIO["Studio"]:::onsanity
-  DESK -- "accept / reject + publish" --> PROD
-  STUDIO --> PROD
-  DESK -- "start · approve · send back" --> WF["paper-intake<br/>Workflows engine"]:::onsanity
-  WF --> WFDS[("Content Lake<br/>workflows")]:::sanity
-  WFDS -- "queued effects" --> RUNNER["intake runner"]:::ours
-  RUNNER --> PROD
+  subgraph OURS["Our code"]
+    direction TB
+    SITE["Next.js site<br/>Ask · Explore · pages"]:::ours
+    AGENT["/api/ask<br/>agent loop + card checks"]:::ours
+    RUNNER["intake runner"]:::ours
+  end
 
-  classDef sanity fill:#FDE3E0,stroke:#E0402F,color:#3B0D08,stroke-width:1.5px
-  classDef onsanity fill:#FFF0D2,stroke:#B45309,color:#3D2302,stroke-width:1.5px
-  classDef ours fill:#E3EAFE,stroke:#3446C4,color:#121A4A,stroke-width:1.5px
-  classDef third fill:#F4F4F5,stroke:#6B7280,color:#1F2937,stroke-dasharray:4 3
+  subgraph SANITY["SANITY PLATFORM · free plan"]
+    direction TB
+    CTXA["Sanity Context<br/>MCP · GROQ mode"]:::sanity
+    CTXB["Sanity Context<br/>MCP · Knowledge Base mode"]:::sanity
+    KB[["Sanity Knowledge Base<br/>40 papers → 20 entries"]]:::sanity
+    LIVE["Sanity Live Content API"]:::sanity
+    LAKE[("Sanity Content Lake<br/>papers · links · concepts · gaps")]:::sanity
+    DESK["Lineage Desk<br/>built on Sanity App SDK"]:::onsanity
+    STUDIO["Sanity Studio<br/>custom inputs + actions"]:::onsanity
+    WF["Sanity Workflows<br/>paper-intake"]:::sanity
+    AA["Sanity Agent Actions"]:::sanity
+  end
+
+  LLM["Together AI<br/>DeepSeek-V4-Flash"]:::third
+
+  V --> SITE --> AGENT
+  AGENT <--> LLM
+  AGENT -- "groq_query" --> CTXA --> LAKE
+  AGENT -- "knowledge_base_*" --> CTXB --> KB
+  AGENT -- "verify cards" --> LAKE
+  SITE -- "live updates" --> LIVE --> LAKE
+  C --> DESK & STUDIO
+  DESK -- "accept / reject" --> LAKE
+  STUDIO --> LAKE
+  DESK -- "approve · send back" --> WF
+  DESK -- "write explanation" --> AA --> LAKE
+  WF -- "effects" --> RUNNER --> LAKE
+
+  L1["■ red = Sanity feature<br/>■ peach = our app on Sanity<br/>■ pale = our code / third party"]:::legend
+  classDef sanity fill:#E8412E,stroke:#9F2414,color:#FFFFFF,stroke-width:2px,font-weight:bold
+  classDef onsanity fill:#FDE3D0,stroke:#E8412E,color:#3D1408,stroke-width:2px
+  classDef ours fill:#EEF2FB,stroke:#8A9AC9,color:#1E2A4A,stroke-width:1px
+  classDef third fill:#F6F6F7,stroke:#A1A1AA,color:#3F3F46,stroke-dasharray:4 3
   classDef person fill:#FFFFFF,stroke:#17191E,color:#17191E
+  classDef legend fill:#FFFFFF,stroke:#FFFFFF,color:#3F3F46
+  style SANITY fill:#FFF5F3,stroke:#E8412E,stroke-width:3px,color:#9F2414

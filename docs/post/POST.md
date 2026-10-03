@@ -48,9 +48,9 @@ https://github.com/akashgoyal/paper-lineage. The repo has `web/` (site + Ask), `
 
 ### Architecture
 
-Colours: **red** = Sanity service · **orange** = our code running on Sanity · **blue** = our code (Vercel, laptop) · **grey** = third party.
+Everything in **solid red is a Sanity feature**. **Peach** = our apps built on Sanity (Lineage Desk on the App SDK, Studio customisations), **blue** = our code (Vercel, laptop), **grey** = third party.
 
-![Architecture: the visitor lane (top) and the curator lane (bottom) meet at the Content Lake](diagrams/architecture.png)
+![Architecture: our code on the left, the Sanity platform (everything in red) on the right](diagrams/architecture.png)
 
 ### Example 1: a visitor asks a question
 
