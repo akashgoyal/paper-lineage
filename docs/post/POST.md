@@ -4,6 +4,8 @@
 
 **Paper Lineage** answers "where did this AI idea come from?" with a chain you can check. It's for anyone reading AI research who wants to know what a paper really built on: students, researchers, engineers doing a literature review.
 
+**The strange part:** it's an AI chat that isn't allowed to say how one paper built on another until a human has signed off. The model can cite; only a curator can interpret.
+
 **The problem.** Ask an AI tool "where did BLIP-2's Q-Former come from?" and you get a confident paragraph: *"it extends Flamingo's resampler…"*. Citation graphs say **that** one paper cites another, not **how** it built on it. Language models fill the gap with plausible verbs, and nothing tells you which verb is wrong.
 
 **The app.** An evidence-backed family tree of 197 AI papers, traced three generations back from BLIP-2: 1,349 citation links and 205 concepts. It keeps two kinds of claim apart:
@@ -47,22 +49,21 @@ Try asking: "Where did BLIP-2's Q-Former come from?" · "What did CLIP build on?
 
 ![Ask: the answer, a chain card that says "cites 9× · not yet reviewed", paper cards and a Knowledge Base quote](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/v7s704m69scv7dsjz8e8.png)
 *Ask: one answer, four Sanity sources.*
-- **The lead paragraph:** written by the model from what it retrieved through **Sanity Context MCP**: the Q-Former's `concept` record and its `buildsOn` chain, via GROQ.
-- **The chain card** (BLIP → BLIP-2, "cites 9× · not yet reviewed"): an `influence` document found with **Context MCP (GROQ mode)**, then re-read from the **Content Lake** by our server. It says "cites", not "extends", because the GROQ returns a relation only for curator-accepted links.
-- **The paper cards** ("built on 16 · 0 built on it"): counts from the **Content Lake**, rebuilt by id on the server, never typed by the model.
-- **The quote:** from the **Knowledge Base** (Context MCP, Knowledge Base mode), checked word for word against the entry and captioned as a Knowledge Base summary, not the paper's words.
+- **Lead:** written from **Context MCP** (GROQ) results
+- **Chain card:** **Context MCP** finds it, re-read from the **Content Lake**; "cites", as the link isn't reviewed yet
+- **Paper cards:** **Content Lake** counts, never typed by the model
+- **Quote:** **Knowledge Base**, checked word for word
 
 ![The Q-Former's concept page: a timeline from Bahdanau attention, each step with its citing sentence](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/edq4u207n3fzhc8ghi4t.png)
-*The concept page: the Q-Former's ancestry, six steps back to 2014.*
-- **The steps:** `concept` documents linked by curated `buildsOn` references in the **Content Lake**, read with **GROQ** (the concept with its chain, then the links between its papers).
-- **The quotes and "cited 5× · §Model Architecture":** the `citation` fact on each `influence` document, mined from the later paper's full text.
-- **"Cites · not yet reviewed":** the link's review status in the Content Lake; it changes when a curator accepts it in the Lineage Desk.
+*The concept page: six steps back to 2014.*
+- **Steps:** `concept` docs linked by `buildsOn` in the **Content Lake** (GROQ)
+- **Quotes, "cited 5×":** citation facts mined from full text
+- **"Not yet reviewed":** review status, set in the **Lineage Desk**
 
 ![Explore: BLIP-2's lineage in year columns, CLIP selected in violet with its links highlighted](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/asa0pdwi2fm25crl93py.png)
 *Explore: BLIP-2's family tree, CLIP selected.*
-- **The graph:** `paper` and `influence` documents from the **Content Lake** via **GROQ**: 197 papers, 1,349 links, here trimmed to 30 in year columns.
-- **"27 papers it built on · 22 built on it":** counted from the `influence` links GROQ returns (rejected links excluded).
-- **"Verified only":** filters on the review status curators set in the Lineage Desk (**App SDK**).
+- **Graph and counts:** `paper` and `influence` docs from the **Content Lake** (GROQ)
+- **"Verified only":** curator decisions from the **Lineage Desk** (App SDK)
 
 **Status:** _N_ of 1,349 links verified so far. Curation is ongoing; every unverified link shows as "cites ×n", by design.
 
@@ -98,7 +99,7 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 
 **Sanity Context and the Knowledge Base.** The docs I had pointed to the Dashboard, but the current CLI has `sanity context`: the Knowledge Base was created, imported (42 sources, 206 MB) and built from the terminal. The two MCP endpoints still needed the Dashboard. Two surprises: one endpoint serves one mode (a dataset source silently outranks a Knowledge Base on the same endpoint), hence two endpoints. And Knowledge Base entries are Sanity's *summaries*, not the papers' words, so quotes from them kept failing my word-for-word check. They're now captioned "Knowledge Base summary of BLIP-2".
 
-**App SDK: the Lineage Desk.** A curator reads the evidence beside each link and accepts or rejects it. That's one transaction with Undo, and the Live Content API updates the public site. The Desk also has an Inbox of questions visitors couldn't get answered, and a story composer that only uses accepted links. It's deployed into the Sanity Dashboard, so curators sign in with Sanity.
+**App SDK: the Lineage Desk.** A curator reads the evidence beside each link and accepts or rejects it. That's one transaction with Undo, and the Live Content API updates the public site. The Desk also has an Inbox of questions visitors couldn't get answered, and a story composer that only uses accepted links. It's deployed into the Sanity Dashboard, so curators sign in with Sanity. Its "Write explanation" button is an **Agent Action** (`generate`, grounded in the citing sentence). A dry run against BLIP → BLIP-2 returned *"BLIP-2 extends BLIP by jointly optimizing three pre-training objectives that share the same input format and model parameters."* in 2.3 s.
 
 ![A curator verifies a link: Desk → Content Lake → Live Content API → site](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/o6v18ze0p303q6hghfwd.png)
 
