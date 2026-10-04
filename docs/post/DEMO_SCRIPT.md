@@ -2,18 +2,18 @@
 
 **Storyline:** a known problem → what I built → the architecture → six features, each on a Sanity product, and the advantage → how Sanity Context is configured → one real question, in real time → the same features in the running app → the same activity inside Sanity's dashboards.
 
-**One spine, three formats.** The blog (`POST.md`), the deck and this script use the same parts, in the same order, under the same headings. The deck's speaker notes are the "Say" lines below, word for word.
+**One spine, three formats.** The deck and this script use the same parts in the same order. The blog (`POST.md`) follows the DEV submission template, so it holds the same content under the template's headings (mapped below). The deck's speaker notes are the "Say" lines below, word for word.
 
 | # | Part | Deck slide | Blog section | In the video |
 |---|---|---|---|---|
-| 1 | A known problem | 2 | What I Built → A known problem | slide |
-| 2 | What I built | 3 | What I Built → What I built | slide |
+| 1 | A known problem | 2 | What I Built (the problem) | slide |
+| 2 | What I built | 3 | What I Built (the app) | slide |
 | 3 | Architecture | 4, 5 | What I Built → Architecture | slides |
-| 4 | Six features, each on Sanity | 6, 7 | What I Built → Six features… · What Sanity saved me from building | slides |
-| 5 | Sanity Context: configured once, used on every question | 8 | How it runs → Sanity Context: configured once… | slide |
-| 6 | One real question, in real time | 9, 10 | How it runs → One real question, in real time | slide 9, then the live site |
-| 7 | In the app | 11–15 | How it runs → In the app · Curators: the Lineage Desk · New papers: Sanity Workflows | live site + Lineage Desk (slides 11–15 are the fallback screenshots) |
-| 8 | Where to see it inside Sanity | 16 | How it runs → Where to see it inside Sanity | live Sanity Dashboard |
+| 4 | Six features, each on Sanity | 6, 7 | What I Built → Six features, each built on Sanity | slides |
+| 5 | Sanity Context: configured once, used on every question | 8 | Sanity Project Details → How Ask uses Sanity Context | slide |
+| 6 | One real question, in real time | 9, 10 | Sanity Project Details → How Ask uses Sanity Context (the trace) | slide 9, then the live site |
+| 7 | In the app | 11–15 | Demo (screenshots) · My Build Process → Reaching past the Studio | live site + Lineage Desk (slides 11–15 are the fallback screenshots) |
+| 8 | Where to see it inside Sanity | 16 | (not in the post) | live Sanity Dashboard |
 | 9 | Close | 17, 18 | My Build Process | slide 18 |
 
 **Setup:** 1440×900, light mode, browser zoom 110%. Window 1 = the deck in present mode. Window 2 = the site. Window 3 = the Sanity Dashboard. Record each part as its own clip and join them in editing.
