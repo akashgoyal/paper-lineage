@@ -79,7 +79,6 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 
 **Prompts that worked**
 - *"create a new repo - start with system architecture - make most use of sanity features which are available in free version… Then create a spec before actual implementation."* Architecture and spec came first, so later prompts could be one line.
-- *"Review the design spec. Is it complete… Can it be used for moving ahead with implementation"*: it found the chat had no way to choose what to show, which led to server-verified display tools.
 - *"Can you do sanity checks with some API code - rather than login in claude browser?"*: every Studio and Desk query and write path is tested against the real dataset.
 - *"I have enabled 'Context' in organization Labs page. I hope you can setup the Sanity KB with relevant pdfs & correct schema."* and then *"upload the Knowledge Base"*: it picked the 40 core papers, added a manifest and a concept glossary, and created, imported and built the Knowledge Base with the `sanity context` CLI. 42 sources became 20 entries without touching the Dashboard.
 - *"Define a distinction on the data to be considered from KB & GROQ - when end user is using app"*: this became the data contract behind the two MCP endpoints. Who / when / how often / verified comes from GROQ over the graph; how it works / why / results comes from the Knowledge Base. Knowledge Base quotes are captioned as such.
