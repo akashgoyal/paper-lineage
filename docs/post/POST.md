@@ -81,8 +81,12 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 - *"create a new repo - start with system architecture - make most use of sanity features which are available in free version… Then create a spec before actual implementation."* Architecture and spec came first, so later prompts could be one line.
 - *"Review the design spec. Is it complete… Can it be used for moving ahead with implementation"*: it found the chat had no way to choose what to show, which led to server-verified display tools.
 - *"Can you do sanity checks with some API code - rather than login in claude browser?"*: every Studio and Desk query and write path is tested against the real dataset.
+- *"I have enabled 'Context' in organization Labs page. I hope you can setup the Sanity KB with relevant pdfs & correct schema."* and then *"upload the Knowledge Base"*: it picked the 40 core papers, added a manifest and a concept glossary, and created, imported and built the Knowledge Base with the `sanity context` CLI. 42 sources became 20 entries without touching the Dashboard.
+- *"Define a distinction on the data to be considered from KB & GROQ - when end user is using app"*: this became the data contract behind the two MCP endpoints. Who / when / how often / verified comes from GROQ over the graph; how it works / why / results comes from the Knowledge Base. Knowledge Base quotes are captioned as such.
 
 **Where I had to course-correct**
+- *"How do you plan to use : Sanity studio & App Sdk. The current data storage use seems very simple use of sanity"*: the first design used Sanity as a store. This prompt turned it into the Desk on the App SDK, custom Studio inputs (evidence and relation pickers), the Live Content API for verified labels, and Workflows for intake.
+- *"So, that means Sanity Studio should be used while building app or managing it post deploy - not by end users. Also, how do you plan to use Sanity Knowledge Bases?"*: Studio and the Desk became curator-only, behind Sanity login, and the Knowledge Base got its job: explaining papers inside Ask.
 - *"If paper apis are not working… download the pdf & analyse it on your own."* Semantic Scholar returned 429 on every call. Reading full text gave a better signal anyway: where and how often a paper is cited.
 - *"In 205 papers, there are only 48 concepts."* The taxonomy became 25 themes and 180 concepts.
 - *"The first page should be a chat-box."* The design had been browse-first.
@@ -90,6 +94,8 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 
 **Where the model got it wrong, and how it was caught**
 - **Paid-only features.** It planned Comments, Tasks and Releases. Caught when it checked Sanity's pricing page.
+- **Where the MCP endpoints live.** After *"I did a 'npx sanity login' from the terminal… Don't see MCP endpoints in project page"*, it turned out Context is organisation-level: endpoints are made in Dashboard → Context, and the token is an organisation token, not a project one. The CLI can build a Knowledge Base but not an endpoint, so I created both endpoints there and it verified them with a smoke test that lists each endpoint's tools.
+- **One endpoint for both sources.** A dataset and a Knowledge Base on the same endpoint looks simpler, but the dataset silently wins and the Knowledge Base is ignored. Hence two endpoints, one per mode.
 - **"Ancestors" newer than their descendants.** Validation found 19 links where the earlier paper was published after the citing one (a later revision cited newer work). Fixed in the pipeline; the 19 remain as unreviewed, for a curator to reject.
 - **Browser reads failing on the live site.** The domain wasn't in the project's CORS origins. Caught by screenshotting the deployed site.
 - **The chat model.** My credits were on Together AI. I tested the cheapest models through the real agent loop: Qwen3.5-9B returned empty answers, GLM-5.3-Flash never stopped searching, gpt-oss-120b printed its reasoning as the answer. **DeepSeek-V4-Flash worked, at about 1¢ per answer.**
@@ -97,7 +103,7 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 
 ### Reaching past the Studio
 
-**Sanity Context and the Knowledge Base.** The docs I had pointed to the Dashboard, but the current CLI has `sanity context`: the Knowledge Base was created, imported (42 sources, 206 MB) and built from the terminal. The two MCP endpoints still needed the Dashboard. Two surprises: one endpoint serves one mode (a dataset source silently outranks a Knowledge Base on the same endpoint), hence two endpoints. And Knowledge Base entries are Sanity's *summaries*, not the papers' words, so quotes from them kept failing my word-for-word check. They're now captioned "Knowledge Base summary of BLIP-2".
+**Sanity Context and the Knowledge Base.** The docs I had pointed to the Dashboard, but the current CLI has `sanity context`: the Knowledge Base was created, imported (42 sources, 206 MB) and built from the terminal. The two MCP endpoints still needed the Dashboard. One surprise: Knowledge Base entries are Sanity's *summaries*, not the papers' words, so quotes from them kept failing my word-for-word check. They're now captioned "Knowledge Base summary of BLIP-2".
 
 **App SDK: the Lineage Desk.** A curator reads the evidence beside each link and accepts or rejects it. That's one transaction with Undo, and the Live Content API updates the public site. The Desk also has an Inbox of questions visitors couldn't get answered, and a story composer that only uses accepted links. It's deployed into the Sanity Dashboard, so curators sign in with Sanity. Its "Write explanation" button is an **Agent Action** (`generate`, grounded in the citing sentence). A dry run against BLIP → BLIP-2 returned *"BLIP-2 extends BLIP by jointly optimizing three pre-training objectives that share the same input format and model parameters."* in 2.3 s.
 
