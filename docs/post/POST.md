@@ -1,8 +1,3 @@
----
-title: Paper Lineage: every AI idea has ancestors (built on Sanity Context, Knowledge Bases, App SDK and Workflows)
-tags: sanitychallenge, devchallenge, ai, nextjs
----
-
 *This is a submission for the [Sanity Challenge, Path Two: Vibe-Code Something Strange](https://dev.to/challenges/sanity-2026-09-16)*
 
 ## What I Built
@@ -23,7 +18,7 @@ tags: sanitychallenge, devchallenge, ai, nextjs
 
 ### Architecture
 
-![Architecture: our code on the left, the Sanity platform (everything in red) on the right](diagrams/architecture.png)
+![Architecture: our code on the left, the Sanity platform (everything in red) on the right](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3bxymyzypts5e2fx21hb.png)
 
 *Solid red: Sanity features. Peach: our apps built on Sanity. Blue: our code. Grey: third party.*
 
@@ -50,14 +45,24 @@ Plus **Studio** for schema-driven editing. Everything runs on Sanity's **free pl
 
 Try asking: "Where did BLIP-2's Q-Former come from?" · "What did CLIP build on?" · "How does the Q-Former use learnable queries?"
 
-![Ask: the answer, a chain card that says "cites 9× · not yet reviewed", paper cards and a Knowledge Base quote](screenshots/ask.png)
-*Ask. The chain says "cites 9×, not yet reviewed", not "extends": no curator has accepted that link yet. The quote is captioned as a Knowledge Base summary, not the paper's words.*
+![Ask: the answer, a chain card that says "cites 9× · not yet reviewed", paper cards and a Knowledge Base quote](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/v7s704m69scv7dsjz8e8.png)
+*Ask: one answer, four Sanity sources.*
+- **The lead paragraph:** written by the model from what it retrieved through **Sanity Context MCP**: the Q-Former's `concept` record and its `buildsOn` chain, via GROQ.
+- **The chain card** (BLIP → BLIP-2, "cites 9× · not yet reviewed"): an `influence` document found with **Context MCP (GROQ mode)**, then re-read from the **Content Lake** by our server. It says "cites", not "extends", because the GROQ returns a relation only for curator-accepted links.
+- **The paper cards** ("built on 16 · 0 built on it"): counts from the **Content Lake**, rebuilt by id on the server, never typed by the model.
+- **The quote:** from the **Knowledge Base** (Context MCP, Knowledge Base mode), checked word for word against the entry and captioned as a Knowledge Base summary, not the paper's words.
 
-![The Q-Former's concept page: a timeline from Bahdanau attention, each step with its citing sentence](screenshots/concept.png)
-*The concept page: every step is a real citation, with the sentence and section.*
+![The Q-Former's concept page: a timeline from Bahdanau attention, each step with its citing sentence](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/edq4u207n3fzhc8ghi4t.png)
+*The concept page: the Q-Former's ancestry, six steps back to 2014.*
+- **The steps:** `concept` documents linked by curated `buildsOn` references in the **Content Lake**, read with **GROQ** (the concept with its chain, then the links between its papers).
+- **The quotes and "cited 5× · §Model Architecture":** the `citation` fact on each `influence` document, mined from the later paper's full text.
+- **"Cites · not yet reviewed":** the link's review status in the Content Lake; it changes when a curator accepts it in the Lineage Desk.
 
-![Explore: BLIP-2's lineage in year columns, CLIP selected in violet with its links highlighted](screenshots/explore.png)
-*Explore: select a paper and its neighbourhood lights up; select a link to read its evidence.*
+![Explore: BLIP-2's lineage in year columns, CLIP selected in violet with its links highlighted](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/asa0pdwi2fm25crl93py.png)
+*Explore: BLIP-2's family tree, CLIP selected.*
+- **The graph:** `paper` and `influence` documents from the **Content Lake** via **GROQ**: 197 papers, 1,349 links, here trimmed to 30 in year columns.
+- **"27 papers it built on · 22 built on it":** counted from the `influence` links GROQ returns (rejected links excluded).
+- **"Verified only":** filters on the review status curators set in the Lineage Desk (**App SDK**).
 
 **Status:** _N_ of 1,349 links verified so far. Curation is ongoing; every unverified link shows as "cites ×n", by design.
 
@@ -95,11 +100,11 @@ Two days (Oct 2–3) in **Claude Code**, from an empty folder to the deployed si
 
 **App SDK: the Lineage Desk.** A curator reads the evidence beside each link and accepts or rejects it. That's one transaction with Undo, and the Live Content API updates the public site. The Desk also has an Inbox of questions visitors couldn't get answered, and a story composer that only uses accepted links. It's deployed into the Sanity Dashboard, so curators sign in with Sanity.
 
-![A curator verifies a link: Desk → Content Lake → Live Content API → site](diagrams/example-curation.png)
+![A curator verifies a link: Desk → Content Lake → Live Content API → site](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/o6v18ze0p303q6hghfwd.png)
 
 **Workflows: paper intake.** The model first modelled "workflows" as a status field. Workflows is a real early-access engine, so the design was rebuilt around a deployed definition. The useful part: approval is gated **in the definition**. While any link into the paper is unreviewed, the engine refuses Approve, and the Desk shows the engine's own reason. Sanity Functions schedules run daily on the free plan and hosted workflow runtimes aren't available yet, so a small runner executes each stage's effect (arXiv fetch, link count, publish).
 
-![paper-intake: fetching → checks → curation → publishing](diagrams/example-intake.png)
+![paper-intake: fetching → checks → curation → publishing](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4vvxyf5z7ae86xm0sg8a.png)
 
 **Cut:** AI-proposed links (links come from the full-text harvest), a path-finder page, live cursors in the composer.
 
@@ -135,7 +140,7 @@ Public queries read interpretation only through `select(provenance.reviewDecisio
 
 **How Ask uses Sanity Context.**
 
-![Sources, the Knowledge Base and two MCP endpoints configured once, then used by the agent on every question](diagrams/kb-mcp.png)
+![Sources, the Knowledge Base and two MCP endpoints configured once, then used by the agent on every question](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/jnb0st8pnee9qff9w0eq.png)
 
 One real run of "Where did BLIP-2's Q-Former come from?", every call in order:
 
